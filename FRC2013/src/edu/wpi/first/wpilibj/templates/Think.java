@@ -12,7 +12,8 @@ public class Think {
 
     public static double newJoystickLeft;
     public static double newJoystickRight;
-    
+    public static boolean bShooterOn;
+    public static double dShooterPower;
     /*
      * Converts the joystick values to usable values.
      * @param rawRight the value of the right joystick.
@@ -46,6 +47,15 @@ public class Think {
         temp= processJoystick(Input.rightY, Input.leftY);
         newJoystickLeft= temp[0];
         newJoystickRight= temp[1];
+        bShooterOn = Input.bTriggerDown;
+        
+        if (bShooterOn== false){
+            dShooterPower = 0;
+           
+        }
+        else {
+            dShooterPower = 1.0;
+        }
     }
     
     
