@@ -14,6 +14,8 @@ public class Think {
     public static double newJoystickRight;
     public static boolean bShooterOn;
     public static double dShooterPower;
+    public static boolean bClimb1;
+    public static boolean bClimb2;
     
     public static double[] aimAdjust(double right, double left, CameraData cd){
         return new double[]{left, right};
@@ -59,6 +61,14 @@ public class Think {
             newJoystickLeft *= .75;
             newJoystickRight *= .75;
         }
+        if (Input.bClimb1Left||Input.bClimb1Right){
+            bClimb1= true;
+        }
+        
+        if (Input.bClimb2Left||Input.bClimb2Right){
+            bClimb2= true;
+        }
+                
         if (Input.bAim){
             temp = aimAdjust(newJoystickLeft, newJoystickRight, Input.cd);
             newJoystickLeft= temp[0];

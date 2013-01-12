@@ -18,6 +18,10 @@ public class Input {
    public static boolean bAim;
    public static boolean bSlowSpeedRight;
    public static boolean bSlowSpeedLeft;
+   public static boolean bClimb1Left;
+   public static boolean bClimb1Right;
+   public static boolean bClimb2Left;
+   public static boolean bClimb2Right;
    
    public static double leftX;
    public static double rightX;
@@ -61,6 +65,22 @@ public class Input {
        return leftDriverStick.getRawButton(2);
    }
    
+   public static boolean getClimb1Left(){
+       return leftDriverStick.getRawButton(4);
+   }
+   
+   public static boolean getClimb1Right(){
+       return rightDriverStick.getRawButton(4);
+   }
+   
+   public static boolean getClimb2Left(){
+       return leftDriverStick.getRawButton(5);
+   }
+   
+   public static boolean getClimb2Right(){
+       return rightDriverStick.getRawButton(5);
+   }
+   
    public static void gatherInput(){
        leftX= getLeftX();
        leftY= getLeftY();
@@ -70,5 +90,9 @@ public class Input {
        bAim= getAim();
        bSlowSpeedRight= getSlowSpeedRight();
        bSlowSpeedLeft= getSlowSpeedLeft();
+       bClimb1Left= getClimb1Left();
+       bClimb1Right= getClimb1Right();
+       bClimb2Left= getClimb2Left();
+       bClimb2Right= getClimb2Right();
    }
 }
