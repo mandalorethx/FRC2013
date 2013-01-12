@@ -4,10 +4,13 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+
 /**
  *
  * @author First1
  */
 public class CameraData {
+    
+    //public CameraData
     
 }
