@@ -14,6 +14,7 @@ public class Input {
     
    public static Joystick rightDriverStick;
    public static Joystick leftDriverStick;
+   public static boolean bTriggerDown;
    
    public static double leftX;
    public static double rightX;
@@ -41,10 +42,15 @@ public class Input {
        return rightDriverStick.getY();
    }
    
+   public static boolean getTriggerDown(){
+       return rightDriverStick.getTrigger();
+   }
+   
    public static void gatherInput(){
        leftX= getLeftX();
        leftY= getLeftY();
        rightX= getRightX();
        rightY= getRightY();
+       bTriggerDown= getTriggerDown();
    }
 }

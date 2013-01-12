@@ -16,7 +16,7 @@ public class Output {
     public static Victor leftRearDriveMotor;
     public static Victor rightRearDriveMotor;
     public static Victor rightFrontDriveMotor;
-
+    public static Victor shooterMotor;
     /**
      * Creates new motor objects
      */
@@ -25,6 +25,7 @@ public class Output {
         rightRearDriveMotor= new Victor(2);
         leftFrontDriveMotor= new Victor(3);
         leftRearDriveMotor= new Victor(4);
+        shooterMotor= new Victor(5);
     }
     
     /**
@@ -32,11 +33,12 @@ public class Output {
      * @param leftPower - Power value for left motor
      * @param rightPower - Power value for right motor
      */
-    public static void setPower(double leftPower, double rightPower){
+    public static void setPower(double leftPower, double rightPower, double shooterPower){
         rightFrontDriveMotor.set(rightPower);
         rightRearDriveMotor.set(rightPower);
         leftFrontDriveMotor.set(leftPower);
         leftRearDriveMotor.set(leftPower);
+        shooterMotor.set(shooterPower);
     }
     
     /**
@@ -44,7 +46,7 @@ public class Output {
      * Think.newJoystickRight generated after a Think.robotThink()
      */
     public static void sendOutput(){
-        setPower(Think.newJoystickLeft, Think.newJoystickRight);
+        setPower(Think.newJoystickLeft, Think.newJoystickRight, Think.dShooterPower);
     }
 }
 
