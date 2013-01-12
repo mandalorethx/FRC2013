@@ -4,6 +4,7 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+import edu.wpi.first.wpilibj.DigitalModule;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
@@ -20,6 +21,30 @@ public class Output {
     public static Victor shooterMotor2;
     public static Victor climbMotor1;
     public static Victor climbMotor2;
+    
+    public static DigitalModule digimod; 
+    
+    public static void initModule (){
+        digimod = DigitalModule.getInstance(1);
+        
+     
+    }
+    public static void drop () {
+        digimod.setRelayForward(1, true);
+        digimod.setRelayForward(2, true);
+    }
+    public static void close () {
+        digimod.setRelayForward(1, false);
+        digimod.setRelayForward(2, false);
+        
+    }
+    public static void climb (double power) {
+        climbMotor1.set(power);
+        climbMotor2.set(-1*power);
+    }
+    public static void ascend () {
+        digimod.setRelayForward(3, true);
+    }
     
     /**
      * Creates new motor objects
@@ -57,6 +82,14 @@ public class Output {
      */
     public static void sendOutput(){
         setPower(Think.newJoystickLeft, Think.newJoystickRight, Think.dShooterPower);
+        if (Think.bClimb1) {
+            climb (1.0);
+            
+        }
+        if (Think.bClimb2) {
+            ascend ();
+            
+        }
     }
 }
 
