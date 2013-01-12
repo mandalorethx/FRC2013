@@ -9,7 +9,7 @@ package edu.wpi.first.wpilibj.templates;
  * @author first1
  */
 public class Think {
-
+//jfsijflds
     public static double newJoystickLeft;
     public static double newJoystickRight;
     public static boolean bShooterOn;
