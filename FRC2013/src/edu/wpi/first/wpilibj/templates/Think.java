@@ -9,11 +9,16 @@ package edu.wpi.first.wpilibj.templates;
  * @author first1
  */
 public class Think {
-//jfsijflds
+
     public static double newJoystickLeft;
     public static double newJoystickRight;
     public static boolean bShooterOn;
     public static double dShooterPower;
+    
+    public static double[] aimAdjust(double right, double left, CameraData cd){
+        return new double[]{left, right};
+    }
+    
     /*
      * Converts the joystick values to usable values.
      * @param rawRight the value of the right joystick.
@@ -49,6 +54,17 @@ public class Think {
         newJoystickRight= temp[1];
         bShooterOn = Input.bTriggerDown;
         
+            
+        if (Input.bSlowSpeedRight||Input.bSlowSpeedLeft){
+            newJoystickLeft *= .75;
+            newJoystickRight *= .75;
+        }
+        if (Input.bAim){
+            temp = aimAdjust(newJoystickLeft, newJoystickRight, Input.cd);
+            newJoystickLeft= temp[0];
+            newJoystickRight= temp[1];
+            
+        }
         if (bShooterOn== false){
             dShooterPower = 0;
            

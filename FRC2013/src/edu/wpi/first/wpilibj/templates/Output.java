@@ -16,7 +16,11 @@ public class Output {
     public static Victor leftRearDriveMotor;
     public static Victor rightRearDriveMotor;
     public static Victor rightFrontDriveMotor;
-    public static Victor shooterMotor;
+    public static Victor shooterMotor1;
+    public static Victor shooterMotor2;
+    public static Victor climbMotor1;
+    public static Victor climbMotor2;
+    
     /**
      * Creates new motor objects
      */
@@ -25,7 +29,11 @@ public class Output {
         rightRearDriveMotor= new Victor(2);
         leftFrontDriveMotor= new Victor(3);
         leftRearDriveMotor= new Victor(4);
-        shooterMotor= new Victor(5);
+        shooterMotor1= new Victor(5);
+        shooterMotor2 = new Victor (6);
+        climbMotor1 = new Victor (7);
+        climbMotor2 = new Victor (8);
+        
     }
     
     /**
@@ -38,7 +46,9 @@ public class Output {
         rightRearDriveMotor.set(rightPower);
         leftFrontDriveMotor.set(leftPower);
         leftRearDriveMotor.set(leftPower);
-        shooterMotor.set(shooterPower);
+        shooterMotor1.set(shooterPower);
+        shooterMotor2.set (shooterPower);
+        
     }
     
     /**
