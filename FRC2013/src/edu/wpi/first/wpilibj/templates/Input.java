@@ -15,6 +15,9 @@ public class Input {
    public static Joystick rightDriverStick;
    public static Joystick leftDriverStick;
    public static boolean bTriggerDown;
+   public static boolean bAim;
+   public static boolean bSlowSpeedRight;
+   public static boolean bSlowSpeedLeft;
    
    public static double leftX;
    public static double rightX;
@@ -46,11 +49,26 @@ public class Input {
        return rightDriverStick.getTrigger();
    }
    
+   public static boolean getAim(){
+       return leftDriverStick.getTrigger();
+   }           
+   
+   public static boolean getSlowSpeedRight(){
+       return rightDriverStick.getRawButton(2);
+   } 
+   
+   public static boolean getSlowSpeedLeft(){
+       return leftDriverStick.getRawButton(2);
+   }
+   
    public static void gatherInput(){
        leftX= getLeftX();
        leftY= getLeftY();
        rightX= getRightX();
        rightY= getRightY();
        bTriggerDown= getTriggerDown();
+       bAim= getAim();
+       bSlowSpeedRight= getSlowSpeedRight();
+       bSlowSpeedLeft= getSlowSpeedLeft();
    }
 }
