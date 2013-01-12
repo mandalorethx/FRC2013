@@ -24,6 +24,9 @@ public class FRC2013 extends IterativeRobot {
      */
     public void robotInit() {
 
+        Input.initJoystick();
+        Output.initMotors();
+        
     }
 
     /**
@@ -37,7 +40,9 @@ public class FRC2013 extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        
+       Input.gatherInput();
+       Think.robotThink();
+       Output.sendOutput();
     }
     
     /**

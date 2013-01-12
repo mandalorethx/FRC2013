@@ -46,5 +46,7 @@ public class Think {
         temp= processJoystick(Input.rightY, Input.leftY);
         newJoystickLeft= temp[0];
         newJoystickRight= temp[1];
-}
+    }
+    
+    
 }
