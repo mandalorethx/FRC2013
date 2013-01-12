@@ -52,7 +52,7 @@ public class Think {
         if (bShooterOn== false){
             dShooterPower = 0;
            
-        }
+        } // Test Commit
         else {
             dShooterPower = 1.0;
         }
