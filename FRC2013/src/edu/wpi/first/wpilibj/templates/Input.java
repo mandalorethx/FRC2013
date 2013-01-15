@@ -51,8 +51,8 @@ public class Input {
     public static AxisCamera camera;          // the axis camera object (connected to the switch)
     public static CriteriaCollection cc;      // the criteria for doing the particle filter operation
     
-   public static Joystick rightDriverStick;
-   public static Joystick leftDriverStick;
+   public static EastridgeJoystick rightDriverStick;
+   public static EastridgeJoystick leftDriverStick;
    public static boolean bTriggerDown;
    public static boolean bAim;
    public static boolean bSlowSpeedRight;
@@ -74,8 +74,8 @@ public class Input {
    }
    
    public static void initJoystick(){
-       rightDriverStick= new Joystick(1);
-       leftDriverStick= new Joystick(2);
+       rightDriverStick= new EastridgeJoystick(1);
+       leftDriverStick= new EastridgeJoystick(2);
    }
    
    public static CameraData getTarget(){
@@ -209,28 +209,20 @@ public class Input {
        return leftDriverStick.getTrigger();
    }           
    
-   public static boolean getSlowSpeedRight(){
-       return rightDriverStick.getRawButton(2);
-   } 
-   
-   public static boolean getSlowSpeedLeft(){
-       return leftDriverStick.getRawButton(2);
-   }
-   
    public static boolean getClimb1Left(){
-       return leftDriverStick.getRawButton(4);
+       return leftDriverStick.isPressed(4);
    }
    
    public static boolean getClimb1Right(){
-       return rightDriverStick.getRawButton(4);
+       return rightDriverStick.isPressed(4);
    }
    
    public static boolean getClimb2Left(){
-       return leftDriverStick.getRawButton(5);
+       return leftDriverStick.isPressed(5);
    }
    
    public static boolean getClimb2Right(){
-       return rightDriverStick.getRawButton(5);
+       return rightDriverStick.isPressed(5);
    }
    
    public static void gatherInput(){
@@ -240,8 +232,8 @@ public class Input {
        rightY= getRightY();
        bTriggerDown= getTriggerDown();
        bAim= getAim();
-       bSlowSpeedRight= getSlowSpeedRight();
-       bSlowSpeedLeft= getSlowSpeedLeft();
+       //bSlowSpeedRight= getSlowSpeedRight();
+       //bSlowSpeedLeft= getSlowSpeedLeft();
        bClimb1Left= getClimb1Left();
        bClimb1Right= getClimb1Right();
        bClimb2Left= getClimb2Left();
