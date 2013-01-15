@@ -25,6 +25,7 @@ public class FRC2013 extends IterativeRobot {
     public void robotInit() {
 
         Input.initJoystick();
+        Input.initGyro();
         Output.initMotors();
         
     }
