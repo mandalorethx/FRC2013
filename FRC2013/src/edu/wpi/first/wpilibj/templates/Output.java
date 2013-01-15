@@ -15,8 +15,7 @@ public class Output {
     
     public static Victor leftDriveMotor;
     public static Victor rightDriveMotor;
-    public static Victor shooterMotor1;
-    public static Victor shooterMotor2;
+    public static Victor shooterMotor;
     public static Victor climbMotor1;
     public static Victor climbMotor2;
     
@@ -50,10 +49,9 @@ public class Output {
     public static void initMotors(){
         rightDriveMotor= new Victor(1);
         leftDriveMotor= new Victor(2);
-        shooterMotor1= new Victor(3);
-        shooterMotor2 = new Victor (4);
-        climbMotor1 = new Victor (5);
-        climbMotor2 = new Victor (6);
+        shooterMotor= new Victor(3);
+        climbMotor1 = new Victor (4);
+        climbMotor2 = new Victor (5);
         
     }
     
@@ -65,8 +63,7 @@ public class Output {
     public static void setPower(double leftPower, double rightPower, double shooterPower){
         rightDriveMotor.set(rightPower);
         leftDriveMotor.set(leftPower);
-        shooterMotor1.set(shooterPower);
-        shooterMotor2.set (shooterPower);
+        shooterMotor.set(shooterPower);
         
     }
     
