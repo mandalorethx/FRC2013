@@ -49,6 +49,18 @@ public class Think {
         return retVal;
     }
     
+    public static double shooterInOut(double shootIn){
+        double retVal;
+        retVal= shootIn;
+        return retVal;
+    } 
+    
+    public static double climbInOut(double climbIn){
+        double retVal;
+        retVal= climbIn;
+        return retVal;
+    }
+    
     public static void robotThink(){
         double[] temp = new double[2];
         temp= processJoystick(Input.rightY, Input.leftY);
