@@ -4,7 +4,7 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.image.BinaryImage;
 import edu.wpi.first.wpilibj.image.ColorImage;
@@ -50,6 +50,7 @@ public class Input {
     
     public static AxisCamera camera;          // the axis camera object (connected to the switch)
     public static CriteriaCollection cc;      // the criteria for doing the particle filter operation
+    public static Gyro gyro;
     
    public static EastridgeJoystick rightDriverStick;
    public static EastridgeJoystick leftDriverStick;
@@ -67,6 +68,10 @@ public class Input {
    public static double leftY;
    public static double rightY;
 
+   public static void initGyro() {
+       gyro = new Gyro(1);
+   }
+   
    public static void initVision(){
        //camera = AxisCamera.getInstance();  // get an instance of the camera
         cc = new CriteriaCollection();      // create the criteria for the particle filter
@@ -76,6 +81,14 @@ public class Input {
    public static void initJoystick(){
        rightDriverStick= new EastridgeJoystick(1);
        leftDriverStick= new EastridgeJoystick(2);
+   }
+   
+   public static double getGyro(){
+       return gyro.getAngle();
+   }
+   
+   public static void resetGyro(){
+       gyro.reset();
    }
    
    public static CameraData getTarget(){
