@@ -82,7 +82,7 @@ public class Think {
         }
                 
         if (Input.bAim){
-           // temp = aimAdjust(newJoystickLeft, newJoystickRight, Input.cd);
+            //temp = aimAdjust(newJoystickLeft, newJoystickRight, Input.cd);
             newJoystickLeft= temp[0];
             newJoystickRight= temp[1];
             
