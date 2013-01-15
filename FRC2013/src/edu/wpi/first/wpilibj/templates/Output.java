@@ -21,7 +21,15 @@ public class Output {
     
     public static DigitalModule digimod; 
     
-    public static void initModule (){
+   
+   public static void cameraLightOn (){
+       digimod.setRelayForward(3, true);
+  
+   }
+   public static void cameraLightOff (){
+       digimod.setRelayForward(3, false);
+   }
+   public static void initModule (){
         digimod = DigitalModule.getInstance(1);
         
      
