@@ -233,6 +233,12 @@ public class Input {
        return rightDriverStick.isPressed(5);
    }
    
+   public static boolean cameraLightButton () {
+       return rightDriverStick.isPressed(10) || leftDriverStick.isPressed(10);
+   }
+   public static boolean cameraLightButtonoff(){
+       return rightDriverStick.isPressed(11) || leftDriverStick.isPressed(11);
+   }
    public static void gatherInput(){
        leftX= getLeftX();
        leftY= getLeftY();
