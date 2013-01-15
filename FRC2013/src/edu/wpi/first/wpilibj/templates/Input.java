@@ -209,6 +209,14 @@ public class Input {
        return leftDriverStick.getTrigger();
    }           
    
+   public static boolean getSlowSpeedRight(){
+       return rightDriverStick.isPressed(2);
+   }
+   
+   public static boolean getSlowSpeedLeft(){
+       return leftDriverStick.isPressed(2);
+   }
+   
    public static boolean getClimb1Left(){
        return leftDriverStick.isPressed(4);
    }
@@ -232,8 +240,8 @@ public class Input {
        rightY= getRightY();
        bTriggerDown= getTriggerDown();
        bAim= getAim();
-       //bSlowSpeedRight= getSlowSpeedRight();
-       //bSlowSpeedLeft= getSlowSpeedLeft();
+       bSlowSpeedRight= getSlowSpeedRight();
+       bSlowSpeedLeft= getSlowSpeedLeft();
        bClimb1Left= getClimb1Left();
        bClimb1Right= getClimb1Right();
        bClimb2Left= getClimb2Left();
