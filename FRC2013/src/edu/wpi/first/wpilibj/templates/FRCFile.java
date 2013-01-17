@@ -40,14 +40,27 @@ public class FRCFile {
     }
     public static void readFile(String Filename){
         openFile(Filename);
+        int lineNumber = 0;
         try {
-            while(inFile.available() != 0){
+            while(inFile.available() != 0){                
+                switch(lineNumber){
+                    case 0:
+                        runAuton= inFile.readBoolean();
+                        ++lineNumber;
+                        break;
+                    default:
+                        System.out.println("unknown line number");
+                        break;
+                }    
                 
             }
         } catch (Exception e) {
             System.out.println("Could not read file " + Filename);
             
         }
+        
+        closeFile();
+        
     }
     
     
