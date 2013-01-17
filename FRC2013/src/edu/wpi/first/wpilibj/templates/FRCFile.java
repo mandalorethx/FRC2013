@@ -21,7 +21,8 @@ public class FRCFile {
     
     public static void openFile(String Filename){
         try {
-            fc = (FileConnection)Connector.open("file:///"+Filename, Connector.READ);
+            fc = (FileConnection)Connector.open("file:///"+Filename, 
+                    Connector.READ);
             fc.create();
             inFile = fc.openDataInputStream();
         } catch (Exception e){
