@@ -21,32 +21,58 @@ public class Output {
     
     public static DigitalModule digimod; 
     
-   
+   /**
+    * Turns Camera Light On
+    */
    public static void cameraLightOn (){
        digimod.setRelayForward(3, true);
-  
+       
    }
+   
+   /**
+    * Turns Camera Light Off
+    */
    public static void cameraLightOff (){
        digimod.setRelayForward(3, false);
+       
    }
+   
+   /**
+    * Initializes the digital module
+    */
    public static void initModule (){
         digimod = DigitalModule.getInstance(1);
-        
-     
+       
     }
+   
+   /**
+    * Opening up to drop discs in goal
+    */
     public static void drop () {
         digimod.setRelayForward(1, true);
         digimod.setRelayForward(2, true);
     }
+    
+    /**
+     * Closes claw
+     */
     public static void close () {
         digimod.setRelayForward(1, false);
         digimod.setRelayForward(2, false);
         
     }
+    /**
+     * Reaches pyramid rung
+     * @param power sets power value for motors
+     */
     public static void climb (double power) {
         climbMotor1.set(power);
         climbMotor2.set(-1*power);
     }
+    
+    /**
+     * Lifts robot above rung
+     */
     public static void ascend () {
         digimod.setRelayForward(3, true);
     }
