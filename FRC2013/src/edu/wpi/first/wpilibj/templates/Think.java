@@ -17,13 +17,6 @@ public class Think {
     public static boolean bClimb1;
     public static boolean bClimb2;
     
-    /**
-     * Lines up robot to shoot
-     * @param right 
-     * @param left
-     * @param cd is the value from the sensor targeting the reflective tape
-     * @return 
-     */
     public static double[] aimAdjust(double right, double left, CameraData cd){
         return new double[]{left, right};
     }
@@ -56,31 +49,6 @@ public class Think {
         return retVal;
     }
     
-    /**
-     * Returns the value of shootIn
-     * @param shootIn 
-     * @return is the input value sent to the motors
-     */
-    public static double shooterInOut(double shootIn){
-        double retVal;
-        retVal= shootIn;
-        return retVal;
-    } 
-    
-    /**
-     * Returns the value sent from climbIn
-     * @param climbIn
-     * @return is the climbIn value being sent to the output
-     */
-    public static double climbInOut(double climbIn){
-        double retVal;
-        retVal= climbIn;
-        return retVal;
-    }
-    
-    /**
-     * Sets values for the robot's functions
-     */
     public static void robotThink(){
         double[] temp = new double[2];
         temp= processJoystick(Input.rightY, Input.leftY);
@@ -88,41 +56,25 @@ public class Think {
         newJoystickRight= temp[1];
         bShooterOn = Input.bTriggerDown;
         
-        /**
-         * Sets the value for the robot's slow speed
-         */    
+            
         if (Input.bSlowSpeedRight||Input.bSlowSpeedLeft){
             newJoystickLeft *= .75;
             newJoystickRight *= .75;
         }
-        
-        /**
-         * Returns the boolean value for the robot to start climbing
-         */
         if (Input.bClimb1Left||Input.bClimb1Right){
             bClimb1= true;
         }
         
-        /**
-         * Returns the boolean value for the robot's second climb cycle
-         */
         if (Input.bClimb2Left||Input.bClimb2Right){
             bClimb2= true;
         }
-        
-        /**
-         * Assigns new values to the joystick inputs
-         */
+                
         if (Input.bAim){
             //temp = aimAdjust(newJoystickLeft, newJoystickRight, Input.cd);
             newJoystickLeft= temp[0];
             newJoystickRight= temp[1];
             
         }
-        
-        /**
-         * Sets power values for boolean inputs to shooter
-         */
         if (bShooterOn== false){
             dShooterPower = 0;
            
