@@ -68,25 +68,42 @@ public class Input {
    public static double leftY;
    public static double rightY;
 
+   /** 
+    * Initializes the gyro
+    */
    public static void initGyro() {
        gyro = new Gyro(1);
    }
    
+   /**
+    * Initializes the camera
+    */
    public static void initVision(){
        //camera = AxisCamera.getInstance();  // get an instance of the camera
         cc = new CriteriaCollection();      // create the criteria for the particle filter
         cc.addCriteria(NIVision.MeasurementType.IMAQ_MT_AREA, 500, 65535, false);
    }
    
+   /**
+    * Initialize the left and right joysticks
+    */
    public static void initJoystick(){
        rightDriverStick= new EastridgeJoystick(1);
        leftDriverStick= new EastridgeJoystick(2);
    }
    
+   
+   /**
+    * get gyro angle value
+    * @return angle
+    */
    public static double getGyro(){
        return gyro.getAngle();
    }
    
+   /**
+    * Reset gyro value
+    */
    public static void resetGyro(){
        gyro.reset();
    }
@@ -198,26 +215,48 @@ public class Input {
        return CD;
    }
    
+   /**
+    * Get the x value of the right joystick
+    * @return right x value
+    */
    public static double getRightX(){
        return rightDriverStick.getX();
    }
    
+   /**
+    * Get the x value of the left joystick
+    * @return left x value
+    */
    public static double getLeftX(){
        return leftDriverStick.getX();
    }
    
+   /**
+    * Get the y value of the left joystick
+    * @return left y value
+    */
    public static double getLeftY(){
        return leftDriverStick.getY();
    }
    
+   /**
+    * Get the y value of the right joystick
+    * @return right y value
+    */
    public static double getRightY(){
        return rightDriverStick.getY();
    }
    
+   /*
+    * Checks if the trigger on the right joystick is pressed
+    */
    public static boolean getTriggerDown(){
        return rightDriverStick.getTrigger();
    }
    
+   /*
+    * 
+    */
    public static boolean getAim(){
        return leftDriverStick.getTrigger();
    }           
