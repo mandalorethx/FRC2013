@@ -19,6 +19,10 @@ public class FRCFile {
     
     public static boolean runAuton;
     
+    /**
+     * Opens file
+     * @param Filename Name of the file to open 
+     */
     public static void openFile(String Filename){
         try {
             fc = (FileConnection)Connector.open("file:///"+Filename, 
@@ -29,7 +33,9 @@ public class FRCFile {
             System.out.println("Could not open file" + Filename);
         }
     }
-    
+    /**
+     * Closes the file
+     */
     public static void closeFile(){
         try {
             inFile.close();
@@ -39,6 +45,11 @@ public class FRCFile {
             System.out.println("Could not close file");
         }
     }
+    
+    /**
+     * Reads the file and runs autonomous mode
+     * @param Filename is the file to be read
+     */
     public static void readFile(String Filename){
         openFile(Filename);
         int lineNumber = 0;
