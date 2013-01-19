@@ -53,6 +53,10 @@ public class Think {
         
         retVal[1] *= (-1);
         
+        retVal[0] *= (0.9);
+        
+        retVal[1] *= (0.9);
+        
         return retVal;
     }
     
