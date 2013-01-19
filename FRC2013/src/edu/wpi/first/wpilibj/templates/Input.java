@@ -55,6 +55,7 @@ public class Input {
     public static double leftY;
     public static double rightY;
     public static Gyro gyro; // The Gyro
+    public static CameraData image;
 
     /**
      * Scores. Subclass for scoring fields
@@ -128,7 +129,7 @@ public class Input {
         CameraData CD = null;
 
         try {
-            ParticleAnalysisReport High = null;
+            ParticleAnalysisReport high = null;
             ParticleAnalysisReport lowLeft = null;
             ParticleAnalysisReport lowRight = null;
             double highDistance = 0;
@@ -143,7 +144,7 @@ public class Input {
              * "testImage.jpg"
              */
             ColorImage image;
-            if (storeImages) {
+            if (!useStored) {
                 image = camera.getImage(); // Get an image from the camera
             } else {
                 image = new RGBImage("/testImage.jpg"); // Get the sample image from the cRIO flash
@@ -176,7 +177,7 @@ public class Input {
                 scores[i].yEdge = scoreYEdge(thresholdImage, report);
 
                 if (scoreCompare(scores[i], false)) {
-                    High = report;
+                    high = report;
                     highDistance = computeDistance(thresholdImage, report, i, false);
                 } else if (scoreCompare(scores[i], true)) {
                     if (lowLeft == null && lowRight == null) {
@@ -210,7 +211,7 @@ public class Input {
                 }
             }
 
-            CD = new CameraData(High, highDistance, lowLeft, lowDistanceLeft, lowRight, lowDistanceRight);
+            CD = new CameraData(high, highDistance, lowLeft, lowDistanceLeft, lowRight, lowDistanceRight);
 
             // Free the memory for each image.
             filteredImage.free();
@@ -370,6 +371,14 @@ public class Input {
         bClimb1Right = getClimb1Right();
         bClimb2Left = getClimb2Left();
         bClimb2Right = getClimb2Right();
+        try {
+            image = getTarget(true, true, true);
+
+        } catch (AxisCameraException ace) {
+            ace.printStackTrace();
+            image= null;
+        }
+
     }
 
     /**
