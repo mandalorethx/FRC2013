@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class EastridgeJoystick extends Joystick {
     
-    private static final int NUM_BUTTONS = 12;
+    private static final int NUM_BUTTONS = 11;
     
-    public EastridgeJoystick (int value ){
-        super (value);
+    public EastridgeJoystick (int port ){
+        super (port);
         
     }
     
@@ -29,13 +29,13 @@ public class EastridgeJoystick extends Joystick {
      * @return boolean array where index = button number
      */
     public boolean[] getAllButtonStates () {
-        boolean[] states = new boolean[12];
-        states[0] = isPressed(0);
-        for (int i=1; i < NUM_BUTTONS; i++){
+        boolean[] states = new boolean[NUM_BUTTONS+1];
+        states[0] = isPressed(1);
+        for (int i=1; i < NUM_BUTTONS+1; i++){
             states[i] = isPressed(i);
             
         }
-        return states; 
+        return states;
                 
     }
      /**

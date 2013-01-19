@@ -13,17 +13,17 @@ import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
  */
 public class CameraData {
     
-    private ParticleAnalysisReport High;
-    private ParticleAnalysisReport lowLeft;
-    private ParticleAnalysisReport lowRight;
-    private double highDistance;
-    private double lowLeftDistance;
-    private double lowRightDistance;
+    public ParticleAnalysisReport high;
+    public ParticleAnalysisReport lowLeft;
+    public ParticleAnalysisReport lowRight;
+    public double highDistance;
+    public double lowLeftDistance;
+    public double lowRightDistance;
     
     public CameraData(ParticleAnalysisReport High, double highDistance, 
             ParticleAnalysisReport lowLeft, double lowLeftDistance,
             ParticleAnalysisReport lowRight, double lowRightDistance){
-        this.High= High;
+        this.high= High;
         this.lowLeft= lowLeft;
         this.lowRight= lowRight;
         this.highDistance= highDistance;
