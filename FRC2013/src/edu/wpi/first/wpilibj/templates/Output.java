@@ -93,10 +93,11 @@ public class Output {
      * Sets motor's power based on input
      * @param leftPower - Power value for left motor
      * @param rightPower - Power value for right motor
+     * @param shooterPower  - Power value for the shooter motor
      */
     public static void setPower(double leftPower, double rightPower, double shooterPower){
         rightDriveMotor.set(rightPower);
-        leftDriveMotor.set(leftPower);
+        leftDriveMotor.set((-1) * leftPower);
         shooterMotor.set(shooterPower);
         
     }

@@ -51,10 +51,10 @@ public class Think {
             retVal[1]= (-1) * (rawRight * rawRight);
         }
         
+        retVal[0] *= (-1);
         retVal[1] *= (-1);
         
         retVal[0] *= (0.9);
-        
         retVal[1] *= (0.9);
         
         return retVal;
@@ -83,7 +83,7 @@ public class Think {
     }
     
     /**
-     * Sets values for the robot's functions
+     * Sets values for the robot's functions - Responds to the inputs
      */
     public static void robotThink(){
         double[] temp = new double[2];
