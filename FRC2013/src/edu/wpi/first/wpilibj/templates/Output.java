@@ -19,7 +19,16 @@ public class Output {
     public static Victor climbMotor1;
     public static Victor climbMotor2;
     
-    public static DigitalModule digimod; 
+    public static DigitalModule digimod;
+    
+    public static ScreenOutput display;
+    
+    /**
+     * Initializes the screen display
+     */
+    public static void initScreen(){
+        display= new ScreenOutput();
+    }
     
    /**
     * Turns Camera Light On
