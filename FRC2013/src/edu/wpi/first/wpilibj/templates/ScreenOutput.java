@@ -18,15 +18,26 @@ public class ScreenOutput {
     private static final int MAX_LINE_NUM= 6;
     private static final String CLEAR_LINE= "                              ";
     
+    /**
+     * Creates screen object
+     */
     public ScreenOutput(){
         initDriverStationScreen();
         lastLine= 0;
     }
     
+    /**
+     * Initializes the driver station screen
+     */
     public void initDriverStationScreen(){
         this.screen= DriverStationLCD.getInstance();
         
     }
+    
+    /**
+     * Writes to the screen to the next available
+     * @param line is the line you want to write
+     */
     public void screenWrite(String line){
         screenWrite(line, this.lastLine);
         ++this.lastLine;
@@ -36,6 +47,11 @@ public class ScreenOutput {
 
     }
     
+    /**
+     * Writes on a certain line
+     * @param line is the desired text
+     * @param num is the chosen line to write on
+     */
     public void screenWrite(String line, int num){
         if(num < MAX_LINE_NUM) {
             this.clrLine(num);
@@ -68,7 +84,10 @@ public class ScreenOutput {
        screen.updateLCD();
        
     }
-    
+    /**
+     * Clears a certain line
+     * @param num is the line number
+     */
     public void clrLine(int num){
         switch(num){
            case 0:
@@ -97,7 +116,9 @@ public class ScreenOutput {
         this.screen.updateLCD();
         
     }
-    
+    /**
+     * Clears entire screen
+     */
     public void clrScreen(){
         for(int i=0; i<MAX_LINE_NUM; i++){
             clrLine(i);
