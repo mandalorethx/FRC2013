@@ -1,0 +1,36 @@
+var P
+var I
+var D
+var outP
+var inP
+var wantP
+var cError
+var lastError
+var sumError
+var done
+
+P = ;some value
+I = ; some value
+D = ;some value
+
+while !done {
+    inP = currentPower()
+    if(isDone(inP)) {
+        done = true
+           break
+    }
+    outP = inP
+    cError = wantP - outP
+    sumError += cError
+    outP += P * error + I * sumError + D * (lastError - error)
+    lastError = error
+    setPower(outP)
+    sleep
+}
+
+;
+; 1st - set proportion (P) - reach expected value
+; 2nd - set derivative (D) - reduce overshot / settling time
+; 3rd - set Integral (I) - decrease rise time
+; P,I,D are achieved through trial-error - can simulate using expected values
+; 
