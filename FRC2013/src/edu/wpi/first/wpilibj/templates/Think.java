@@ -10,6 +10,11 @@ package edu.wpi.first.wpilibj.templates;
  */
 public class Think {
 
+    private static final int k_KICKER_INIT = 0;
+    private static final int k_KICKER_MID = 1;
+    private static final int k_KICKER_STOP = 2;
+    
+    
     public static double newJoystickLeft;
     public static double newJoystickRight;
     public static boolean bShooterOn;
@@ -17,7 +22,18 @@ public class Think {
     public static boolean bClimb1;
     public static boolean bClimb2;
     public static CameraData cData;
-
+    public static double dKickerMotorPower;
+    public static double dKickerOnPower;
+    public static int iKickerState;
+    public static boolean bKickerDone;
+    public static boolean bKickerLastState;
+    
+    public static void initKicker(){
+        dKickerOnPower = 1;
+        iKickerState = k_KICKER_INIT;
+        bKickerDone = false;
+    }
+    
     /**
      * Lines up robot to shoot
      *
@@ -66,9 +82,34 @@ public class Think {
      * @param shootIn
      * @return is the input value sent to the motors
      */
-    public static double shooterInOut(double shootIn) {
-        double retVal;
-        retVal = shootIn;
+    public static double getShooterPower() {
+        double retVal=0;
+        
+        if (bKickerDone=true){
+            retVal=0;
+        }
+        else{
+            retVal= dKickerOnPower;
+            switch(iKickerState){
+                case k_KICKER_INIT:
+                    if(Input.getKickerSwitchValue() == true){
+                        iKickerState++;
+                    }
+                    break;
+                case k_KICKER_MID:
+                    if(Input.getKickerSwitchValue() == false){
+                        iKickerState++;
+                    }
+                    break;
+                case k_KICKER_STOP:
+                    bKickerDone = true;
+                    iKickerState = k_KICKER_INIT;
+                    break;
+            }
+                    
+        }
+            
+       
         return retVal;
     }
 
@@ -127,14 +168,15 @@ public class Think {
         }
 
         /**
-         * Sets power values for boolean inputs to shooter
+         * Sets trigger value to true or false to tell kicker to start or not
          */
         if (bShooterOn == false) {
-            dShooterPower = 0;
+            dKickerMotorPower = 0;
+            bKickerDone = false;
 
         } // Test Commit
         else {
-            dShooterPower = 1.0;
+            dKickerMotorPower = getShooterPower();
         }
         cData = Input.image;
         if (cData != null) {
