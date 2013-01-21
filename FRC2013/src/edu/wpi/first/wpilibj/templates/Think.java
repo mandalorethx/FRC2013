@@ -41,11 +41,21 @@ public class Think {
     public static double sumError;
     public static double currentPosition;
     
-    public static int currentTarget = 0;
+    public static double dKickerMotorPower;
+    public static double dKickerOnPower;
+    public static int iKickerState;
+    public static boolean bKickerDone;
+    public static boolean bKickerLastState;
     
+    public static int currentTarget = 0;
     public static double tolUpper = 8;
     public static double tolLower = -8;
     
+    public static void initKicker(){
+        dKickerOnPower = 1;
+        iKickerState = k_KICKER_INIT;
+        bKickerDone = false;
+    }
 
     /**
      * Lines up robot to shoot
