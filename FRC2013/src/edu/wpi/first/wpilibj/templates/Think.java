@@ -13,8 +13,6 @@ public class Think {
     private static final int k_KICKER_INIT = 0;
     private static final int k_KICKER_MID = 1;
     private static final int k_KICKER_STOP = 2;
-    
-    
     public static double newJoystickLeft;
     public static double newJoystickRight;
     public static boolean bShooterOn;
@@ -22,7 +20,6 @@ public class Think {
     public static boolean bClimb1;
     public static boolean bClimb2;
     public static boolean done;
-    
     public static CameraData cData;
     public static double highCMX;
     public static double highCMY;
@@ -40,18 +37,16 @@ public class Think {
     public static double lastError = 0;
     public static double sumError;
     public static double currentPosition;
-    
     public static double dKickerMotorPower;
     public static double dKickerOnPower;
     public static int iKickerState;
     public static boolean bKickerDone;
     public static boolean bKickerLastState;
-    
     public static int currentTarget = 0;
     public static double tolUpper = 8;
     public static double tolLower = -8;
-    
-    public static void initKicker(){
+
+    public static void initKicker() {
         dKickerOnPower = 1;
         iKickerState = k_KICKER_INIT;
         bKickerDone = false;
@@ -66,7 +61,7 @@ public class Think {
      * @return
      */
     public static double[] aimAdjust(double right, double left) {
-        switch(currentTarget) {
+        switch (currentTarget) {
             case 0: // High
                 currentPosition = highCMX;
                 break;
@@ -84,14 +79,14 @@ public class Think {
         inP = right;
         outP = inP;
         currError = wantPosition - currentPosition;
-        if(currError >= tolLower && currError <= tolUpper) {
+        if (currError >= tolLower && currError <= tolUpper) {
             outP = 0;
         } else {
             sumError += currError;
             outP += P * currError + I * sumError + D * (lastError - currError);
             lastError = currError;
         }
-        
+
         return new double[]{outP, (outP * -1)};
     }
 
@@ -132,21 +127,20 @@ public class Think {
      * @return is the input value sent to the motors
      */
     public static double getShooterPower() {
-        double retVal=0;
-        
-        if (bKickerDone=true){
-            retVal=0;
-        }
-        else{
-            retVal= dKickerOnPower;
-            switch(iKickerState){
+        double retVal = 0;
+
+        if (bKickerDone = true) {
+            retVal = 0;
+        } else {
+            retVal = dKickerOnPower;
+            switch (iKickerState) {
                 case k_KICKER_INIT:
-                    if(Input.getKickerSwitchValue() == true){
+                    if (Input.getKickerSwitchValue() == true) {
                         iKickerState++;
                     }
                     break;
                 case k_KICKER_MID:
-                    if(Input.getKickerSwitchValue() == false){
+                    if (Input.getKickerSwitchValue() == false) {
                         iKickerState++;
                     }
                     break;
@@ -155,10 +149,10 @@ public class Think {
                     iKickerState = k_KICKER_INIT;
                     break;
             }
-                    
+
         }
-            
-       
+
+
         return retVal;
     }
 
@@ -206,14 +200,14 @@ public class Think {
             bClimb2 = true;
         }
 
-        /**
-         * Assigns new values to the joystick inputs
-         */
         if (Input.bAim) {
-            //temp = aimAdjust(newJoystickLeft, newJoystickRight, Input.cd);
+            temp = aimAdjust(newJoystickLeft, newJoystickRight);
             newJoystickLeft = temp[0];
             newJoystickRight = temp[1];
-
+        } else {
+            lastError = 0;
+            sumError = 0;
+            currError = 0;
         }
 
         /**
@@ -223,15 +217,8 @@ public class Think {
             dKickerMotorPower = 0;
             bKickerDone = false;
 
-        } // Test Commit
-        else {
+        } else {
             dKickerMotorPower = getShooterPower();
-        }
-        cData = Input.image;
-        if (cData != null) {
-            double[] adjusted = aimAdjust(newJoystickRight, newJoystickLeft);
-            newJoystickRight = adjusted[0];
-            newJoystickLeft = adjusted[1];
         }
 
         highCMX = cData.high.center_mass_x_normalized;
@@ -240,8 +227,5 @@ public class Think {
         lowLeftCMY = cData.lowLeft.center_mass_y_normalized;
         lowRightCMX = cData.lowRight.center_mass_x_normalized;
         lowRightCMY = cData.lowRight.center_mass_y_normalized;
-        
-        
-        
     }
-    }
+}

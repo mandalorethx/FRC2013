@@ -119,12 +119,10 @@ public class Output {
     public static void sendOutput(){
         setPower(Think.newJoystickLeft, Think.newJoystickRight, Think.dShooterPower);
         if (Think.bClimb1) {
-            climb (1.0);
-            
+            climb (1.0);            
         }
         if (Think.bClimb2) {
             ascend ();
-            
         }
     }
 }
