@@ -232,7 +232,7 @@ public class Input {
         kickerSwitch = new DigitalInput(1);
     }
     
-    public static boolean getSwitchValue(){
+    public static boolean getKickerSwitchValue(){
         return kickerSwitch.get();
     }
     

@@ -18,6 +18,7 @@ public class Output {
     public static Victor shooterMotor;
     public static Victor climbMotor1;
     public static Victor climbMotor2;
+    public static Victor kickerMotor;
     
     public static DigitalModule digimod;
     
@@ -95,7 +96,7 @@ public class Output {
         shooterMotor= new Victor(3);
         climbMotor1 = new Victor (4);
         climbMotor2 = new Victor (5);
-        
+        kickerMotor = new Victor (6);
     }
     
     /**
