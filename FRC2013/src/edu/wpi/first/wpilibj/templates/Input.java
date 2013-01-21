@@ -271,6 +271,14 @@ public class Input {
     public static boolean getTriggerDown() {
         return rightDriverStick.getTrigger();
     }
+    
+    public static boolean getNextTargetButton() {
+        return rightDriverStick.isPressed(9) || leftDriverStick.isPressed(9);
+    }
+    
+    public static boolean getPrevTargetButton() {
+        return rightDriverStick.isPressed(8) || leftDriverStick.isPressed(8);
+    }
 
     /**
      * getAim.
@@ -371,14 +379,37 @@ public class Input {
         bClimb1Right = getClimb1Right();
         bClimb2Left = getClimb2Left();
         bClimb2Right = getClimb2Right();
+        
         try {
             image = getTarget(true, true, true);
 
         } catch (AxisCameraException ace) {
             ace.printStackTrace();
-            image= null;
+            image = null;
         }
-
+        
+        if(getNextTargetButton()) {
+            if(Think.currentTarget == 0)
+                Think.currentTarget = 1;
+                Output.display.screenWrite("Current Target: Low Left", 1);
+            if(Think.currentTarget == 1)
+                Think.currentTarget = 2;
+                Output.display.screenWrite("Current Target: Low Right", 1);
+            if(Think.currentTarget == 2)
+                Think.currentTarget = 0;
+                Output.display.screenWrite("Current Target: High", 1);
+        }
+        if(getPrevTargetButton()) {
+            if(Think.currentTarget == 0)
+                Think.currentTarget = 2;
+                Output.display.screenWrite("Current Target: Low Right", 1);
+            if(Think.currentTarget == 1)
+                Think.currentTarget = 0;
+                Output.display.screenWrite("Current Target: High", 1);
+            if(Think.currentTarget == 2)
+                Think.currentTarget = 1;
+                Output.display.screenWrite("Current Target: Low Left", 1);
+        }
     }
 
     /**

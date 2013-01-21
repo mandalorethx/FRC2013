@@ -16,7 +16,31 @@ public class Think {
     public static double dShooterPower;
     public static boolean bClimb1;
     public static boolean bClimb2;
+    public static boolean done;
+    
     public static CameraData cData;
+    public static double highCMX;
+    public static double highCMY;
+    public static double lowLeftCMX;
+    public static double lowLeftCMY;
+    public static double lowRightCMX;
+    public static double lowRightCMY;
+    public static double P;
+    public static double I;
+    public static double D;
+    public static double outP;
+    public static double inP;
+    public static double wantPosition = 0;
+    public static double currError;
+    public static double lastError = 0;
+    public static double sumError;
+    public static double currentPosition;
+    
+    public static int currentTarget = 0;
+    
+    public static double tolUpper = 8;
+    public static double tolLower = -8;
+    
 
     /**
      * Lines up robot to shoot
@@ -27,7 +51,33 @@ public class Think {
      * @return
      */
     public static double[] aimAdjust(double right, double left) {
-        return new double[]{left, right};
+        switch(currentTarget) {
+            case 0: // High
+                currentPosition = highCMX;
+                break;
+            case 1: // Low Left
+                currentPosition = lowLeftCMX;
+                break;
+            case 2: // Low Right
+                currentPosition = lowRightCMX;
+                break;
+            default:
+                Output.display.screenWrite("Current Target: ERROR!", 1);
+                currentPosition = highCMX;
+                break;
+        }
+        inP = right;
+        outP = inP;
+        currError = wantPosition - currentPosition;
+        if(currError >= tolLower && currError <= tolUpper) {
+            outP = 0;
+        } else {
+            sumError += currError;
+            outP += P * currError + I * sumError + D * (lastError - currError);
+            lastError = currError;
+        }
+        
+        return new double[]{outP, (outP * -1)};
     }
 
     /*
@@ -132,8 +182,7 @@ public class Think {
         if (bShooterOn == false) {
             dShooterPower = 0;
 
-        } // Test Commit
-        else {
+        } else {
             dShooterPower = 1.0;
         }
         cData = Input.image;
@@ -143,5 +192,14 @@ public class Think {
             newJoystickLeft = adjusted[1];
         }
 
+        highCMX = cData.high.center_mass_x_normalized;
+        highCMY = cData.high.center_mass_y_normalized;
+        lowLeftCMX = cData.lowLeft.center_mass_x_normalized;
+        lowLeftCMY = cData.lowLeft.center_mass_y_normalized;
+        lowRightCMX = cData.lowRight.center_mass_x_normalized;
+        lowRightCMY = cData.lowRight.center_mass_y_normalized;
+        
+        
+        
     }
-}
+    }
