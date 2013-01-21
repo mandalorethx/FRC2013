@@ -1,5 +1,6 @@
 package edu.wpi.first.wpilibj.templates;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.camera.AxisCameraException;
@@ -56,7 +57,7 @@ public class Input {
     public static double rightY;
     public static Gyro gyro; // The Gyro
     public static CameraData image;
-
+    public static DigitalInput kickerSwitch;
     /**
      * Scores. Subclass for scoring fields
      */
@@ -227,6 +228,14 @@ public class Input {
         return CD;
     }
 
+    public static void initSwitch(){
+        kickerSwitch = new DigitalInput(1);
+    }
+    
+    public static boolean getSwitchValue(){
+        return kickerSwitch.get();
+    }
+    
     /**
      * getRightX.
      *
