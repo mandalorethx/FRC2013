@@ -13,6 +13,10 @@ public class Think {
     private static final int k_KICKER_INIT = 0;
     private static final int k_KICKER_MID = 1;
     private static final int k_KICKER_STOP = 2;
+    private static final int k_LOAD_LINE = 0;
+    private static final int k_LOAD_ADJUSTD = 1;
+    private static final int k_LOAD_TURN = 2;
+    private static final int k_LOAD_MOVE = 3;
     public static double newJoystickLeft;
     public static double newJoystickRight;
     public static boolean bShooterOn;
@@ -37,6 +41,7 @@ public class Think {
     public static double lastError = 0;
     public static double sumError;
     public static double currentPosition;
+    public static double currentPositionNew;
     public static double dKickerMotorPower;
     public static double dKickerOnPower;
     public static int iKickerState;
@@ -52,7 +57,28 @@ public class Think {
         iKickerState = k_KICKER_INIT;
         bKickerDone = false;
     }
-
+    
+    public static double[] loadAdjust(double right, double left){
+        double distance = Input.image.lowLeftDistance;
+        double retVal[] = new double[2];
+        currentPositionNew = currentPosition;
+        switch(iLoadState){
+            case k_LOAD_LINE:
+                currentPosition = lowLeftCMX;
+                aimAdjust(right, left);
+                break;
+            case k_LOAD_ADJUSTD:
+                break;
+            case k_LOAD_TURN:
+                break;
+            case k_LOAD_MOVE:
+                break;
+            default:
+                break;
+        }
+        return retVal;
+    }
+    
     /**
      * Lines up robot to shoot
      *
