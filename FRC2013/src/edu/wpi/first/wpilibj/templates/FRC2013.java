@@ -28,6 +28,7 @@ public class FRC2013 extends IterativeRobot {
         Input.initGyro();
         Output.initMotors();
         //Output.cameraLightOn();
+        Input.initVision(true);
     }
 
     /**

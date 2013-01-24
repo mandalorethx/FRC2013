@@ -45,6 +45,7 @@ public class Think {
     public static int currentTarget = 0;
     public static double tolUpper = 8;
     public static double tolLower = -8;
+    public static CameraData image;
 
     public static void initKicker() {
         dKickerOnPower = 1;
@@ -99,6 +100,8 @@ public class Think {
      */
     public static double[] processJoystick(double rawRight, double rawLeft) {
         double[] retVal = new double[2];
+        ScreenOutput out = new ScreenOutput();
+        out.screenWrite("RAW LEFT: " + rawLeft + " RAW RIGHT: " + rawRight);
 
         if (rawLeft > 0) {
             retVal[0] = rawLeft * rawLeft;
@@ -116,6 +119,8 @@ public class Think {
 
         retVal[0] *= (0.9);
         retVal[1] *= (0.9);
+
+        out.screenWrite("LEFT: " + retVal[0] + " RIGHT: " + retVal[1]);
 
         return retVal;
     }
@@ -201,9 +206,22 @@ public class Think {
         }
 
         if (Input.bAim) {
-            temp = aimAdjust(newJoystickLeft, newJoystickRight);
-            newJoystickLeft = temp[0];
-            newJoystickRight = temp[1];
+            try {
+                image = Input.getTarget(false, true, true);
+
+                highCMX = image.high.center_mass_x_normalized;
+                highCMY = image.high.center_mass_y_normalized;
+                lowLeftCMX = image.lowLeft.center_mass_x_normalized;
+                lowLeftCMY = image.lowLeft.center_mass_y_normalized;
+                lowRightCMX = image.lowRight.center_mass_x_normalized;
+                lowRightCMY = image.lowRight.center_mass_y_normalized;
+
+                temp = aimAdjust(newJoystickLeft, newJoystickRight);
+                newJoystickLeft = temp[0];
+                newJoystickRight = temp[1];
+            } catch (Exception ex) {
+                System.out.println("ERROR: " + ex);
+            }
         } else {
             lastError = 0;
             sumError = 0;
@@ -220,12 +238,5 @@ public class Think {
         } else {
             dKickerMotorPower = getShooterPower();
         }
-
-        highCMX = cData.high.center_mass_x_normalized;
-        highCMY = cData.high.center_mass_y_normalized;
-        lowLeftCMX = cData.lowLeft.center_mass_x_normalized;
-        lowLeftCMY = cData.lowLeft.center_mass_y_normalized;
-        lowRightCMX = cData.lowRight.center_mass_x_normalized;
-        lowRightCMY = cData.lowRight.center_mass_y_normalized;
     }
 }

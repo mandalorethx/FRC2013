@@ -56,8 +56,9 @@ public class Input {
     public static double leftY;
     public static double rightY;
     public static Gyro gyro; // The Gyro
-    public static CameraData image;
+    //public static CameraData image;
     public static DigitalInput kickerSwitch;
+    public static ScreenOutput out = new ScreenOutput();
     /**
      * Scores. Subclass for scoring fields
      */
@@ -68,6 +69,7 @@ public class Input {
         static double aspectRatioOuter; // Outer aspect ratio of the object
         static double xEdge;            // X-Edge of the object
         static double yEdge;            // Y-Edge of the object
+        
     }
 
     /**
@@ -146,7 +148,8 @@ public class Input {
              */
             ColorImage image;
             if (!useStored) {
-                image = camera.getImage(); // Get an image from the camera
+                image = camera.getImage();
+                image = null;
             } else {
                 image = new RGBImage("/testImage.jpg"); // Get the sample image from the cRIO flash
             }
@@ -220,10 +223,14 @@ public class Input {
             thresholdImage.free();
             image.free();
 
-        } catch (AxisCameraException ex) {
-            ex.printStackTrace();
-        } catch (NIVisionException ex) {
-            ex.printStackTrace();
+        //} catch (AxisCameraException ex) {
+        //    ex.printStackTrace();
+        //} catch (NIVisionException ex) {
+        //    ex.printStackTrace();
+        }
+        catch(Exception ext) {
+            ScreenOutput scrOut = new ScreenOutput();
+            scrOut.screenWrite("Unhandled Error: " + ext.getMessage());
         }
         return CD;
     }
@@ -242,6 +249,7 @@ public class Input {
      * @return Returns the x value of the right stick
      */
     public static double getRightX() {
+        out.screenWrite("RIGHTX: " + rightDriverStick.getX());
         return rightDriverStick.getX();
     }
 
@@ -251,6 +259,7 @@ public class Input {
      * @return Returns the x value of the left stick
      */
     public static double getLeftX() {
+        out.screenWrite("LEFTX: " + leftDriverStick.getX());
         return leftDriverStick.getX();
     }
 
@@ -260,6 +269,7 @@ public class Input {
      * @return Returns the y value of the left stick
      */
     public static double getLeftY() {
+        out.screenWrite("LEFTY: " + leftDriverStick.getY());
         return leftDriverStick.getY();
     }
 
@@ -269,6 +279,7 @@ public class Input {
      * @return Returns the y value of the right stick
      */
     public static double getRightY() {
+        out.screenWrite("RIGHTY: " + rightDriverStick.getY());
         return rightDriverStick.getY();
     }
 
@@ -389,13 +400,13 @@ public class Input {
         bClimb2Left = getClimb2Left();
         bClimb2Right = getClimb2Right();
         
-        try {
-            image = getTarget(true, true, true);
+        /*try {
+           
 
         } catch (AxisCameraException ace) {
             ace.printStackTrace();
             image = null;
-        }
+        }*/
         
         if(getNextTargetButton()) {
             if(Think.currentTarget == 0)
