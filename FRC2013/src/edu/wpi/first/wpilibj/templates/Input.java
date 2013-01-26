@@ -43,6 +43,7 @@ public class Input {
     // Joystick Fields
     public static EastridgeJoystick rightDriverStick;
     public static EastridgeJoystick leftDriverStick;
+    public static EastridgeJoystick coDriverStick;
     public static boolean bTriggerDown;
     public static boolean bAim;
     public static boolean bSlowSpeedRight;
@@ -100,6 +101,7 @@ public class Input {
     public static void initJoystick() {
         rightDriverStick = new EastridgeJoystick(1);
         leftDriverStick = new EastridgeJoystick(2);
+        coDriverStick = new EastridgeJoystick(3);
     }
 
     /**
@@ -273,17 +275,27 @@ public class Input {
         return CD;
     }
 
+    /**
+     * initSwitch.
+     * Initializes the switch...
+     */
     public static void initSwitch(){
         kickerSwitch = new DigitalInput(1);
     }
     
+    /**
+     * getKickerSwitchValue.
+     * Gets the value of the kicker switch.
+     * 
+     * @return Returns the value of the kicker switch.
+     */
     public static boolean getKickerSwitchValue(){
         return kickerSwitch.get();
     }
     
     /**
      * getRightX.
-     *
+     * Prints and returns the value of the right stick's x axis.
      * @return Returns the x value of the right stick
      */
     public static double getRightX() {
@@ -293,7 +305,7 @@ public class Input {
 
     /**
      * getLeftX.
-     *
+     * Prints and returns the value of the left stick's x value.
      * @return Returns the x value of the left stick
      */
     public static double getLeftX() {
@@ -303,7 +315,7 @@ public class Input {
 
     /**
      * getLeftY.
-     *
+     * Prints and returns the value of the left sticks y axis.
      * @return Returns the y value of the left stick
      */
     public static double getLeftY() {
@@ -313,7 +325,7 @@ public class Input {
 
     /**
      * getRightY.
-     *
+     * Prints and returns the value of the right sticks y axis.
      * @return Returns the y value of the right stick
      */
     public static double getRightY() {
@@ -323,25 +335,35 @@ public class Input {
 
     /**
      * getTriggerDown.
-     *
-     * @return Returns whether or not the trigger of the right stick is pressed
+     * Return the state of the trigger button on the right stick.
+     * @return State of the trigger
      */
-    public static boolean getTriggerDown() {
+    public static boolean getAimRight() {
         return rightDriverStick.getTrigger();
     }
     
+    /**
+     * getNextTargetButton.
+     * Returns the state of the next target button.
+     * @return State of the button.
+     */
     public static boolean getNextTargetButton() {
-        return rightDriverStick.isPressed(9) || leftDriverStick.isPressed(9);
+        return coDriverStick.isPressed(9);
     }
     
+    /**
+     * getPrevTargetButton.
+     * Returns the state of the previous target button.
+     * @return State of the button.
+     */
     public static boolean getPrevTargetButton() {
-        return rightDriverStick.isPressed(8) || leftDriverStick.isPressed(8);
+        return coDriverStick.isPressed(8);
     }
 
     /**
      * getAim.
-     *
-     * @return Returns whether or not the trigger on the left stick is pressed
+     * Returns the state of the aim button on the left stick.
+     * @return State of the aim button.
      */
     public static boolean getAim() {
         return leftDriverStick.getTrigger() || rightDriverStick.getTrigger();
@@ -349,9 +371,8 @@ public class Input {
 
     /**
      * getSlowSpeedRight.
-     *
-     * @return Returns whether the "slow speed" button on the right stick is
-     * pressed
+     * Returns the state of the slow speed button on the right stick.
+     * @return State of the button.
      */
     public static boolean getSlowSpeedRight() {
         return rightDriverStick.isPressed(2);
@@ -359,9 +380,8 @@ public class Input {
 
     /**
      * getSlowSpeedLeft.
-     *
-     * @return Returns whether the "slow speed" button on the left stick is
-     * pressed
+     * Returns the state of the slow speed button on the left stick.
+     * @return State of the button.
      */
     public static boolean getSlowSpeedLeft() {
         return leftDriverStick.isPressed(2);
@@ -369,8 +389,8 @@ public class Input {
 
     /**
      * getClimb1Left.
-     *
-     * @return Returns whether the Climb1 button on the left stick is pressed
+     * Returns the state of the left climb 1 button.
+     * @return State of the button.
      */
     public static boolean getClimb1Left() {
         return leftDriverStick.isPressed(4);
@@ -378,8 +398,8 @@ public class Input {
 
     /**
      * getClimb1Right.
-     *
-     * @return Returns whether the Climb1 button on the right stick is pressed
+     * Returns the state of the right climb 1 button.
+     * @return State of the button.
      */
     public static boolean getClimb1Right() {
         return rightDriverStick.isPressed(4);
@@ -387,8 +407,8 @@ public class Input {
 
     /**
      * getClimb2Left.
-     *
-     * @return Returns whether the Climb2 button on the left stick is pressed
+     * Returns the state of the left climb 2 button.
+     * @return State of the button.
      */
     public static boolean getClimb2Left() {
         return leftDriverStick.isPressed(5);
@@ -396,17 +416,32 @@ public class Input {
 
     /**
      * getClimb2Right.
-     *
-     * @return Returns whether the Climb2 button on the right stick is pressed
+     * Returns the state of the right climb 2 button.
+     * @return State of the button.
      */
     public static boolean getClimb2Right() {
         return rightDriverStick.isPressed(5);
     }
-
+    /**
+     * getLoadButtonLeft.
+     * Returns the state of the left load button
+     * @return State of the button
+     */
+    public static boolean getLoadButtonLeft(){
+        return leftDriverStick.isPressed(6);
+    }
+    /**
+     * getLoadButtonRight.
+     * Returns the state of the right load button
+     * @return State of the button
+     */
+    public static boolean getLoadButtonRight(){
+        return rightDriverStick.isPressed(6);
+    }
     /**
      * cameraLightButtonOn.
-     *
-     * @return Returns whether the "camera light on" button is pressed
+     * Returns the state of the camera light on button.
+     * @return State of the button.
      */
     public static boolean cameraLightButtonOn() {
         return rightDriverStick.isPressed(10) || leftDriverStick.isPressed(10);
@@ -414,23 +449,24 @@ public class Input {
 
     /**
      * cameraLightButtonOff.
-     *
-     * @return Returns whether the "camera light off" button is pressed
+     * Returns the state of the camera light off button.
+     * @return State of the button.
      */
     public static boolean cameraLightButtonOff() {
         return rightDriverStick.isPressed(11) || leftDriverStick.isPressed(11);
     }
 
     /**
-     * gatherInput. Updates each local variable to match the state of inputs
+     * gatherInput.
+     * Updates each local variable to match the state of inputs
      */
     public static void gatherInput() {
         leftX = getLeftX();
         leftY = getLeftY();
         rightX = getRightX();
         rightY = getRightY();
-        bTriggerDown = getTriggerDown();
-        bAim = getAim();
+        bTriggerDown = getAimRight();
+        bAim = getAimLeft();
         bSlowSpeedRight = getSlowSpeedRight();
         bSlowSpeedLeft = getSlowSpeedLeft();
         bClimb1Left = getClimb1Left();
@@ -438,35 +474,27 @@ public class Input {
         bClimb2Left = getClimb2Left();
         bClimb2Right = getClimb2Right();
         
-        /*try {
-           
-
-        } catch (AxisCameraException ace) {
-            ace.printStackTrace();
-            image = null;
-        }*/
-        
         if(getNextTargetButton()) {
             if(Think.currentTarget == 0)
                 Think.currentTarget = 1;
-                Output.display.screenWrite("Current Target: Low Left", 1);
+                //Output.display.screenWrite("Current Target: Low Left", 1);
             if(Think.currentTarget == 1)
                 Think.currentTarget = 2;
-                Output.display.screenWrite("Current Target: Low Right", 1);
+                //Output.display.screenWrite("Current Target: Low Right", 1);
             if(Think.currentTarget == 2)
                 Think.currentTarget = 0;
-                Output.display.screenWrite("Current Target: High", 1);
+                //Output.display.screenWrite("Current Target: High", 1);
         }
         if(getPrevTargetButton()) {
             if(Think.currentTarget == 0)
                 Think.currentTarget = 2;
-                Output.display.screenWrite("Current Target: Low Right", 1);
+                //Output.display.screenWrite("Current Target: Low Right", 1);
             if(Think.currentTarget == 1)
                 Think.currentTarget = 0;
-                Output.display.screenWrite("Current Target: High", 1);
+                //Output.display.screenWrite("Current Target: High", 1);
             if(Think.currentTarget == 2)
                 Think.currentTarget = 1;
-                Output.display.screenWrite("Current Target: Low Left", 1);
+                //Output.display.screenWrite("Current Target: Low Left", 1);
         }
         
         Output.setCameraLight(bAim);
