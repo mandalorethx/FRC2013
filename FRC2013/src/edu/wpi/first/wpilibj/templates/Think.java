@@ -54,6 +54,7 @@ public class Think {
     public static double tolLower = -8;
     public static CameraData image;
     public static int iLoadState;
+    public static boolean doLoad;
 
     public static void initKicker() {
         dKickerOnPower = 1;
@@ -115,6 +116,7 @@ public class Think {
             default:
                 break;
         }
+        currentPosition = currentPositionNew;
         return retVal;
     }
     
@@ -243,6 +245,8 @@ public class Think {
      */
     public static void robotThink() {
         double[] temp = new double[2];
+        double leftMotorVal = Output.leftDriveMotor.get();
+        double rightMotorVal = Output.rightDriveMotor.get();
         temp = processJoystick(Input.rightY, Input.leftY);
         newJoystickLeft = temp[0];
         newJoystickRight = temp[1];
@@ -270,6 +274,15 @@ public class Think {
             bClimb2 = true;
         }
 
+        if (doLoad == true){
+            temp = loadAdjust(rightMotorVal, leftMotorVal);
+            newJoystickLeft = temp[0];
+            newJoystickRight = temp[1];
+        }
+        else{
+            iLoadState = k_LOAD_LINE;
+        }
+        
         if (Input.bAim) {
             try {
                 image = Input.getTarget(false, true, true);

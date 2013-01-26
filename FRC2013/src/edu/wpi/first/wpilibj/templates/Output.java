@@ -105,12 +105,10 @@ public class Output {
      * @param rightPower - Power value for right motor
      * @param shooterPower  - Power value for the shooter motor
      */
-    public static void setPower(double leftPower, double rightPower, double shooterPower,
-                                                                        double kickerPower){
+    public static void setPower(double leftPower, double rightPower, double shooterPower){
         rightDriveMotor.set(rightPower);
         leftDriveMotor.set((-1) * leftPower);
         shooterMotor.set(shooterPower);
-        kickerMotor.set(kickerPower);
         
     }
     
@@ -119,12 +117,7 @@ public class Output {
      * Think.newJoystickRight generated after a Think.robotThink()
      */
     public static void sendOutput(){
-        setPower(
-                Think.newJoystickLeft,
-                Think.newJoystickRight,
-                Think.dShooterPower,
-                Think.dKickerMotorPower);
-        
+        setPower(Think.newJoystickLeft, Think.newJoystickRight, Think.dShooterPower);
         if (Think.bClimb1) {
             climb (1.0);            
         }
