@@ -43,6 +43,7 @@ public class Input {
     // Joystick Fields
     public static EastridgeJoystick rightDriverStick;
     public static EastridgeJoystick leftDriverStick;
+    public static EastridgeJoystick coDriverStick;
     public static boolean bTriggerDown;
     public static boolean bAim;
     public static boolean bSlowSpeedRight;
@@ -100,6 +101,7 @@ public class Input {
     public static void initJoystick() {
         rightDriverStick = new EastridgeJoystick(1);
         leftDriverStick = new EastridgeJoystick(2);
+        coDriverStick = new EastridgeJoystick(3);
     }
 
     /**
@@ -308,7 +310,7 @@ public class Input {
      * @return State of the button.
      */
     public static boolean getNextTargetButton() {
-        return rightDriverStick.isPressed(9) || leftDriverStick.isPressed(9);
+        return coDriverStick.isPressed(9);
     }
     
     /**
@@ -317,7 +319,7 @@ public class Input {
      * @return State of the button.
      */
     public static boolean getPrevTargetButton() {
-        return rightDriverStick.isPressed(8) || leftDriverStick.isPressed(8);
+        return coDriverStick.isPressed(8);
     }
 
     /**
@@ -422,24 +424,24 @@ public class Input {
         if(getNextTargetButton()) {
             if(Think.currentTarget == 0)
                 Think.currentTarget = 1;
-                Output.display.screenWrite("Current Target: Low Left", 1);
+                //Output.display.screenWrite("Current Target: Low Left", 1);
             if(Think.currentTarget == 1)
                 Think.currentTarget = 2;
-                Output.display.screenWrite("Current Target: Low Right", 1);
+                //Output.display.screenWrite("Current Target: Low Right", 1);
             if(Think.currentTarget == 2)
                 Think.currentTarget = 0;
-                Output.display.screenWrite("Current Target: High", 1);
+                //Output.display.screenWrite("Current Target: High", 1);
         }
         if(getPrevTargetButton()) {
             if(Think.currentTarget == 0)
                 Think.currentTarget = 2;
-                Output.display.screenWrite("Current Target: Low Right", 1);
+                //Output.display.screenWrite("Current Target: Low Right", 1);
             if(Think.currentTarget == 1)
                 Think.currentTarget = 0;
-                Output.display.screenWrite("Current Target: High", 1);
+                //Output.display.screenWrite("Current Target: High", 1);
             if(Think.currentTarget == 2)
                 Think.currentTarget = 1;
-                Output.display.screenWrite("Current Target: Low Left", 1);
+                //Output.display.screenWrite("Current Target: Low Left", 1);
         }
     }
 
