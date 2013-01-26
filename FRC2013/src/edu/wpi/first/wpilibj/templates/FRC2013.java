@@ -53,6 +53,18 @@ public class FRC2013 extends IterativeRobot {
 
     public static void autonInit(){
         iAutonState = k_AUTON_DELAY;
+        dRightX = 0;
+        dLeftX = 0;
+        dRightY = 0;
+        dLeftY = 0;
+        dSlowRight = false;
+        dSlowLeft = false;
+        dAimRight = false;
+        dAimLeft = false;
+        dNextTarget = false;
+        dPrevTarget = false;
+        dCamLightOn = false;
+        dCamLightOff = true;
     }
     
     /**
