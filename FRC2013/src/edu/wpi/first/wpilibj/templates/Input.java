@@ -424,24 +424,24 @@ public class Input {
         if(getNextTargetButton()) {
             if(Think.currentTarget == 0)
                 Think.currentTarget = 1;
-                Output.display.screenWrite("Current Target: Low Left", 1);
+                //Output.display.screenWrite("Current Target: Low Left", 1);
             if(Think.currentTarget == 1)
                 Think.currentTarget = 2;
-                Output.display.screenWrite("Current Target: Low Right", 1);
+                //Output.display.screenWrite("Current Target: Low Right", 1);
             if(Think.currentTarget == 2)
                 Think.currentTarget = 0;
-                Output.display.screenWrite("Current Target: High", 1);
+                //Output.display.screenWrite("Current Target: High", 1);
         }
         if(getPrevTargetButton()) {
             if(Think.currentTarget == 0)
                 Think.currentTarget = 2;
-                Output.display.screenWrite("Current Target: Low Right", 1);
+                //Output.display.screenWrite("Current Target: Low Right", 1);
             if(Think.currentTarget == 1)
                 Think.currentTarget = 0;
-                Output.display.screenWrite("Current Target: High", 1);
+                //Output.display.screenWrite("Current Target: High", 1);
             if(Think.currentTarget == 2)
                 Think.currentTarget = 1;
-                Output.display.screenWrite("Current Target: Low Left", 1);
+                //Output.display.screenWrite("Current Target: Low Left", 1);
         }
     }
 
