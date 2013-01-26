@@ -34,16 +34,9 @@ public class Output {
    /**
     * Turns Camera Light On
     */
-   public static void cameraLightOn (){
-       digimod.setRelayForward(3, true);
-       
-   }
-   
-   /**
-    * Turns Camera Light Off
-    */
-   public static void cameraLightOff (){
-       digimod.setRelayForward(3, false);
+   public static void setCameraLight(boolean state){
+       digimod.setRelayForward(1, state);
+       display.screenWrite("Light: " + state, 1);
        
    }
    

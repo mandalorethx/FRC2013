@@ -130,6 +130,11 @@ public class Input {
      */
     public static CameraData getTarget(boolean useStored, boolean storeImages, boolean outputDebug) throws AxisCameraException {
         CameraData CD = null;
+        
+        BinaryImage thresholdImage = null;
+        BinaryImage convexHullImage = null;
+        BinaryImage filteredImage = null;
+        ColorImage image = null;
 
         try {
             ParticleAnalysisReport high = null;
@@ -146,25 +151,26 @@ public class Input {
              * the flash memory on the cRIO. The file name in this case is
              * "testImage.jpg"
              */
-            ColorImage image;
             if (!useStored) {
                 image = camera.getImage();
-                image = null;
+                if (storeImages)
+                    image.write("/original.bmp");
             } else {
                 image = new RGBImage("/testImage.jpg"); // Get the sample image from the cRIO flash
             }
 
-            BinaryImage thresholdImage = image.thresholdHSV(60, 100, 90, 255, 20, 255); // Keep only red objects
+            //BinaryImage thresholdImage = image.thresholdHSV(60, 100, 90, 255, 20, 255); // Keep only red objects
+            thresholdImage = image.thresholdHSV(40, 190, 90, 255, 0, 255); // Keep only red objects
             if (storeImages) {
                 thresholdImage.write("/threshold.bmp");
             }                // Save the threshold image
 
-            BinaryImage convexHullImage = thresholdImage.convexHull(false);             // Fill in occluded rectangles
+            convexHullImage = thresholdImage.convexHull(false);             // Fill in occluded rectangles
             if (storeImages) {
                 convexHullImage.write("/convexHull.bmp");
             }              // Write the convexhull image
 
-            BinaryImage filteredImage = convexHullImage.particleFilter(cc);             // Filter out small particles
+            filteredImage = convexHullImage.particleFilter(cc);             // Filter out small particles
             if (storeImages) {
                 filteredImage.write("/filteredImage.bmp");
             }             // Write the filtered image
@@ -218,10 +224,12 @@ public class Input {
             CD = new CameraData(high, highDistance, lowLeft, lowDistanceLeft, lowRight, lowDistanceRight);
 
             // Free the memory for each image.
+            System.out.println("Freeing images!");
             filteredImage.free();
             convexHullImage.free();
             thresholdImage.free();
             image.free();
+            System.out.println("Done Freeing images!");
 
         //} catch (AxisCameraException ex) {
         //    ex.printStackTrace();
@@ -230,7 +238,37 @@ public class Input {
         }
         catch(Exception ext) {
             ScreenOutput scrOut = new ScreenOutput();
-            scrOut.screenWrite("Unhandled Error: " + ext.getMessage());
+            scrOut.screenWrite("Unhandled Error: " + ext.getMessage(),2);
+            ext.printStackTrace();
+        } finally {
+            if(filteredImage != null) {
+                try {
+                    filteredImage.free();
+                } catch (NIVisionException ex) {
+                    System.out.println("Cannot Free filtered image in catch!");
+                }
+            }
+            if(convexHullImage != null) {
+                try {
+                    convexHullImage.free();
+                } catch (NIVisionException ex) {
+                    System.out.println("Cannot Free convex hull image in catch!");
+                }
+            }
+            if(thresholdImage != null) {
+                try {
+                    thresholdImage.free();
+                } catch (NIVisionException ex) {
+                    System.out.println("Cannot Free threshold image in catch!");
+                }
+            }
+            if(image != null) {
+                try {
+                    image.free();
+                } catch (NIVisionException ex) {
+                    System.out.println("Cannot Free image in catch!");
+                }
+            }
         }
         return CD;
     }
@@ -249,7 +287,7 @@ public class Input {
      * @return Returns the x value of the right stick
      */
     public static double getRightX() {
-        out.screenWrite("RIGHTX: " + rightDriverStick.getX());
+        //out.screenWrite("RIGHTX: " + rightDriverStick.getX());
         return rightDriverStick.getX();
     }
 
@@ -259,7 +297,7 @@ public class Input {
      * @return Returns the x value of the left stick
      */
     public static double getLeftX() {
-        out.screenWrite("LEFTX: " + leftDriverStick.getX());
+        //out.screenWrite("LEFTX: " + leftDriverStick.getX());
         return leftDriverStick.getX();
     }
 
@@ -269,7 +307,7 @@ public class Input {
      * @return Returns the y value of the left stick
      */
     public static double getLeftY() {
-        out.screenWrite("LEFTY: " + leftDriverStick.getY());
+        //out.screenWrite("LEFTY: " + leftDriverStick.getY());
         return leftDriverStick.getY();
     }
 
@@ -279,7 +317,7 @@ public class Input {
      * @return Returns the y value of the right stick
      */
     public static double getRightY() {
-        out.screenWrite("RIGHTY: " + rightDriverStick.getY());
+        //out.screenWrite("RIGHTY: " + rightDriverStick.getY());
         return rightDriverStick.getY();
     }
 
@@ -306,7 +344,7 @@ public class Input {
      * @return Returns whether or not the trigger on the left stick is pressed
      */
     public static boolean getAim() {
-        return leftDriverStick.getTrigger();
+        return leftDriverStick.getTrigger() || rightDriverStick.getTrigger();
     }
 
     /**
@@ -430,6 +468,8 @@ public class Input {
                 Think.currentTarget = 1;
                 Output.display.screenWrite("Current Target: Low Left", 1);
         }
+        
+        Output.setCameraLight(bAim);
     }
 
     /**

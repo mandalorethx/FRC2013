@@ -4,6 +4,8 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+import edu.wpi.first.wpilibj.camera.AxisCameraException;
+
 /**
  *
  * @author first1
@@ -128,7 +130,7 @@ public class Think {
     public static double[] processJoystick(double rawRight, double rawLeft) {
         double[] retVal = new double[2];
         ScreenOutput out = new ScreenOutput();
-        out.screenWrite("RAW LEFT: " + rawLeft + " RAW RIGHT: " + rawRight);
+        //out.screenWrite("RAW LEFT: " + rawLeft + " RAW RIGHT: " + rawRight);
 
         if (rawLeft > 0) {
             retVal[0] = rawLeft * rawLeft;
@@ -147,7 +149,7 @@ public class Think {
         retVal[0] *= (0.9);
         retVal[1] *= (0.9);
 
-        out.screenWrite("LEFT: " + retVal[0] + " RIGHT: " + retVal[1]);
+        //out.screenWrite("LEFT: " + retVal[0] + " RIGHT: " + retVal[1]);
 
         return retVal;
     }
@@ -235,24 +237,48 @@ public class Think {
         if (Input.bAim) {
             try {
                 image = Input.getTarget(false, true, true);
+                if(image == null){
+                    Output.display.screenWrite("No Valid Target",0);
+                }
+                else{
+                    if(image.high != null) {
+                        highCMX = image.high.center_mass_x_normalized;
+                        highCMY = image.high.center_mass_y_normalized;
+                        Output.display.screenWrite("High Target Found",2);
+                    } else {
+                        Output.display.screenWrite("High Target not seen.", 2);
+                    }
+                    
+                    if(image.lowLeft != null) {
+                        lowLeftCMX = image.lowLeft.center_mass_x_normalized;
+                        lowLeftCMY = image.lowLeft.center_mass_y_normalized;
+                        Output.display.screenWrite("Left Target Found",3);
+                    } else {
+                        Output.display.screenWrite("Low Left Target not seen.", 3);
+                    }
+                    
+                    if(image.lowRight != null) {
+                        lowRightCMX = image.lowRight.center_mass_x_normalized;
+                        lowRightCMY = image.lowRight.center_mass_y_normalized;
+                        Output.display.screenWrite("Right Target Found",4);
+                    } else {
+                        Output.display.screenWrite("Low Right Target not seen.", 4);
+                    }
 
-                highCMX = image.high.center_mass_x_normalized;
-                highCMY = image.high.center_mass_y_normalized;
-                lowLeftCMX = image.lowLeft.center_mass_x_normalized;
-                lowLeftCMY = image.lowLeft.center_mass_y_normalized;
-                lowRightCMX = image.lowRight.center_mass_x_normalized;
-                lowRightCMY = image.lowRight.center_mass_y_normalized;
-
-                temp = aimAdjust(newJoystickLeft, newJoystickRight);
-                newJoystickLeft = temp[0];
-                newJoystickRight = temp[1];
-            } catch (Exception ex) {
-                System.out.println("ERROR: " + ex);
+                    //temp = aimAdjust(newJoystickLeft, newJoystickRight);
+                    //newJoystickLeft = temp[0];
+                    //newJoystickRight = temp[1];
+                    image = null;
+                }
+            } catch (AxisCameraException ex) {
+                ex.printStackTrace();
+                image = null;
             }
         } else {
             lastError = 0;
             sumError = 0;
             currError = 0;
+            image = null;
         }
 
         /**
