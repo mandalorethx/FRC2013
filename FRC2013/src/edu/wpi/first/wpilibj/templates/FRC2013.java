@@ -28,7 +28,7 @@ public class FRC2013 extends IterativeRobot {
     public static final int k_AUTON_FIRE = 2;
     public static final int k_AUTON_MOVING = 3;
     public static final int k_AUTON_DONE = 4;
-    public static int autonState;
+    public static int iAutonState;
     
     public void robotInit() {
 
@@ -40,14 +40,27 @@ public class FRC2013 extends IterativeRobot {
     }
 
     public static void autonInit(){
-        autonState = k_AUTON_DELAY;
+        iAutonState = k_AUTON_DELAY;
     }
     
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+        switch(iAutonState){
+            case k_AUTON_DELAY:
+                break;
+            case k_AUTON_AIMING:
+                break;
+            case k_AUTON_FIRE:
+                break;
+            case k_AUTON_MOVING:
+                break;
+            case k_AUTON_DONE:
+                break;
+            default:
+                break;
+        }
     }
 
     /**
