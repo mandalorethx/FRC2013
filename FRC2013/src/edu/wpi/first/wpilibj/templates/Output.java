@@ -124,6 +124,14 @@ public class Output {
         if (Think.bClimb2) {
             ascend ();
         }
+        if (Think.currentTarget== 0)
+            display.screenWrite("Current Target: High");
+        
+        else if (Think.currentTarget== 1)
+            display.screenWrite("Current Target: Low Left");
+        
+        else if (Think.currentTarget== 2)
+            display.screenWrite("Current Target: Low Right");
     }
 }
 
