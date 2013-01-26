@@ -300,7 +300,7 @@ public class Input {
      * Return the state of the trigger button on the right stick.
      * @return State of the trigger
      */
-    public static boolean getTriggerDown() {
+    public static boolean getAimRight() {
         return rightDriverStick.getTrigger();
     }
     
@@ -327,7 +327,7 @@ public class Input {
      * Returns the state of the aim button on the left stick.
      * @return State of the aim button.
      */
-    public static boolean getAim() {
+    public static boolean getAimLeft() {
         return leftDriverStick.getTrigger();
     }
 
@@ -384,7 +384,22 @@ public class Input {
     public static boolean getClimb2Right() {
         return rightDriverStick.isPressed(5);
     }
-
+    /**
+     * getLoadButtonLeft.
+     * Returns the state of the left load button
+     * @return State of the button
+     */
+    public static boolean getLoadButtonLeft(){
+        return leftDriverStick.isPressed(6);
+    }
+    /**
+     * getLoadButtonRight.
+     * Returns the state of the right load button
+     * @return State of the button
+     */
+    public static boolean getLoadButtonRight(){
+        return rightDriverStick.isPressed(6);
+    }
     /**
      * cameraLightButtonOn.
      * Returns the state of the camera light on button.
@@ -412,8 +427,8 @@ public class Input {
         leftY = getLeftY();
         rightX = getRightX();
         rightY = getRightY();
-        bTriggerDown = getTriggerDown();
-        bAim = getAim();
+        bTriggerDown = getAimRight();
+        bAim = getAimLeft();
         bSlowSpeedRight = getSlowSpeedRight();
         bSlowSpeedLeft = getSlowSpeedLeft();
         bClimb1Left = getClimb1Left();
