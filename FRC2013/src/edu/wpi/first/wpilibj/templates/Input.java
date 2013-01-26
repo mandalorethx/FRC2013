@@ -465,8 +465,8 @@ public class Input {
         leftY = getLeftY();
         rightX = getRightX();
         rightY = getRightY();
-        bTriggerDown = getAimRight();
-        bAim = getAimLeft();
+        bTriggerDown = getAim();
+        bAim = getAim();
         bSlowSpeedRight = getSlowSpeedRight();
         bSlowSpeedLeft = getSlowSpeedLeft();
         bClimb1Left = getClimb1Left();
