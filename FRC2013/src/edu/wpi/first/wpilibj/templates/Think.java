@@ -54,8 +54,8 @@ public class Think {
     public static double tolLower = -8;
     public static CameraData image;
     public static int iLoadState;
-    public static boolean doLoad;
-
+    public static boolean bDoLoad;
+    
     public static void initKicker() {
         dKickerOnPower = 1;
         iKickerState = k_KICKER_INIT;
@@ -252,6 +252,13 @@ public class Think {
         newJoystickRight = temp[1];
         bShooterOn = Input.bTriggerDown;
 
+        if(Input.getLoadButtonLeft()||Input.getLoadButtonRight()){
+            bDoLoad = true;
+        }
+        else {
+            bDoLoad = false;
+        }
+        
         /**
          * Sets the value for the robot's slow speed
          */
@@ -274,7 +281,7 @@ public class Think {
             bClimb2 = true;
         }
 
-        if (doLoad == true){
+        if (bDoLoad == true){
             temp = loadAdjust(rightMotorVal, leftMotorVal);
             newJoystickLeft = temp[0];
             newJoystickRight = temp[1];
