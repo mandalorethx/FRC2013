@@ -22,6 +22,14 @@ public class FRC2013 extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+    
+    public static final int k_AUTON_DELAY = 0;
+    public static final int k_AUTON_AIMING = 1;
+    public static final int k_AUTON_FIRE = 2;
+    public static final int k_AUTON_MOVING = 3;
+    public static final int k_AUTON_DONE = 4;
+    public static int autonState;
+    
     public void robotInit() {
 
         Input.initJoystick();
@@ -31,6 +39,10 @@ public class FRC2013 extends IterativeRobot {
         Input.initVision(true);
     }
 
+    public static void autonInit(){
+        autonState = k_AUTON_DELAY;
+    }
+    
     /**
      * This function is called periodically during autonomous
      */
