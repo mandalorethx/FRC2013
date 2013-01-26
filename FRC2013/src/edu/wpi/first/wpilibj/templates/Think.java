@@ -17,6 +17,8 @@ public class Think {
     private static final int k_LOAD_ADJUSTD = 1;
     private static final int k_LOAD_TURN = 2;
     private static final int k_LOAD_MOVE = 3;
+    public static final double k_LOAD_ANGLE = 30;
+    public static final double k_LOAD_DISTANCE = 135.29;
     public static double newJoystickLeft;
     public static double newJoystickRight;
     public static boolean bShooterOn;
@@ -66,13 +68,49 @@ public class Think {
         switch(iLoadState){
             case k_LOAD_LINE:
                 currentPosition = lowLeftCMX;
-                aimAdjust(right, left);
+                retVal = aimAdjust(right, left);
+                if(retVal [0] >= -0.1 && retVal [0] <= 0.1 ){
+                    iLoadState++;  
+                }
                 break;
             case k_LOAD_ADJUSTD:
+                if(distance >= 0.9*k_LOAD_DISTANCE && distance <= 1.1*k_LOAD_DISTANCE){
+                    retVal[0] = 0;
+                    retVal[1] = 0;
+                    iLoadState++;
+                }
+                else if(distance > 1.1*k_LOAD_DISTANCE){
+                    retVal[0] = 0.9;
+                    retVal[1] = 0.9;
+                  
+                }
+                else if (distance < 0.9*k_LOAD_DISTANCE) {
+                    retVal[0] = -0.9;
+                    retVal [1] = -0.9;
+                    
+                }
+                    
                 break;
             case k_LOAD_TURN:
+                double curAngle = Input.getGyro();
+                if(curAngle >= 0.9*k_LOAD_ANGLE && curAngle <= 1.1*k_LOAD_ANGLE){
+                    retVal[0] = 0;
+                    retVal[1] = 0; 
+                    iLoadState++;        
+                }
+                else if(curAngle > 1.1*k_LOAD_ANGLE){
+                    retVal[0] = -0.9;
+                    retVal[1] = 0.9;
+                }
+                else if(curAngle < 0.9* k_LOAD_ANGLE){
+                    retVal[0] = 0.9;
+                    retVal[1] = -0.9;
+                }
                 break;
             case k_LOAD_MOVE:
+                retVal[0] = -0.9;
+                retVal[1] = -0.9;
+                        
                 break;
             default:
                 break;
