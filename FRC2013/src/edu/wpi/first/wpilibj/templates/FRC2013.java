@@ -71,7 +71,20 @@ public class FRC2013 extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        
+        switch(iAutonState){
+            case k_AUTON_DELAY:
+                break;
+            case k_AUTON_AIMING:
+                break;
+            case k_AUTON_FIRE:
+                break;
+            case k_AUTON_MOVING:
+                break;
+            case k_AUTON_DONE:
+                break;
+            default:
+                break;
+        }
     }
 
     /**
