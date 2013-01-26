@@ -28,7 +28,19 @@ public class FRC2013 extends IterativeRobot {
     public static final int k_AUTON_FIRE = 2;
     public static final int k_AUTON_MOVING = 3;
     public static final int k_AUTON_DONE = 4;
-    public static int autonState;
+    public static int iAutonState;
+    public static double dRightX;
+    public static double dLeftX;
+    public static double dRightY;
+    public static double dLeftY;
+    public static boolean dSlowRight;
+    public static boolean dSlowLeft;
+    public static boolean dAimRight;
+    public static boolean dAimLeft;
+    public static boolean dNextTarget;
+    public static boolean dPrevTarget;
+    public static boolean dCamLightOn;
+    public static boolean dCamLightOff;
     
     public void robotInit() {
 
@@ -40,7 +52,7 @@ public class FRC2013 extends IterativeRobot {
     }
 
     public static void autonInit(){
-        autonState = k_AUTON_DELAY;
+        iAutonState = k_AUTON_DELAY;
     }
     
     /**
