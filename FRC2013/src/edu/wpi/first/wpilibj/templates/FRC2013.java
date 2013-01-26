@@ -71,7 +71,7 @@ public class FRC2013 extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+        
     }
 
     /**
