@@ -132,6 +132,7 @@ public class Output {
         
         else if (Think.currentTarget== 2)
             display.screenWrite("Current Target: Low Right");
+ 
     }
 }
 
