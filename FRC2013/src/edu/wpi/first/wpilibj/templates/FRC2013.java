@@ -49,6 +49,7 @@ public class FRC2013 extends IterativeRobot {
         Output.initMotors();
         //Output.cameraLightOn();
         Input.initVision(true);
+        FRCTimer.initTimer();
     }
 
     public static void autonInit(){
@@ -73,6 +74,9 @@ public class FRC2013 extends IterativeRobot {
     public void autonomousPeriodic() {
         switch(iAutonState){
             case k_AUTON_DELAY:
+                if(FRCTimer.DelayDone(5.0)){
+                    iAutonState++;
+                }
                 break;
             case k_AUTON_AIMING:
                 break;
