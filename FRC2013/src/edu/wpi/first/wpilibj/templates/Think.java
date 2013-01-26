@@ -51,6 +51,7 @@ public class Think {
     public static double tolUpper = 8;
     public static double tolLower = -8;
     public static CameraData image;
+    public static int iLoadState;
 
     public static void initKicker() {
         dKickerOnPower = 1;
@@ -59,7 +60,7 @@ public class Think {
     }
     
     public static double[] loadAdjust(double right, double left){
-        double distance = Input.image.lowLeftDistance;
+        double distance = image.lowLeftDistance;
         double retVal[] = new double[2];
         currentPositionNew = currentPosition;
         switch(iLoadState){

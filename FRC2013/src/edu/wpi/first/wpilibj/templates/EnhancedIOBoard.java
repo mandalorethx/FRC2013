@@ -14,7 +14,7 @@ public class EnhancedIOBoard {
     
     public static DriverStationEnhancedIO EIO;
     public static void initDriverStationEnhancedIO(){
-       EIO = DriverStation
+       //EIO = DriverStation
     }
     
 }
