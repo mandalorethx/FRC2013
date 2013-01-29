@@ -28,7 +28,11 @@ public class FRC2013 extends IterativeRobot {
     public static final int k_AUTON_FIRE = 2;
     public static final int k_AUTON_MOVING = 3;
     public static final int k_AUTON_DONE = 4;
+    public static final int k_AIM_LEFT = 0;
+    public static final int k_AIM_RIGHT = 1;
+    public static final int k_AIM_TOP = 2;
     public static int iAutonState;
+    public static int iAimState;
     public static double dRightX;
     public static double dLeftX;
     public static double dRightY;
@@ -41,18 +45,25 @@ public class FRC2013 extends IterativeRobot {
     public static boolean dPrevTarget;
     public static boolean dCamLightOn;
     public static boolean dCamLightOff;
+    public static boolean bLastState;
+    public static double timeWait;
     
     public void robotInit() {
 
         Input.initJoystick();
         Input.initGyro();
         Output.initMotors();
-        //Output.cameraLightOn();
+        Output.initModule();
+        Output.initScreen();
         Input.initVision(true);
         FRCTimer.initTimer();
     }
 
-    public static void autonInit(){
+    public void disableInit(){
+        bLastState = false;
+        timeWait = 0.0;
+    }
+    public void autonInit(){
         iAutonState = k_AUTON_DELAY;
         dRightX = 0;
         dLeftX = 0;
@@ -72,13 +83,39 @@ public class FRC2013 extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+        double[] temp;
         switch(iAutonState){
             case k_AUTON_DELAY:
-                if(FRCTimer.DelayDone(5.0)){
+                if(FRCTimer.DelayDone(timeWait)){
                     iAutonState++;
                 }
                 break;
             case k_AUTON_AIMING:
+                switch(iAimState){
+                    case k_AIM_LEFT:
+                        Think.currentTarget = 1;
+                        temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                        break;
+                    case k_AIM_RIGHT:
+                        Think.currentTarget = 2;
+                        temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                        break;
+                    case k_AIM_TOP:
+                        Think.currentTarget = 0;
+                        temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                        break;
+                    default:
+                        Think.currentTarget = 0;
+                        temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                        break;
+                }
+                Think.newJoystickLeft = temp[0];
+                Think.newJoystickRight = temp[1];
+                if(temp [0] >= -0.1 && temp [0] <= 0.1 ){
+                    Think.newJoystickLeft = 0;
+                    Think.newJoystickRight = 0;
+                    iAutonState++;
+                }
                 break;
             case k_AUTON_FIRE:
                 break;
@@ -107,4 +144,37 @@ public class FRC2013 extends IterativeRobot {
     
     }
     
+    public void disablePeriodic(){
+        double[] temp = new double[2];
+        if(Input.coDriverStick.isPressed(6) && !bLastState){
+            timeWait ++;
+            bLastState = true;   
+        }
+        else if(!Input.coDriverStick.isPressed(6)){
+            bLastState = false;
+        }
+        if(Input.coDriverStick.isPressed(7) && !bLastState){
+            timeWait --;
+            bLastState = true;
+        }
+        else if(!Input.coDriverStick.isPressed(7)){
+            bLastState = false;
+        }
+        if(timeWait > 5.0){
+            timeWait = 5.0;
+        }
+        if(timeWait < 0.0){
+            timeWait = 0.0;
+        }
+        if(Input.coDriverStick.isPressed(4)){
+            iAimState = 0;
+        }
+        if(Input.coDriverStick.isPressed(5)){
+            iAimState = 1;
+        }
+        if(Input.coDriverStick.isPressed(3)){
+            iAimState = 2;
+        }
+        
+    }
 }
