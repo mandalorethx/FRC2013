@@ -89,14 +89,22 @@ public class FRC2013 extends IterativeRobot {
     public void autonomousPeriodic() {
         double[] temp;
         switch(iAutonState){
+            
+            /**
+             * Delays the start of robot's autonomous sequence if necessary
+             */
             case k_AUTON_DELAY:
                 if(FRCTimer.DelayDone(dTimeWait)){
                     iAutonState++;
                 }
                 break;
+                
+            /**
+             * Finds all targets to shoot for
+             */    
             case k_AUTON_AIMING:
                 Input.bAim = true;
-                switch(iAimState){
+                switch(iAimState){                    
                     case k_AIM_LEFT:
                         Think.currentTarget = 1;
                         //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
@@ -122,6 +130,10 @@ public class FRC2013 extends IterativeRobot {
                     iAutonState++;
                 }
                 break;
+                
+            /**
+             * Shooter waits 1 second and then fires
+             */
             case k_AUTON_FIRE:
                 if(iNumDiscs > 0 && FRCTimer.DelayDone(1)){
                     Input.bTriggerDown = true;
@@ -131,6 +143,11 @@ public class FRC2013 extends IterativeRobot {
                     iAutonState = k_AUTON_DONE;
                 }
                 break;
+                
+            /**
+             * Waits to make sure disc is fired, checks for number of discs
+             * left and acts accordingly
+             */
             case k_AUTON_WAIT:
                 if(FRCTimer.DelayDone(1)){
                     Input.bTriggerDown = false;
@@ -143,9 +160,17 @@ public class FRC2013 extends IterativeRobot {
                     }
                 }
                 break;
+                
+            /**
+             * Moves after shooting (if game strategy calls for it)
+             */
             case k_AUTON_MOVING:
                 iAutonState++;
                 break;
+                
+            /**
+             * Stops aiming and finishes autonomous sequence
+             */
             case k_AUTON_DONE:
                 Input.bAim = false;
                 break;
