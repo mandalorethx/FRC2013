@@ -7,7 +7,7 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- *
+ *Timer for the robot
  * @author First1
  */
 public class FRCTimer {
@@ -19,6 +19,13 @@ public class FRCTimer {
         clock= new Timer();
         
     }
+    /**
+     * DelayDone.
+     * checks if a certain delay is done as defined by argument 
+     * if the timer has not started the method will start the time, it will stop when time has elapsed 
+     * @param length
+     * @return true if time has passed false if otherwise
+     */
     public static boolean DelayDone(double length){
         if (bHasStarted == true){
            if (getSeconds() >= length) { 

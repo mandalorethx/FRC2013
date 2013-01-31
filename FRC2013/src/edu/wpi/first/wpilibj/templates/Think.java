@@ -71,13 +71,23 @@ public class Think {
     public static double dSlowSpeedLeft = .75;
     public static double dSlowSpeedRight = .75;
 
-    
+    /**
+     * initKicker
+     * initializes the kicker 
+     */
     public static void initKicker() {
         dKickerOnPower = 1;
         iKickerState = k_KICKER_INIT;
         bKickerDone = false;
     }
-    
+    /**
+     * loadAdjust.
+     * adjust position to get to loading zone
+     * @param right
+     * @param left
+     * @return adjusted motor values
+     * 
+     */
     public static double[] loadAdjust(double right, double left){
         double distance = image.lowLeftDistance;
         double retVal[] = new double[2];
