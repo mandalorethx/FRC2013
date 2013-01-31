@@ -197,8 +197,16 @@ public class FRC2013 extends IterativeRobot {
     
     }
     
+    /**
+     * Is run periodically during the disable period
+     * Sets boolean values when certain buttons are "pressed" in autonomous
+     */
     public void disablePeriodic(){
         double[] temp = new double[2];
+        
+        /**
+         * Makes sure only 1 second is added to dTimeWait with each button push
+         */
         if(Input.coDriverStick.isPressed(6) && !bLastState){
             dTimeWait ++;
             bLastState = true;   
@@ -206,6 +214,11 @@ public class FRC2013 extends IterativeRobot {
         else if(!Input.coDriverStick.isPressed(6)){
             bLastState = false;
         }
+        
+        /**
+         * Makes sure only 1 second is subtracted from dTimeWait with each
+         * button push
+         */
         if(Input.coDriverStick.isPressed(7) && !bLastState){
             dTimeWait --;
             bLastState = true;
@@ -213,24 +226,54 @@ public class FRC2013 extends IterativeRobot {
         else if(!Input.coDriverStick.isPressed(7)){
             bLastState = false;
         }
+        
+        /**
+         * Makes sure delay time does not exceed 5 seconds
+         */
         if(dTimeWait > 5.0){
             dTimeWait = 5.0;
         }
+        
+        /**
+         * Makes sure delay time does not become negative
+         */
         if(dTimeWait < 0.0){
             dTimeWait = 0.0;
         }
+        
+        /**
+         * Aims at left target when button 4 is pressed
+         */
         if(Input.coDriverStick.isPressed(4)){
             iAimState = 0;
         }
+        
+        /**
+         * Aims at right target when button 5 is pressed
+         */
         if(Input.coDriverStick.isPressed(5)){
             iAimState = 1;
         }
+        
+        /**
+         * Aims at top target when button 3 is pressed
+         */
         if(Input.coDriverStick.isPressed(3)){
             iAimState = 2;
         }
+        
+        /**
+         * Sets number of discs loaded to 2 depending on robot's start position 
+         * when button 8 is pressed
+         */
         if(Input.coDriverStick.isPressed(8)){
             iNumDiscs = 2;
         }
+        
+        /**
+         * Sets number of discs loaded to 3 depending on robot's start position
+         * when button 9 is pressed
+         */
         if(Input.coDriverStick.isPressed(9)){
             iNumDiscs = 3;
         }
