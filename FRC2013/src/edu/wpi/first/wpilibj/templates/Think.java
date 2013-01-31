@@ -57,6 +57,20 @@ public class Think {
     public static CameraData image;
     public static int iLoadState;
     public static boolean bDoLoad;
+    public static double dUpperDistanceLimit = 1.1;
+    public static double dLowerDistanceLimit = 0.9;
+    public static double dLoadForwardPower = 0.9;
+    public static double dLoadReversePower = -0.9;
+    public static double dUpperAngleLimit = 1.1;
+    public static double dLowerAngleLimit = 0.9;
+    public static double dStopPower = 0;
+    public static double dUpperPowerStopLimit = 0.1;
+    public static double dLowerPowerStopLimit = -0.1;
+    public static double dMaxMotorValLeft = 0.9;
+    public static double dMaxMotorValRight = 0.9;
+    public static double dSlowSpeedLeft = .75;
+    public static double dSlowSpeedRight = .75;
+
     
     public static void initKicker() {
         dKickerOnPower = 1;
@@ -72,47 +86,47 @@ public class Think {
             case k_LOAD_LINE:
                 currentPosition = lowLeftCMX;
                 retVal = aimAdjust(right, left);
-                if(retVal [0] >= -0.1 && retVal [0] <= 0.1 ){
+                if(retVal [0] >= dLowerPowerStopLimit && retVal [0] <= dUpperPowerStopLimit ){
                     iLoadState++;  
                 }
                 break;
             case k_LOAD_ADJUSTD:
-                if(distance >= 0.9*k_LOAD_DISTANCE && distance <= 1.1*k_LOAD_DISTANCE){
-                    retVal[0] = 0;
-                    retVal[1] = 0;
+                if(distance >= dLowerDistanceLimit*k_LOAD_DISTANCE && distance <= dUpperDistanceLimit*k_LOAD_DISTANCE){
+                    retVal[0] = dStopPower;
+                    retVal[1] = dStopPower;
                     iLoadState++;
                 }
-                else if(distance > 1.1*k_LOAD_DISTANCE){
-                    retVal[0] = 0.9;
-                    retVal[1] = 0.9;
+                else if(distance > dUpperDistanceLimit*k_LOAD_DISTANCE){
+                    retVal[0] = dLoadForwardPower;
+                    retVal[1] = dLoadForwardPower;
                   
                 }
-                else if (distance < 0.9*k_LOAD_DISTANCE) {
-                    retVal[0] = -0.9;
-                    retVal [1] = -0.9;
+                else if (distance < dLowerDistanceLimit*k_LOAD_DISTANCE) {
+                    retVal[0] = dLoadReversePower;
+                    retVal [1] = dLoadReversePower;
                     
                 }
                     
                 break;
             case k_LOAD_TURN:
                 double curAngle = Input.getGyro();
-                if(curAngle >= 0.9*k_LOAD_ANGLE && curAngle <= 1.1*k_LOAD_ANGLE){
-                    retVal[0] = 0;
-                    retVal[1] = 0; 
+                if(curAngle >= dLowerDistanceLimit*k_LOAD_ANGLE && curAngle <= dUpperDistanceLimit*k_LOAD_ANGLE){
+                    retVal[0] = dStopPower;
+                    retVal[1] = dStopPower; 
                     iLoadState++;        
                 }
-                else if(curAngle > 1.1*k_LOAD_ANGLE){
-                    retVal[0] = -0.9;
-                    retVal[1] = 0.9;
+                else if(curAngle > dUpperAngleLimit*k_LOAD_ANGLE){
+                    retVal[0] = dLoadReversePower;
+                    retVal[1] = dLoadForwardPower;
                 }
-                else if(curAngle < 0.9* k_LOAD_ANGLE){
-                    retVal[0] = 0.9;
-                    retVal[1] = -0.9;
+                else if(curAngle < dLowerAngleLimit* k_LOAD_ANGLE){
+                    retVal[0] = dLoadForwardPower;
+                    retVal[1] = dLoadReversePower;
                 }
                 break;
             case k_LOAD_MOVE:
-                retVal[0] = -0.9;
-                retVal[1] = -0.9;
+                retVal[0] = dLoadReversePower;
+                retVal[1] = dLoadReversePower;
                         
                 break;
             default:
@@ -186,8 +200,8 @@ public class Think {
         retVal[0] *= (-1);
         retVal[1] *= (-1);
 
-        retVal[0] *= (0.9);
-        retVal[1] *= (0.9);
+        retVal[0] *= (dMaxMotorValLeft);
+        retVal[1] *= (dMaxMotorValRight);
 
         //out.screenWrite("LEFT: " + retVal[0] + " RIGHT: " + retVal[1]);
 
@@ -265,8 +279,8 @@ public class Think {
          * Sets the value for the robot's slow speed
          */
         if (Input.bSlowSpeedRight || Input.bSlowSpeedLeft) {
-            newJoystickLeft *= .75;
-            newJoystickRight *= .75;
+            newJoystickLeft *= dSlowSpeedLeft;
+            newJoystickRight *= dSlowSpeedRight;
         }
 
         /**

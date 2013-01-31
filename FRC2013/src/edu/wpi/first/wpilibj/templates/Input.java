@@ -56,6 +56,9 @@ public class Input {
     public static double rightX;
     public static double leftY;
     public static double rightY;
+    public static int iDriverPortRight = 1;
+    public static int iDriverPortLeft = 2;
+    public static int iDriverPortCo = 3;
     public static Gyro gyro; // The Gyro
     //public static CameraData image;
     public static DigitalInput kickerSwitch;
@@ -99,9 +102,9 @@ public class Input {
      * initJoystick. Creates the two joysticks.
      */
     public static void initJoystick() {
-        rightDriverStick = new EastridgeJoystick(1);
-        leftDriverStick = new EastridgeJoystick(2);
-        coDriverStick = new EastridgeJoystick(3);
+        rightDriverStick = new EastridgeJoystick(iDriverPortRight);
+        leftDriverStick = new EastridgeJoystick(iDriverPortLeft);
+        coDriverStick = new EastridgeJoystick(iDriverPortCo);
     }
 
     /**

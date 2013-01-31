@@ -19,6 +19,16 @@ public class Output {
     public static Victor climbMotor1;
     public static Victor climbMotor2;
     public static Victor kickerMotor;
+    public static double dClimbPower = 1.0;
+    public static int iRightDriveMotorSlot = 6;
+    public static int iLeftDriveMotorSlot = 5;
+    public static int iShooterMotorSlot = 3;
+    public static int iClimbMotor1Slot = 2;
+    public static int iClimbMotor2Slot = 1;
+    public static int iKickerMotorSlot = 2;
+    public static int iDropSlot1 = 1;
+    public static int iDropSlot2 = 2;
+    public static int iDropSlot3 = 3;
     
     public static DigitalModule digimod;
     
@@ -52,16 +62,16 @@ public class Output {
     * Opening up to drop discs in goal
     */
     public static void drop () {
-        digimod.setRelayForward(1, true);
-        digimod.setRelayForward(2, true);
+        digimod.setRelayForward(iDropSlot1, true);
+        digimod.setRelayForward(iDropSlot2, true);
     }
     
     /**
      * Closes claw
      */
     public static void close () {
-        digimod.setRelayForward(1, false);
-        digimod.setRelayForward(2, false);
+        digimod.setRelayForward(iDropSlot1, false);
+        digimod.setRelayForward(iDropSlot2, false);
         
     }
     /**
@@ -77,19 +87,19 @@ public class Output {
      * Lifts robot above rung
      */
     public static void ascend () {
-        digimod.setRelayForward(3, true);
+        digimod.setRelayForward(iDropSlot3, true);
     }
     
     /**
      * Creates new motor objects
      */
     public static void initMotors(){
-        rightDriveMotor= new Victor(1);
-        leftDriveMotor= new Victor(2);
-        shooterMotor= new Victor(3);
-        climbMotor1 = new Victor (4);
-        climbMotor2 = new Victor (5);
-        kickerMotor = new Victor (6);
+        rightDriveMotor= new Victor(iRightDriveMotorSlot);
+        leftDriveMotor= new Victor(iLeftDriveMotorSlot);
+        shooterMotor= new Victor(iShooterMotorSlot);
+        climbMotor1 = new Victor (iClimbMotor1Slot);
+        climbMotor2 = new Victor (iClimbMotor2Slot);
+        kickerMotor = new Victor (iKickerMotorSlot);
     }
     
     /**
@@ -112,7 +122,7 @@ public class Output {
     public static void sendOutput(){
         setPower(Think.newJoystickLeft, Think.newJoystickRight, Think.dShooterPower);
         if (Think.bClimb1) {
-            climb (1.0);            
+            climb (dClimbPower);            
         }
         if (Think.bClimb2) {
             ascend ();
