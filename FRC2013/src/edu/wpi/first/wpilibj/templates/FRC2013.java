@@ -26,13 +26,15 @@ public class FRC2013 extends IterativeRobot {
     public static final int k_AUTON_DELAY = 0;
     public static final int k_AUTON_AIMING = 1;
     public static final int k_AUTON_FIRE = 2;
-    public static final int k_AUTON_MOVING = 3;
-    public static final int k_AUTON_DONE = 4;
+    public static final int k_AUTON_WAIT = 3;
+    public static final int k_AUTON_MOVING = 4;
+    public static final int k_AUTON_DONE = 5;
     public static final int k_AIM_LEFT = 0;
     public static final int k_AIM_RIGHT = 1;
     public static final int k_AIM_TOP = 2;
     public static int iAutonState;
     public static int iAimState;
+    public static int iNumDiscs;
     public static double dRightX;
     public static double dLeftX;
     public static double dRightY;
@@ -118,8 +120,25 @@ public class FRC2013 extends IterativeRobot {
                 }
                 break;
             case k_AUTON_FIRE:
+                if(FRCTimer.DelayDone(1)){
+                    Input.bTriggerDown = true;
+                    iAutonState++;
+                }  
+                break;
+            case k_AUTON_WAIT:
+                if(FRCTimer.DelayDone(1)){
+                    Input.bTriggerDown = false;
+                    if(iNumDiscs > 0){
+                        iAutonState--;
+                        iNumDiscs--;
+                    }
+                    else{
+                        iAutonState++;
+                    }
+                }
                 break;
             case k_AUTON_MOVING:
+                iAutonState++;
                 break;
             case k_AUTON_DONE:
                 break;
@@ -174,6 +193,12 @@ public class FRC2013 extends IterativeRobot {
         }
         if(Input.coDriverStick.isPressed(3)){
             iAimState = 2;
+        }
+        if(Input.coDriverStick.isPressed(8)){
+            iNumDiscs = 2;
+        }
+        if(Input.coDriverStick.isPressed(9)){
+            iNumDiscs = 3;
         }
         
     }
