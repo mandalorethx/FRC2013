@@ -89,14 +89,22 @@ public class FRC2013 extends IterativeRobot {
     public void autonomousPeriodic() {
         double[] temp;
         switch(iAutonState){
+            
+            /**
+             * Delays the start of robot's autonomous sequence if necessary
+             */
             case k_AUTON_DELAY:
                 if(FRCTimer.DelayDone(dTimeWait)){
                     iAutonState++;
                 }
                 break;
+                
+            /**
+             * Finds all targets to shoot for
+             */    
             case k_AUTON_AIMING:
                 Input.bAim = true;
-                switch(iAimState){
+                switch(iAimState){                    
                     case k_AIM_LEFT:
                         Think.currentTarget = 1;
                         //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
@@ -122,6 +130,10 @@ public class FRC2013 extends IterativeRobot {
                     iAutonState++;
                 }
                 break;
+                
+            /**
+             * Shooter waits 1 second and then fires
+             */
             case k_AUTON_FIRE:
                 if(iNumDiscs > 0 && FRCTimer.DelayDone(1)){
                     Input.bTriggerDown = true;
@@ -131,6 +143,11 @@ public class FRC2013 extends IterativeRobot {
                     iAutonState = k_AUTON_DONE;
                 }
                 break;
+                
+            /**
+             * Waits to make sure disc is fired, checks for number of discs
+             * left and acts accordingly
+             */
             case k_AUTON_WAIT:
                 if(FRCTimer.DelayDone(1)){
                     Input.bTriggerDown = false;
@@ -143,9 +160,17 @@ public class FRC2013 extends IterativeRobot {
                     }
                 }
                 break;
+                
+            /**
+             * Moves after shooting (if game strategy calls for it)
+             */
             case k_AUTON_MOVING:
                 iAutonState++;
                 break;
+                
+            /**
+             * Stops aiming and finishes autonomous sequence
+             */
             case k_AUTON_DONE:
                 Input.bAim = false;
                 break;
@@ -172,8 +197,16 @@ public class FRC2013 extends IterativeRobot {
     
     }
     
+    /**
+     * Is run periodically during the disable period
+     * Sets boolean values when certain buttons are "pressed" in autonomous
+     */
     public void disablePeriodic(){
         double[] temp = new double[2];
+        
+        /**
+         * Makes sure only 1 second is added to dTimeWait with each button push
+         */
         if(Input.coDriverStick.isPressed(6) && !bLastState){
             dTimeWait ++;
             bLastState = true;   
@@ -181,6 +214,11 @@ public class FRC2013 extends IterativeRobot {
         else if(!Input.coDriverStick.isPressed(6)){
             bLastState = false;
         }
+        
+        /**
+         * Makes sure only 1 second is subtracted from dTimeWait with each
+         * button push
+         */
         if(Input.coDriverStick.isPressed(7) && !bLastState){
             dTimeWait --;
             bLastState = true;
@@ -188,24 +226,54 @@ public class FRC2013 extends IterativeRobot {
         else if(!Input.coDriverStick.isPressed(7)){
             bLastState = false;
         }
+        
+        /**
+         * Makes sure delay time does not exceed 5 seconds
+         */
         if(dTimeWait > 5.0){
             dTimeWait = 5.0;
         }
+        
+        /**
+         * Makes sure delay time does not become negative
+         */
         if(dTimeWait < 0.0){
             dTimeWait = 0.0;
         }
+        
+        /**
+         * Aims at left target when button 4 is pressed
+         */
         if(Input.coDriverStick.isPressed(4)){
             iAimState = 0;
         }
+        
+        /**
+         * Aims at right target when button 5 is pressed
+         */
         if(Input.coDriverStick.isPressed(5)){
             iAimState = 1;
         }
+        
+        /**
+         * Aims at top target when button 3 is pressed
+         */
         if(Input.coDriverStick.isPressed(3)){
             iAimState = 2;
         }
+        
+        /**
+         * Sets number of discs loaded to 2 depending on robot's start position 
+         * when button 8 is pressed
+         */
         if(Input.coDriverStick.isPressed(8)){
             iNumDiscs = 2;
         }
+        
+        /**
+         * Sets number of discs loaded to 3 depending on robot's start position
+         * when button 9 is pressed
+         */
         if(Input.coDriverStick.isPressed(9)){
             iNumDiscs = 3;
         }
