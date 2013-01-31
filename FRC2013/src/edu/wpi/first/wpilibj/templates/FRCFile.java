@@ -138,7 +138,7 @@ public class FRCFile {
                         
                     // Add new cases for new variables
                     default:
-                        System.out.println("unknown line number");
+                        System.out.println("unknown line number " + lineNumber);
                         break;
                 }
             }
