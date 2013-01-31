@@ -35,8 +35,23 @@ public class FRCFile {
     public static double dMaxMotorValRight = 0.9;
     public static double dSlowSpeedLeft = .75;
     public static double dSlowSpeedRight = .75;
+    public static int iRightDriveMotorSlot = 6;
+    public static int iLeftDriveMotorSlot = 5;
+    public static int iShooterMotorSlot = 3;
+    public static int iClimbMotor1Slot = 2;
+    public static int iClimbMotor2Slot = 1;
+    public static int iKickerMotorSlot = 2;
+    public static int iDropSlot1 = 1;
+    public static int iDropSlot2 = 2;
+    public static int iDropSlot3 = 3;
+    public static double dClimbPower = 1.0;
+    public static int iDriverPortRight = 1;
+    public static int iDriverPortLeft = 2;
+    public static int iDriverPortCo = 3;
     public static double dAutonPowerLimitUpper = 0.1;
     public static double dAutonPowerLimitLower = -0.1;
+    
+    
     /**
      * Opens file
      *
@@ -138,13 +153,70 @@ public class FRCFile {
                         ++lineNumber;
                         break;
                     case 14:
-                        dAutonPowerLimitUpper = inFile.readDouble();
+                        iRightDriveMotorSlot = inFile.readInt();
                         ++lineNumber;
                         break;
                     case 15:
+                        iLeftDriveMotorSlot = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 16:
+                        iShooterMotorSlot = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 17: 
+                        iClimbMotor1Slot = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 18:
+                        iClimbMotor2Slot = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 19:
+                        iKickerMotorSlot = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 20:
+                        iDropSlot1 = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 21:
+                        iDropSlot2 = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 22:
+                        iDropSlot3 = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 23:
+                        iDropSlot3 = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 24:
+                        dClimbPower = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 25:
+                        iDriverPortRight = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 26:
+                        iDriverPortLeft = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 27:
+                        iDriverPortCo = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                    case 28:
+                        dAutonPowerLimitUpper = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 29:
                         dAutonPowerLimitLower = inFile.readDouble();
                         ++lineNumber;
                         break;
+                        
                         
                     // Add new cases for new variables
                     default:

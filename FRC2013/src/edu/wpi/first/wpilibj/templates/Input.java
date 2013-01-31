@@ -56,7 +56,7 @@ public class Input {
     public static double rightX;
     public static double leftY;
     public static double rightY;
-    public static int iDriverPortRight = 1;
+    public static int iDriverPortRight = FRCFile.iDriverPortRight;
     public static int iDriverPortLeft = 2;
     public static int iDriverPortCo = 3;
     public static Gyro gyro; // The Gyro
