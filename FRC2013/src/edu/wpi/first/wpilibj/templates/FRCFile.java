@@ -35,6 +35,8 @@ public class FRCFile {
     public static double dMaxMotorValRight = 0.9;
     public static double dSlowSpeedLeft = .75;
     public static double dSlowSpeedRight = .75;
+    public static double dAutonPowerLimitUpper = 0.1;
+    public static double dAutonPowerLimitLower = -0.1;
     /**
      * Opens file
      *
@@ -133,6 +135,14 @@ public class FRCFile {
                         break;
                     case 13:
                         dSlowSpeedRight = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 14:
+                        dAutonPowerLimitUpper = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 15:
+                        dAutonPowerLimitLower = inFile.readDouble();
                         ++lineNumber;
                         break;
                         

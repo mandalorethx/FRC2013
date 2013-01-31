@@ -48,7 +48,9 @@ public class FRC2013 extends IterativeRobot {
     public static boolean dCamLightOn;
     public static boolean dCamLightOff;
     public static boolean bLastState;
-    public static double timeWait;
+    public static double dTimeWait;
+    public static double dAutonPowerLimitLower = -0.1;
+    public static double dAutonPowerLimitUpper = 0.1;
     
     public void robotInit() {
 
@@ -63,7 +65,7 @@ public class FRC2013 extends IterativeRobot {
 
     public void disableInit(){
         bLastState = false;
-        timeWait = 0.0;
+        dTimeWait = 0.0;
     }
     public void autonInit(){
         iAutonState = k_AUTON_DELAY;
@@ -88,7 +90,7 @@ public class FRC2013 extends IterativeRobot {
         double[] temp;
         switch(iAutonState){
             case k_AUTON_DELAY:
-                if(FRCTimer.DelayDone(timeWait)){
+                if(FRCTimer.DelayDone(dTimeWait)){
                     iAutonState++;
                 }
                 break;
@@ -114,7 +116,7 @@ public class FRC2013 extends IterativeRobot {
                 }
                 //Think.newJoystickLeft = temp[0];
                 //Think.newJoystickRight = temp[1];
-                if(Output.rightDriveMotor.get() >= -0.1 && Output.rightDriveMotor.get() <= 0.1 ){
+                if(Output.rightDriveMotor.get() >= dAutonPowerLimitLower && Output.rightDriveMotor.get() <= dAutonPowerLimitUpper ){
                     //Think.newJoystickLeft = 0;
                     //Think.newJoystickRight = 0;
                     iAutonState++;
@@ -173,24 +175,24 @@ public class FRC2013 extends IterativeRobot {
     public void disablePeriodic(){
         double[] temp = new double[2];
         if(Input.coDriverStick.isPressed(6) && !bLastState){
-            timeWait ++;
+            dTimeWait ++;
             bLastState = true;   
         }
         else if(!Input.coDriverStick.isPressed(6)){
             bLastState = false;
         }
         if(Input.coDriverStick.isPressed(7) && !bLastState){
-            timeWait --;
+            dTimeWait --;
             bLastState = true;
         }
         else if(!Input.coDriverStick.isPressed(7)){
             bLastState = false;
         }
-        if(timeWait > 5.0){
-            timeWait = 5.0;
+        if(dTimeWait > 5.0){
+            dTimeWait = 5.0;
         }
-        if(timeWait < 0.0){
-            timeWait = 0.0;
+        if(dTimeWait < 0.0){
+            dTimeWait = 0.0;
         }
         if(Input.coDriverStick.isPressed(4)){
             iAimState = 0;
