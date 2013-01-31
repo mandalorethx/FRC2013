@@ -337,9 +337,9 @@ public class Think {
                         Output.display.screenWrite("Low Right Target not seen.", 4);
                     }
 
-                    //temp = aimAdjust(newJoystickLeft, newJoystickRight);
-                    //newJoystickLeft = temp[0];
-                    //newJoystickRight = temp[1];
+                    temp = aimAdjust(newJoystickLeft, newJoystickRight);
+                    newJoystickLeft = temp[0];
+                    newJoystickRight = temp[1];
                     image = null;
                 }
             } catch (AxisCameraException ex) {

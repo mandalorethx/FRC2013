@@ -93,43 +93,47 @@ public class FRC2013 extends IterativeRobot {
                 }
                 break;
             case k_AUTON_AIMING:
+                Input.bAim = true;
                 switch(iAimState){
                     case k_AIM_LEFT:
                         Think.currentTarget = 1;
-                        temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                        //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                         break;
                     case k_AIM_RIGHT:
                         Think.currentTarget = 2;
-                        temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                        //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                         break;
                     case k_AIM_TOP:
                         Think.currentTarget = 0;
-                        temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                        //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                         break;
                     default:
                         Think.currentTarget = 0;
-                        temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                        //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                         break;
                 }
-                Think.newJoystickLeft = temp[0];
-                Think.newJoystickRight = temp[1];
-                if(temp [0] >= -0.1 && temp [0] <= 0.1 ){
-                    Think.newJoystickLeft = 0;
-                    Think.newJoystickRight = 0;
+                //Think.newJoystickLeft = temp[0];
+                //Think.newJoystickRight = temp[1];
+                if(Output.rightDriveMotor.get() >= -0.1 && Output.rightDriveMotor.get() <= 0.1 ){
+                    //Think.newJoystickLeft = 0;
+                    //Think.newJoystickRight = 0;
                     iAutonState++;
                 }
                 break;
             case k_AUTON_FIRE:
-                if(FRCTimer.DelayDone(1)){
+                if(iNumDiscs > 0 && FRCTimer.DelayDone(1)){
                     Input.bTriggerDown = true;
                     iAutonState++;
-                }  
+                }
+                else{
+                    iAutonState = k_AUTON_DONE;
+                }
                 break;
             case k_AUTON_WAIT:
                 if(FRCTimer.DelayDone(1)){
                     Input.bTriggerDown = false;
                     if(iNumDiscs > 0){
-                        iAutonState--;
+                        iAutonState -= 2;
                         iNumDiscs--;
                     }
                     else{
@@ -141,10 +145,13 @@ public class FRC2013 extends IterativeRobot {
                 iAutonState++;
                 break;
             case k_AUTON_DONE:
+                Input.bAim = false;
                 break;
             default:
                 break;
         }
+        Think.robotThink();
+        Output.sendOutput();
     }
 
     /**
