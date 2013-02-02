@@ -19,16 +19,16 @@ public class Think {
     private static final int k_LOAD_ADJUSTD = 1;
     private static final int k_LOAD_TURN = 2;
     private static final int k_LOAD_MOVE = 3;
-    private static final int k_CLIMB_LATCH = 0;
-    private static final int k_CLIMB_PULLUP = 1;
-    private static final int k_CLIMB_EXTEND = 2;
+    private static final int k_CLIMB_DROPHOOK = 0;
+    private static final int k_CLIMB_LATCHED = 1;
+    private static final int k_CLIMB_PULLUP = 2;
+    private static final int k_CLIMB_EXTEND = 3;
     public static final double k_LOAD_ANGLE = 30;
     public static final double k_LOAD_DISTANCE = 135.29;
     public static double newJoystickLeft;
     public static double newJoystickRight;
     public static boolean bShooterOn;
     public static double dShooterPower;
-    public static boolean bHook;
     public static boolean bClimb;
     public static boolean done;
     public static CameraData cData;
@@ -381,15 +381,15 @@ public class Think {
         }
         
         switch (iClimbState){
-            case -1:
-                if(bHook == true) {
+            case k_CLIMB_DROPHOOK:
+                if(iHookState == 1) {
                     iClimbState ++;
                 }
                 break;
-            case k_CLIMB_LATCH:
+            case k_CLIMB_LATCHED:
                 dHookMotorPower = dFwdHookMotorPower;
                 dClimbMotorPower = 0;
-                if(bHook == false){
+                if(iHookState == 0){
                     dHookMotorPower = 0;
                     if(bClimb == true){
                         iClimbState ++;
@@ -401,14 +401,17 @@ public class Think {
                 dHookMotorPower = 0;
                 dClimbMotorPower = dMaxClimbMotorPower;
                 if(bClimb == false){
-                    iClimbState ++;
-                    
-                }
-                    
- 
+                    iClimbState ++;                    
+                }                    
                 break;
             case k_CLIMB_EXTEND:
+                dHookMotorPower = dReverseHookMotorPower;
+                dClimbMotorPower = -1 * dMaxClimbMotorPower;
+                if(bClimb = false){
+                    iClimbState ++;
+                }                    
                 break;
+                
             default:
                 break;
         }
