@@ -70,6 +70,12 @@ public class Think {
     public static double dMaxMotorValRight = 0.9;
     public static double dSlowSpeedLeft = .75;
     public static double dSlowSpeedRight = .75;
+    public static boolean bgoStraight = false;
+    public static double dprevGyro;
+    public static double leftAdjust = 0;
+    public static double rightAdjust = 0;
+    public static double adjustPower = .01;
+    public static double angleVary = 5.0;
 
     /**
      * initKicker
@@ -206,13 +212,52 @@ public class Think {
         } else {
             retVal[1] = (-1) * (rawRight * rawRight);
         }
-
+        
+        
+        /* Check to see if going straight.
+         * If the right and left y values are less than -.25 and the input has a
+         * difference less than .1 and bgostraight is true, the if statement
+         * initiates.
+         * J.F.
+         */
+        if ((Input.rightY < -.25 && Input.leftY < -.25) && 
+                Math.abs(Input.rightY-Input.leftY) < 0.1 && bgoStraight == false){
+            bgoStraight = true;
+            dprevGyro = Input.getGyro();
+        }
+        
+        else {
+            bgoStraight = false;
+        }
+        
+        if (bgoStraight == true){
+            if (dprevGyro != Input.getGyro()){
+                //Checks if gyro angle is less than 0. Decrese right motor
+                //if angle <0 and decrese left motor if angle <0.
+                if (Input.getGyro() <0){
+                    if(Math.abs(dprevGyro-Input.getGyro() )> angleVary){
+                        leftAdjust += .01;
+                        rightAdjust -= .01;
+                    }
+                }
+                else{
+                    if(Math.abs(dprevGyro-Input.getGyro() )> angleVary){
+                        leftAdjust -= .01;
+                        rightAdjust += .01;
+                    }
+                }
+            }
+        }
+        
         retVal[0] *= (-1);
         retVal[1] *= (-1);
 
         retVal[0] *= (dMaxMotorValLeft);
         retVal[1] *= (dMaxMotorValRight);
-
+        
+        retVal[0] = retVal[0]+leftAdjust;
+        retVal[1] = retVal[1]+rightAdjust;
+        
         //out.screenWrite("LEFT: " + retVal[0] + " RIGHT: " + retVal[1]);
 
         return retVal;
