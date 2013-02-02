@@ -248,15 +248,15 @@ public class Think {
                     //Checks if gyro angle is less than 0. Decrese right motor
                     //if angle <0 and decrese left motor if angle <0.
                     if (Input.getGyro() <0){
-                        if(Math.abs(dprevGyro-Input.getGyro() )> angleVary){
-                            leftAdjust += .01;
-                            rightAdjust -= .01;
+                        if(Math.abs(dprevGyro-Input.getGyro() )> dAngleVary){
+                            dLeftAdjust += .01;
+                            dRightAdjust -= .01;
                         }
                     }
                     else{
-                        if(Math.abs(dprevGyro-Input.getGyro() )> angleVary){
-                            leftAdjust -= .01;
-                            rightAdjust += .01;
+                        if(Math.abs(dprevGyro-Input.getGyro() )> dAngleVary){
+                            dLeftAdjust -= .01;
+                            dRightAdjust += .01;
                         }
                     }
                 }
