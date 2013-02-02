@@ -22,6 +22,7 @@ public class FRCFile {
     
     // Define variables in config file with default values
     public static boolean runAuton = true;
+    public static boolean bEnableCamera = true;
     public static double dUpperDistanceLimit = 1.1;
     public static double dLowerDistanceLimit = 0.9;
     public static double dLoadForwardPower = 0.9;
@@ -263,6 +264,10 @@ public class FRCFile {
                         break;
                     case 39: 
                         dAngleVary = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 40:
+                        bEnableCamera = inFile.readBoolean();
                         ++lineNumber;
                         break;
                         
