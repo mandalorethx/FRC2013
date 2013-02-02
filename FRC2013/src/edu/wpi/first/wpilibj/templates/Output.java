@@ -19,6 +19,7 @@ public class Output {
     public static Victor climbMotor1;
     public static Victor climbMotor2;
     public static Victor kickerMotor;
+    public static Victor hookMotor;
     public static double dClimbPower = 1.0;
     public static int iRightDriveMotorSlot = 6;
     public static int iLeftDriveMotorSlot = 5;
@@ -26,6 +27,7 @@ public class Output {
     public static int iClimbMotor1Slot = 2;
     public static int iClimbMotor2Slot = 1;
     public static int iKickerMotorSlot = 4;
+    public static int iHookMotorSlot = 7;
     public static int iDropSlot1 = 1;
     public static int iDropSlot2 = 2;
     public static int iDropSlot3 = 3;
@@ -100,6 +102,7 @@ public class Output {
         climbMotor1 = new Victor (iClimbMotor1Slot);
         climbMotor2 = new Victor (iClimbMotor2Slot);
         kickerMotor = new Victor (iKickerMotorSlot);
+        hookMotor = new Victor (iHookMotorSlot);
     }
     
     /**
