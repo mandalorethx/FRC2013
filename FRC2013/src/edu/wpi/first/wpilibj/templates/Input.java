@@ -357,17 +357,9 @@ public class Input {
     }
     
     public static boolean getStopGyro(){
-        return rightDriverStick.isPressed(10) || leftDriverStick.isPressed(10);
+        return rightDriverStick.isPressed(7) || leftDriverStick.isPressed(7);
     }
-
-    /**
-     * getTriggerDown.
-     * Return the state of the trigger button on the right stick.
-     * @return State of the trigger
-     */
-    public static boolean getAimRight() {
-        return rightDriverStick.getTrigger();
-    }
+    
     
     /**
      * getNextTargetButton.
