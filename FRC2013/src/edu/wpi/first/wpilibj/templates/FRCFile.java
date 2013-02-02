@@ -61,6 +61,7 @@ public class FRCFile {
     public static double dRightAdjust = 0;
     public static double dAdjustPower = .01;
     public static double dAngleVary = 5.0;
+    public static boolean bGyroEnable = true;
     
     /**
      * Opens file

@@ -422,7 +422,7 @@ public class Input {
 
     /**
      * getHook.
-     * Returns the state of the left climb 1 button.
+     * Returns the joystick position on the Y axis.
      * @return State of the button.
      */
     public static double getHook() {
