@@ -56,7 +56,7 @@ public class Input {
     public static double rightX;
     public static double leftY;
     public static double rightY;
-    public static int iDriverPortRight = FRCFile.iDriverPortRight;
+    public static int iDriverPortRight = 1;
     public static int iDriverPortLeft = 2;
     public static int iDriverPortCo = 3;
     public static Gyro gyro; // The Gyro
@@ -538,7 +538,7 @@ public class Input {
      * and particle perimeter= 2x+2y
      *
      * @param image The image containing the particle to score, needed to
-     * performa additional measurements
+     * perform an additional measurements
      * @param report The Particle Analysis Report for the particle, used for the
      * width, height, and particle number
      * @param particleNumber Which particle to focus on
