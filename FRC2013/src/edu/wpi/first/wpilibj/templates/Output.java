@@ -124,10 +124,10 @@ public class Output {
      */
     public static void sendOutput(){
         setPower(Think.newJoystickLeft, Think.newJoystickRight, Think.dShooterPower);
-        if (Think.bClimb1) {
+        if (Think.bHook) {
             climb (dClimbPower);            
         }
-        if (Think.bClimb2) {
+        if (Think.bClimb) {
             ascend ();
         }
  

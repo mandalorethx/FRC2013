@@ -19,14 +19,17 @@ public class Think {
     private static final int k_LOAD_ADJUSTD = 1;
     private static final int k_LOAD_TURN = 2;
     private static final int k_LOAD_MOVE = 3;
+    private static final int k_CLIMB_LATCH = 0;
+    private static final int k_CLIMB_PULLUP = 1;
+    private static final int k_CLIMB_EXTEND = 2;
     public static final double k_LOAD_ANGLE = 30;
     public static final double k_LOAD_DISTANCE = 135.29;
     public static double newJoystickLeft;
     public static double newJoystickRight;
     public static boolean bShooterOn;
     public static double dShooterPower;
-    public static boolean bClimb1;
-    public static boolean bClimb2;
+    public static boolean bHook;
+    public static boolean bClimb;
     public static boolean done;
     public static CameraData cData;
     public static double highCMX;
@@ -55,8 +58,12 @@ public class Think {
     public static double tolUpper = 8;
     public static double tolLower = -8;
     public static CameraData image;
-    public static int iLoadState;
+    public static int iClimbState = 0;
+    public static int iLoadState = 0;
     public static boolean bDoLoad;
+    public static boolean bEotExtended;
+    public static boolean bEotRetracted;
+    public static boolean bHookVertical;
     public static double dUpperDistanceLimit = 1.1;
     public static double dLowerDistanceLimit = 0.9;
     public static double dLoadForwardPower = 0.9;
@@ -70,6 +77,12 @@ public class Think {
     public static double dMaxMotorValRight = 0.9;
     public static double dSlowSpeedLeft = .75;
     public static double dSlowSpeedRight = .75;
+    public static double dHookMotorPower = 0;
+    public static double dFwdHookMotorPower = 1;
+    public static double dReverseHookMotorPower = -1;
+    public static double dClimbMotorPower = 0;
+    public static double dMaxClimbMotorPower = 1;
+    public static int iHookState;
 
     /**
      * initKicker
@@ -265,6 +278,13 @@ public class Think {
         retVal = climbIn;
         return retVal;
     }
+    
+    public static void getClimbSensors(){
+        bEotExtended = Input.getExtendedValue();
+        bEotRetracted = Input.getRetractedValue();
+        bHookVertical = Input.getHookVerticalValue();        
+    }
+            
 
     /**
      * Sets values for the robot's functions - Responds to the inputs
@@ -277,6 +297,8 @@ public class Think {
         newJoystickLeft = temp[0];
         newJoystickRight = temp[1];
         bShooterOn = Input.bTriggerDown;
+        
+        getClimbSensors();
 
         if(Input.getLoadButtonLeft()||Input.getLoadButtonRight()){
             bDoLoad = true;
@@ -296,15 +318,54 @@ public class Think {
         /**
          * Returns the boolean value for the robot to start climbing
          */
-        if (Input.bClimb1Left || Input.bClimb1Right) {
-            bClimb1 = true;
+        if (Input.dHook <= -0.5) {
+            iHookState = 1;
+           
+        }
+        else if (Input.dHook >= 0.5){
+                iHookState = -1;
+        } else {
+            iHookState = 0;
         }
 
         /**
          * Returns the boolean value for the robot's second climb cycle
          */
-        if (Input.bClimb2Left || Input.bClimb2Right) {
-            bClimb2 = true;
+        if (Input.bClimbExtend) {
+            bClimb = true;
+        }
+        
+        switch (iClimbState){
+            case -1:
+                if(bHook == true) {
+                    iClimbState ++;
+                }
+                break;
+            case k_CLIMB_LATCH:
+                dHookMotorPower = dFwdHookMotorPower;
+                dClimbMotorPower = 0;
+                if(bHook == false){
+                    dHookMotorPower = 0;
+                    if(bClimb == true){
+                        iClimbState ++;
+                    }    
+                }
+            
+                break;
+            case k_CLIMB_PULLUP:
+                dHookMotorPower = 0;
+                dClimbMotorPower = dMaxClimbMotorPower;
+                if(bClimb == false){
+                    iClimbState ++;
+                    
+                }
+                    
+ 
+                break;
+            case k_CLIMB_EXTEND:
+                break;
+            default:
+                break;
         }
 
         if (bDoLoad == true){

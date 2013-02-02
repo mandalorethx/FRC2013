@@ -48,10 +48,9 @@ public class Input {
     public static boolean bAim;
     public static boolean bSlowSpeedRight;
     public static boolean bSlowSpeedLeft;
-    public static boolean bClimb1Left;
-    public static boolean bClimb1Right;
-    public static boolean bClimb2Left;
-    public static boolean bClimb2Right;
+    public static double dHook;
+    public static boolean bClimbExtend;
+    public static boolean bClimbRetract;
     public static double leftX;
     public static double rightX;
     public static double leftY;
@@ -411,39 +410,32 @@ public class Input {
     }
 
     /**
-     * getClimb1Left.
+     * getHook.
      * Returns the state of the left climb 1 button.
      * @return State of the button.
      */
-    public static boolean getClimb1Left() {
-        return leftDriverStick.isPressed(4);
+    public static double getHook() {
+        return coDriverStick.getY();
     }
 
-    /**
-     * getClimb1Right.
-     * Returns the state of the right climb 1 button.
-     * @return State of the button.
-     */
-    public static boolean getClimb1Right() {
-        return rightDriverStick.isPressed(4);
-    }
+    
 
     /**
-     * getClimb2Left.
+     * getClimbExtend.
      * Returns the state of the left climb 2 button.
      * @return State of the button.
      */
-    public static boolean getClimb2Left() {
-        return leftDriverStick.isPressed(5);
+    public static boolean getClimbExtend() {
+        return coDriverStick.isPressed(6) || coDriverStick.isPressed(11);
     }
 
     /**
-     * getClimb2Right.
+     * getClimbRight.
      * Returns the state of the right climb 2 button.
      * @return State of the button.
      */
-    public static boolean getClimb2Right() {
-        return rightDriverStick.isPressed(5);
+    public static boolean getClimbRetract() {
+        return coDriverStick.isPressed(7) || coDriverStick.isPressed(10);
     }
     /**
      * getLoadButtonLeft.
@@ -453,6 +445,7 @@ public class Input {
     public static boolean getLoadButtonLeft(){
         return leftDriverStick.isPressed(6);
     }
+     
     /**
      * getLoadButtonRight.
      * Returns the state of the right load button
@@ -492,10 +485,9 @@ public class Input {
         bAim = getAim();
         bSlowSpeedRight = getSlowSpeedRight();
         bSlowSpeedLeft = getSlowSpeedLeft();
-        bClimb1Left = getClimb1Left();
-        bClimb1Right = getClimb1Right();
-        bClimb2Left = getClimb2Left();
-        bClimb2Right = getClimb2Right();
+        dHook = getHook();
+        bClimbExtend = getClimbExtend();
+        bClimbRetract = getClimbRetract();
         bNextTargetButton = getNextTargetButton();
         bPrevTargetButton = getPrevTargetButton();
         
