@@ -309,15 +309,27 @@ public class Input {
     public static boolean getKickerSwitchValue(){
         return kickerSwitch.get();
     }
-    
+    /**
+     * getExtendedValue.
+     * gets value of extended climbing arm
+     * @return Returns the value of the extended arm
+     */
     public static boolean getExtendedValue(){
         return eotExtended.get();
     }
-     
+     /**
+      * getRetractedValue.
+      * gets the value of the retracted climbing arm
+      * @return Returns the value of retracted arm
+      */
     public static boolean getRetractedValue(){
         return eotRetracted.get();
     }
-     
+     /**
+      * getHookVerticalValue.
+      * gets the value of the vertical hook
+      * @return Returns the value of vertical hook
+      */
     public static boolean getHookVerticalValue(){
         return hookVertical.get();
     }
@@ -361,7 +373,11 @@ public class Input {
         //out.screenWrite("RIGHTY: " + rightDriverStick.getY());
         return rightDriverStick.getY();
     }
-    
+    /**
+     * getStopGyro.
+     * Stops the gyro
+     * @return State of the button
+     */
     public static boolean getStopGyro(){
         return rightDriverStick.isPressed(7) || leftDriverStick.isPressed(7);
     }
@@ -420,8 +436,6 @@ public class Input {
     public static double getHook() {
         return coDriverStick.getY();
     }
-
-    
 
     /**
      * getClimbExtend.

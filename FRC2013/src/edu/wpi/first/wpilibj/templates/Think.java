@@ -7,7 +7,7 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.camera.AxisCameraException;
 
 /**
- *
+ * Thinks?
  * @author first1
  */
 public class Think {
@@ -323,7 +323,10 @@ public class Think {
         retVal = climbIn;
         return retVal;
     }
-    
+    /** 
+     * getCLimbSensors
+     * reads the length of extending/retracting climbing arms to prevent over extraction
+     */
     public static void getClimbSensors(){
         bEotExtended = Input.getExtendedValue();
         bEotRetracted = Input.getRetractedValue();
