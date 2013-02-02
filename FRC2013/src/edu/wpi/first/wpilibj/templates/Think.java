@@ -422,7 +422,7 @@ public class Think {
             iLoadState = k_LOAD_LINE;
         }
         
-        if (Input.bAim) {
+        if (Input.bAim && FRCFile.bEnableCamera) {
             try {
                 image = Input.getTarget(false, true, false);
                 if(image == null){

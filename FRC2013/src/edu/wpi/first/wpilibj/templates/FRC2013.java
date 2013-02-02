@@ -58,7 +58,7 @@ public class FRC2013 extends IterativeRobot {
         Output.initMotors();
         Output.initModule();
         Output.initScreen();
-        Input.initVision(true);
+        Input.initVision(FRCFile.bEnableCamera);
         FRCTimer.initTimer();
         FRCFile.initConfig();
         

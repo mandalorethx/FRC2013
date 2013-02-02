@@ -22,6 +22,7 @@ public class FRCFile {
     
     // Define variables in config file with default values
     public static boolean runAuton = true;
+    public static boolean bEnableCamera = true;
     public static double dUpperDistanceLimit = 1.1;
     public static double dLowerDistanceLimit = 0.9;
     public static double dLoadForwardPower = 0.9;
@@ -221,7 +222,10 @@ public class FRCFile {
                         iHookerMotorSlot = inFile.readInt();
                         ++lineNumber;
                         break;
-                       
+                    case 31:
+                        bEnableCamera = inFile.readBoolean();
+                        ++lineNumber;
+                        break;
                         
                     // Add new cases for new variables
                     default:
