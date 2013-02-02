@@ -35,16 +35,17 @@ public class FRCFile {
     public static double dMaxMotorValRight = 0.9;
     public static double dSlowSpeedLeft = .75;
     public static double dSlowSpeedRight = .75;
+    public static double dClimbPower = 1.0;
     public static int iRightDriveMotorSlot = 6;
     public static int iLeftDriveMotorSlot = 5;
     public static int iShooterMotorSlot = 3;
     public static int iClimbMotor1Slot = 2;
     public static int iClimbMotor2Slot = 1;
     public static int iKickerMotorSlot = 2;
+    public static int iHookerMotorSlot = 7;
     public static int iDropSlot1 = 1;
     public static int iDropSlot2 = 2;
     public static int iDropSlot3 = 3;
-    public static double dClimbPower = 1.0;
     public static int iDriverPortRight = 1;
     public static int iDriverPortLeft = 2;
     public static int iDriverPortCo = 3;
@@ -89,7 +90,7 @@ public class FRCFile {
      *
      * @param Filename is the file to be read
      */
-    public static void initConfig(String Filename) {
+    public static void initConfig() {
         int lineNumber = 0;
         try {
             openFile(CONFIG_FILE);
@@ -216,7 +217,11 @@ public class FRCFile {
                         dAutonPowerLimitLower = inFile.readDouble();
                         ++lineNumber;
                         break;
-                        
+                    case 30:
+                        iHookerMotorSlot = inFile.readInt();
+                        ++lineNumber;
+                        break;
+                       
                         
                     // Add new cases for new variables
                     default:
@@ -225,7 +230,7 @@ public class FRCFile {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Could not read file " + Filename + " : " + e);
+            System.out.println("Could not read file " + CONFIG_FILE + " : " + e);
         } finally {
             closeFile();
         }

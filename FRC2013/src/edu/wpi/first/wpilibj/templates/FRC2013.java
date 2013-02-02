@@ -49,11 +49,10 @@ public class FRC2013 extends IterativeRobot {
     public static boolean dCamLightOff;
     public static boolean bLastState;
     public static double dTimeWait;
-    public static double dAutonPowerLimitLower = -0.1;
-    public static double dAutonPowerLimitUpper = 0.1;
+    public static double dAutonPowerLimitLower;
+    public static double dAutonPowerLimitUpper;
     
     public void robotInit() {
-
         Input.initJoystick();
         Input.initGyro();
         Output.initMotors();
@@ -61,6 +60,38 @@ public class FRC2013 extends IterativeRobot {
         Output.initScreen();
         Input.initVision(true);
         FRCTimer.initTimer();
+        FRCFile.initConfig();
+        
+        // Initialize all variables based on config file
+        FRC2013.dAutonPowerLimitLower = FRCFile.dAutonPowerLimitLower;
+        FRC2013.dAutonPowerLimitUpper = FRCFile.dAutonPowerLimitUpper;
+        Think.dUpperDistanceLimit = FRCFile.dUpperDistanceLimit;
+        Think.dLowerDistanceLimit = FRCFile.dLowerDistanceLimit;
+        Think.dLoadForwardPower = FRCFile.dLoadForwardPower;
+        Think.dLoadReversePower = FRCFile.dLoadReversePower;
+        Think.dUpperAngleLimit = FRCFile.dUpperAngleLimit;
+        Think.dLowerAngleLimit = FRCFile.dLowerAngleLimit;
+        Think.dStopPower = FRCFile.dStopPower;
+        Think.dUpperPowerStopLimit = FRCFile.dUpperPowerStopLimit;
+        Think.dLowerPowerStopLimit = FRCFile.dLowerPowerStopLimit;
+        Think.dMaxMotorValLeft = FRCFile.dMaxMotorValLeft;
+        Think.dMaxMotorValRight = FRCFile.dMaxMotorValRight;
+        Think.dSlowSpeedLeft = FRCFile.dSlowSpeedLeft;
+        Think.dSlowSpeedRight = FRCFile.dSlowSpeedRight;
+        Output.dClimbPower = FRCFile.dClimbPower;
+        Output.iRightDriveMotorSlot = FRCFile.iRightDriveMotorSlot;
+        Output.iLeftDriveMotorSlot = FRCFile.iLeftDriveMotorSlot;
+        Output.iShooterMotorSlot = FRCFile.iShooterMotorSlot;
+        Output.iClimbMotor1Slot = FRCFile.iClimbMotor1Slot;
+        Output.iClimbMotor2Slot = FRCFile.iClimbMotor2Slot;
+        Output.iKickerMotorSlot = FRCFile.iKickerMotorSlot;
+        Output.iHookMotorSlot = FRCFile.iHookerMotorSlot;
+        Output.iDropSlot1 = FRCFile.iDropSlot1;
+        Output.iDropSlot2 = FRCFile.iDropSlot2;
+        Output.iDropSlot3 = FRCFile.iDropSlot3;
+        Input.iDriverPortRight = FRCFile.iDriverPortRight;
+        Input.iDriverPortLeft = FRCFile.iDriverPortLeft;
+        Input.iDriverPortCo = FRCFile.iDriverPortCo;
     }
 
     public void disableInit(){
