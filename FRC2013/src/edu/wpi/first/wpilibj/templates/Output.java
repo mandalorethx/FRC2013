@@ -135,18 +135,21 @@ public class Output {
         if (Think.currentTarget== 0) {
             display.screenWrite("Current Target: High", 0);
             display.screenWrite("Distance: Not Found...", 1);
-            if (Think.image.high != null)
+            if (Think.image.high != null){
                 display.screenWrite("Distance: " + Think.image.highDistance, 1);
+            }
         } else if (Think.currentTarget== 1) {
             display.screenWrite("Current Target: Low Left", 0);
             display.screenWrite("Distance: Not Found...", 1);
-            if (Think.image.lowLeft != null)
+            if (Think.image.lowLeft != null){
                 display.screenWrite("Distance " + Think.image.lowLeftDistance, 1);
+            }
         } else if (Think.currentTarget== 2) {
             display.screenWrite("Current Target: Low Right", 0);
             display.screenWrite("Distance: Not Found...", 1);
-            if (Think.image.lowRight != null)
+            if (Think.image.lowRight != null){
                 display.screenWrite("Distance: " + Think.image.lowRightDistance, 1);
+            }
         }
         } else {
             display.screenWrite("No Targets/Image!", 0);

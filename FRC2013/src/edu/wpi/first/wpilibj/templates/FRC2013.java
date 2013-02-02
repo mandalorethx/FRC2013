@@ -51,7 +51,7 @@ public class FRC2013 extends IterativeRobot {
     public static double dTimeWait;
     public static double dAutonPowerLimitLower;
     public static double dAutonPowerLimitUpper;
-    
+    //Initializes the robot
     public void robotInit() {
         Input.initJoystick();
         Input.initGyro();
@@ -102,11 +102,12 @@ public class FRC2013 extends IterativeRobot {
         Think.dClimbMotorPower = FRCFile.dClimbMotorPower;
         Think.dMaxClimbMotorPower = FRCFile.dMaxClimbMotorPower;
     }
-
+//disables the robot
     public void disableInit(){
         bLastState = false;
         dTimeWait = 0.0;
     }
+    //initiates autonomous
     public void autonInit(){
         iAutonState = k_AUTON_DELAY;
         dRightX = 0;

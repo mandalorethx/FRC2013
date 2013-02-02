@@ -7,7 +7,7 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.camera.AxisCameraException;
 
 /**
- *
+ * Thinks?
  * @author first1
  */
 public class Think {
@@ -321,7 +321,10 @@ public class Think {
         retVal = climbIn;
         return retVal;
     }
-    
+    /** 
+     * getCLimbSensors
+     * reads the length of extending/retracting climbing arms to prevent over extraction
+     */
     public static void getClimbSensors(){
         bEotExtended = Input.getExtendedValue();
         bEotRetracted = Input.getRetractedValue();
@@ -349,6 +352,21 @@ public class Think {
         newJoystickRight = temp[1];
         bShooterOn = Input.bTriggerDown;
         
+        if (currentTarget == highCMX){
+            Output.display.screenWrite("current target = high ", 1);
+            
+        }
+        else if (currentTarget == lowRightCMX) {
+            Output.display.screenWrite("current target = low right", 1);
+            
+        }
+        else if (currentTarget == lowLeftCMX){
+            Output.display.screenWrite("current target = low left", 1);
+        }
+        else {
+            Output.display.screenWrite("current target = unknown " + 
+                    Integer.toString(currentTarget), 1);
+        }
         getClimbSensors();
 
         if(Input.getLoadButtonLeft()||Input.getLoadButtonRight()){
