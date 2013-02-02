@@ -62,6 +62,9 @@ public class Input {
     public static Gyro gyro; // The Gyro
     //public static CameraData image;
     public static DigitalInput kickerSwitch;
+    public static DigitalInput eotExtended;
+    public static DigitalInput eotRetracted;
+    public static DigitalInput hookVertical;
     public static ScreenOutput out = new ScreenOutput();
     public static boolean bNextTargetButton;
     public static boolean bPrevTargetButton;
@@ -286,6 +289,9 @@ public class Input {
      */
     public static void initSwitch(){
         kickerSwitch = new DigitalInput(1);
+        eotExtended = new DigitalInput(2);
+        eotRetracted = new DigitalInput(3);
+        hookVertical = new DigitalInput(4);
     }
     
     /**
@@ -296,6 +302,18 @@ public class Input {
      */
     public static boolean getKickerSwitchValue(){
         return kickerSwitch.get();
+    }
+    
+    public static boolean getExtendedValue(){
+        return eotExtended.get();
+    }
+     
+    public static boolean getRetractedValue(){
+        return eotRetracted.get();
+    }
+     
+    public static boolean getHookVerticalValue(){
+        return hookVertical.get();
     }
     
     /**
