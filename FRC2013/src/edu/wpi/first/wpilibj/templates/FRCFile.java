@@ -51,7 +51,15 @@ public class FRCFile {
     public static int iDriverPortCo = 3;
     public static double dAutonPowerLimitUpper = 0.1;
     public static double dAutonPowerLimitLower = -0.1;
-    
+    public static double dHookMotorPower = 0;
+    public static double dFwdHookMotorPower = 1;
+    public static double dReverseHookMotorPower = -1;
+    public static double dClimbMotorPower = 0;
+    public static double dMaxClimbMotorPower = 1;
+    public static double dLeftAdjust = 0;
+    public static double dRightAdjust = 0;
+    public static double dAdjustPower = .01;
+    public static double dAngleVary = 5.0;
     
     /**
      * Opens file
@@ -221,7 +229,42 @@ public class FRCFile {
                         iHookerMotorSlot = inFile.readInt();
                         ++lineNumber;
                         break;
-                       
+                    case 31:
+                        dHookMotorPower = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 32:
+                        dFwdHookMotorPower = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 33:
+                        dReverseHookMotorPower = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 34:
+                        dClimbMotorPower = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 35:
+                        dMaxClimbMotorPower = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 36:
+                        dLeftAdjust = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 37:
+                        dRightAdjust = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 38: 
+                        dAdjustPower = inFile.readDouble();
+                        ++lineNumber;
+                        break;
+                    case 39: 
+                        dAngleVary = inFile.readDouble();
+                        ++lineNumber;
+                        break;
                         
                     // Add new cases for new variables
                     default:
@@ -243,5 +286,8 @@ public class FRCFile {
     }
     
     // Add more getters below
+    public static void main(String[] args) {
+       initConfig();  
+    } 
 }
  

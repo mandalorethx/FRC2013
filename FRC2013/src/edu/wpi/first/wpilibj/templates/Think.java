@@ -85,10 +85,10 @@ public class Think {
     public static int iHookState;
     public static boolean bgoStraight = false;
     public static double dprevGyro;
-    public static double leftAdjust = 0;
-    public static double rightAdjust = 0;
-    public static double adjustPower = .01;
-    public static double angleVary = 5.0;
+    public static double dLeftAdjust = 0;
+    public static double dRightAdjust = 0;
+    public static double dAjustPower = .01;
+    public static double dAngleVary = 5.0;
 
     /**
      * initKicker
@@ -248,15 +248,15 @@ public class Think {
                 //Checks if gyro angle is less than 0. Decrese right motor
                 //if angle <0 and decrese left motor if angle <0.
                 if (Input.getGyro() <0){
-                    if(Math.abs(dprevGyro-Input.getGyro() )> angleVary){
-                        leftAdjust += .01;
-                        rightAdjust -= .01;
+                    if(Math.abs(dprevGyro-Input.getGyro() )> dAngleVary){
+                        dLeftAdjust += .01;
+                        dRightAdjust -= .01;
                     }
                 }
                 else{
-                    if(Math.abs(dprevGyro-Input.getGyro() )> angleVary){
-                        leftAdjust -= .01;
-                        rightAdjust += .01;
+                    if(Math.abs(dprevGyro-Input.getGyro() )> dAngleVary){
+                        dLeftAdjust -= .01;
+                        dRightAdjust += .01;
                     }
                 }
             }
@@ -268,8 +268,8 @@ public class Think {
         retVal[0] *= (dMaxMotorValLeft);
         retVal[1] *= (dMaxMotorValRight);
         
-        retVal[0] = retVal[0]+leftAdjust;
-        retVal[1] = retVal[1]+rightAdjust;
+        retVal[0] = retVal[0]+dLeftAdjust;
+        retVal[1] = retVal[1]+dRightAdjust;
         
         //out.screenWrite("LEFT: " + retVal[0] + " RIGHT: " + retVal[1]);
 
@@ -480,4 +480,6 @@ public class Think {
             dKickerMotorPower = getShooterPower();
         }
     }
+    
+   
 }
