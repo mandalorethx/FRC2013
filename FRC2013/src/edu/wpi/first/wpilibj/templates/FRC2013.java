@@ -92,6 +92,15 @@ public class FRC2013 extends IterativeRobot {
         Input.iDriverPortRight = FRCFile.iDriverPortRight;
         Input.iDriverPortLeft = FRCFile.iDriverPortLeft;
         Input.iDriverPortCo = FRCFile.iDriverPortCo;
+        Think.dLeftAdjust = FRCFile.dLeftAdjust;
+        Think.dRightAdjust = FRCFile.dRightAdjust;
+        Think.dAjustPower = FRCFile.dAdjustPower;
+        Think.dAngleVary = FRCFile.dAngleVary;
+        Think.dHookMotorPower = FRCFile.dHookMotorPower;
+        Think.dFwdHookMotorPower = FRCFile.dFwdHookMotorPower;
+        Think.dReverseHookMotorPower = FRCFile.dReverseHookMotorPower;
+        Think.dClimbMotorPower = FRCFile.dClimbMotorPower;
+        Think.dMaxClimbMotorPower = FRCFile.dMaxClimbMotorPower;
     }
 
     public void disableInit(){
