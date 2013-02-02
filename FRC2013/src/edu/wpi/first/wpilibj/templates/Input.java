@@ -97,7 +97,13 @@ public class Input {
      */
     public static void initVision(boolean doCamera) {
         if (doCamera) {
-            camera = AxisCamera.getInstance();  // Get an instance of the camera
+            try {
+                camera = AxisCamera.getInstance();  // Get an instance of the camera
+            } catch(Exception e)
+            {
+                Output.display.screenWrite("An error occured while initializing the camera. Disabling.");
+                FRCFile.bEnableCamera = false;
+            }
         }
         cc = new CriteriaCollection();      // Create the criteria for the particle filter
         cc.addCriteria(NIVision.MeasurementType.IMAQ_MT_AREA, 500, 65535, false); // Add criteria to particle filter

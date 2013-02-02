@@ -124,7 +124,7 @@ public class Output {
      */
     public static void sendOutput(){
         setPower(Think.newJoystickLeft, Think.newJoystickRight, Think.dShooterPower);
-        if (Think.bHook) {
+        if (Think.iHookState == 1 || Think.iHookState == -1) {
             climb (dClimbPower);            
         }
         if (Think.bClimb) {
