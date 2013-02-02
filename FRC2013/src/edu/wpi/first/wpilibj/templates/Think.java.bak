@@ -318,7 +318,7 @@ public class Think {
         
         if (Input.bAim) {
             try {
-                image = Input.getTarget(false, true, false);
+                image = Input.getTarget(false, true, true);
                 if(image == null){
                     Output.display.screenWrite("No Valid Target",0);
                 }
@@ -326,25 +326,25 @@ public class Think {
                     if(image.high != null) {
                         highCMX = image.high.center_mass_x_normalized;
                         highCMY = image.high.center_mass_y_normalized;
-                        //Output.display.screenWrite("High Target Found",2);
+                        Output.display.screenWrite("High Target Found",2);
                     } else {
-                        //Output.display.screenWrite("High Target not seen.", 2);
+                        Output.display.screenWrite("High Target not seen.", 2);
                     }
                     
                     if(image.lowLeft != null) {
                         lowLeftCMX = image.lowLeft.center_mass_x_normalized;
                         lowLeftCMY = image.lowLeft.center_mass_y_normalized;
-                        //Output.display.screenWrite("Left Target Found",3);
+                        Output.display.screenWrite("Left Target Found",3);
                     } else {
-                        //Output.display.screenWrite("Low Left Target not seen.", 3);
+                        Output.display.screenWrite("Low Left Target not seen.", 3);
                     }
                     
                     if(image.lowRight != null) {
                         lowRightCMX = image.lowRight.center_mass_x_normalized;
                         lowRightCMY = image.lowRight.center_mass_y_normalized;
-                        //Output.display.screenWrite("Right Target Found",4);
+                        Output.display.screenWrite("Right Target Found",4);
                     } else {
-                        //Output.display.screenWrite("Low Right Target not seen.", 4);
+                        Output.display.screenWrite("Low Right Target not seen.", 4);
                     }
 
                     temp = aimAdjust(newJoystickLeft, newJoystickRight);

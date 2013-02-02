@@ -63,8 +63,6 @@ public class Input {
     //public static CameraData image;
     public static DigitalInput kickerSwitch;
     public static ScreenOutput out = new ScreenOutput();
-    public static boolean bNextTargetButton;
-    public static boolean bPrevTargetButton;
     /**
      * Scores. Subclass for scoring fields
      */
@@ -245,7 +243,7 @@ public class Input {
         }
         catch(Exception ext) {
             ScreenOutput scrOut = new ScreenOutput();
-            //scrOut.screenWrite("Unhandled Error: " + ext.getMessage(),2);
+            scrOut.screenWrite("Unhandled Error: " + ext.getMessage(),2);
             ext.printStackTrace();
         } finally {
             if(filteredImage != null) {
@@ -478,24 +476,28 @@ public class Input {
         bClimb1Right = getClimb1Right();
         bClimb2Left = getClimb2Left();
         bClimb2Right = getClimb2Right();
-        bNextTargetButton = getNextTargetButton();
-        bPrevTargetButton = getPrevTargetButton();
         
-        if(bNextTargetButton) {
+        if(getNextTargetButton()) {
             if(Think.currentTarget == 0)
                 Think.currentTarget = 1;
+                //Output.display.screenWrite("Current Target: Low Left", 1);
             if(Think.currentTarget == 1)
                 Think.currentTarget = 2;
+                //Output.display.screenWrite("Current Target: Low Right", 1);
             if(Think.currentTarget == 2)
                 Think.currentTarget = 0;
+                //Output.display.screenWrite("Current Target: High", 1);
         }
-        if(bPrevTargetButton) {
+        if(getPrevTargetButton()) {
             if(Think.currentTarget == 0)
                 Think.currentTarget = 2;
+                //Output.display.screenWrite("Current Target: Low Right", 1);
             if(Think.currentTarget == 1)
                 Think.currentTarget = 0;
+                //Output.display.screenWrite("Current Target: High", 1);
             if(Think.currentTarget == 2)
                 Think.currentTarget = 1;
+                //Output.display.screenWrite("Current Target: Low Left", 1);
         }
         
         Output.setCameraLight(bAim);
