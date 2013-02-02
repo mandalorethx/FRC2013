@@ -48,6 +48,7 @@ public class Input {
     public static boolean bAim;
     public static boolean bSlowSpeedRight;
     public static boolean bSlowSpeedLeft;
+    public static boolean bStopGyro;
     public static double dHook;
     public static boolean bClimbExtend;
     public static boolean bClimbRetract;
@@ -354,6 +355,10 @@ public class Input {
         //out.screenWrite("RIGHTY: " + rightDriverStick.getY());
         return rightDriverStick.getY();
     }
+    
+    public static boolean getStopGyro(){
+        return rightDriverStick.isPressed(10) || leftDriverStick.isPressed(10);
+    }
 
     /**
      * getTriggerDown.
@@ -490,6 +495,7 @@ public class Input {
         bClimbRetract = getClimbRetract();
         bNextTargetButton = getNextTargetButton();
         bPrevTargetButton = getPrevTargetButton();
+        bStopGyro = getStopGyro();
         
         if(bNextTargetButton) {
             if(Think.currentTarget == 0){
