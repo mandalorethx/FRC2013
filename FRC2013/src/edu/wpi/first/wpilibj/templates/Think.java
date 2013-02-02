@@ -83,6 +83,12 @@ public class Think {
     public static double dClimbMotorPower = 0;
     public static double dMaxClimbMotorPower = 1;
     public static int iHookState;
+    public static boolean bgoStraight = false;
+    public static double dprevGyro;
+    public static double leftAdjust = 0;
+    public static double rightAdjust = 0;
+    public static double adjustPower = .01;
+    public static double angleVary = 5.0;
 
     /**
      * initKicker
