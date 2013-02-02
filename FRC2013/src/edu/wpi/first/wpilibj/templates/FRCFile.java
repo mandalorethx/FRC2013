@@ -266,6 +266,10 @@ public class FRCFile {
                         dAngleVary = inFile.readDouble();
                         ++lineNumber;
                         break;
+                    case 40:
+                        bEnableCamera = inFile.readBoolean();
+                        ++lineNumber;
+                        break;
                         
                     // Add new cases for new variables
                     default:
