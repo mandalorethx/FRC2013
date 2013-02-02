@@ -500,20 +500,26 @@ public class Input {
         bPrevTargetButton = getPrevTargetButton();
         
         if(bNextTargetButton) {
-            if(Think.currentTarget == 0)
+            if(Think.currentTarget == 0){
                 Think.currentTarget = 1;
-            if(Think.currentTarget == 1)
+            }
+            if(Think.currentTarget == 1){
                 Think.currentTarget = 2;
-            if(Think.currentTarget == 2)
+            }    
+            if(Think.currentTarget == 2){
                 Think.currentTarget = 0;
+            }    
         }
         if(bPrevTargetButton) {
-            if(Think.currentTarget == 0)
+            if(Think.currentTarget == 0){
                 Think.currentTarget = 2;
-            if(Think.currentTarget == 1)
+            }    
+            if(Think.currentTarget == 1){
                 Think.currentTarget = 0;
-            if(Think.currentTarget == 2)
+            }    
+            if(Think.currentTarget == 2){
                 Think.currentTarget = 1;
+            }    
         }
         
         Output.setCameraLight(bAim);
