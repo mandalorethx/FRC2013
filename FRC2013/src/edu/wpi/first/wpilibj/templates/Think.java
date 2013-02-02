@@ -210,7 +210,6 @@ public class Think {
      */
     public static double[] processJoystick(double rawRight, double rawLeft) {
         double[] retVal = new double[2];
-        ScreenOutput out = new ScreenOutput();
         //out.screenWrite("RAW LEFT: " + rawLeft + " RAW RIGHT: " + rawRight);
 
         if (rawLeft > 0) {
@@ -281,7 +280,7 @@ public class Think {
      * @return is the input value sent to the motors
      */
     public static double getShooterPower() {
-        double retVal = 0;
+        double retVal;
 
         if (bKickerDone = true) {
             retVal = 0;
@@ -332,19 +331,22 @@ public class Think {
     }
     
     public static void moveHook(){
-        if (Input.dHook <= -0.5)
+        if (Input.dHook <= -0.5) {
             iHookState = 1;
-        else if (Input.dHook >= 0.5)
+        }
+        else if (Input.dHook >= 0.5) {
             iHookState = -1;
-        else
+        }
+        else {
             iHookState = 0;
+        }
     }        
 
     /**
      * Sets values for the robot's functions - Responds to the inputs
      */
     public static void robotThink() {
-        double[] temp = new double[2];
+        double[] temp;
         double leftMotorVal = Output.leftDriveMotor.get();
         double rightMotorVal = Output.rightDriveMotor.get();
         temp = processJoystick(Input.rightY, Input.leftY);
