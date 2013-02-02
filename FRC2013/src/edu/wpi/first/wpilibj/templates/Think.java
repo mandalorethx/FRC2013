@@ -346,6 +346,21 @@ public class Think {
         newJoystickRight = temp[1];
         bShooterOn = Input.bTriggerDown;
         
+        if (currentTarget == highCMX){
+            Output.display.screenWrite("current target = high ", 1);
+            
+        }
+        else if (currentTarget == lowRightCMX) {
+            Output.display.screenWrite("current target = low right", 1);
+            
+        }
+        else if (currentTarget == lowLeftCMX){
+            Output.display.screenWrite("current target = low left", 1);
+        }
+        else {
+            Output.display.screenWrite("current target = unknown " + 
+                    Integer.toString(currentTarget), 1);
+        }
         getClimbSensors();
 
         if(Input.getLoadButtonLeft()||Input.getLoadButtonRight()){
