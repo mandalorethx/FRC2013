@@ -71,6 +71,8 @@ public class Input {
     public static boolean bPrevTargetButton;
     public static boolean bLeftLoadButton;
     public static boolean bRightLoadButton;
+    public static double coY;
+
     /**
      * Scores. Subclass for scoring fields
      */
