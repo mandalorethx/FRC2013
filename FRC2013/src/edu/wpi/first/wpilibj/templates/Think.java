@@ -363,7 +363,7 @@ public class Think {
         }
         getClimbSensors();
 
-        if(Input.getLoadButtonLeft()||Input.getLoadButtonRight()){
+        if(Input.bLeftLoadButton||Input.bRightLoadButton){
             bDoLoad = true;
         }
         else {

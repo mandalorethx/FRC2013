@@ -68,6 +68,8 @@ public class Input {
     public static ScreenOutput out = new ScreenOutput();
     public static boolean bNextTargetButton;
     public static boolean bPrevTargetButton;
+    public static boolean bLeftLoadButton;
+    public static boolean bRightLoadButton;
     /**
      * Scores. Subclass for scoring fields
      */
@@ -508,6 +510,8 @@ public class Input {
         bNextTargetButton = getNextTargetButton();
         bPrevTargetButton = getPrevTargetButton();
         bStopGyro = getStopGyro();
+        bLeftLoadButton = getLoadButtonLeft();
+        bRightLoadButton = getLoadButtonRight();
         
         if(bNextTargetButton) {
             if(Think.currentTarget == 0){
