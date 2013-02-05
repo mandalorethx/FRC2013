@@ -19,10 +19,8 @@ public class Think {
     private static final int k_LOAD_ADJUSTD = 1;
     private static final int k_LOAD_TURN = 2;
     private static final int k_LOAD_MOVE = 3;
-    private static final int k_CLIMB_DROPHOOK = 0;
-    private static final int k_CLIMB_LATCHED = 1;
-    private static final int k_CLIMB_PULLUP = 2;
-    private static final int k_CLIMB_EXTEND = 3;
+    private static final int k_CLIMB_PULLUP = 0;
+    private static final int k_CLIMB_EXTEND = 1;
     public static final double k_LOAD_ANGLE = 30;
     public static final double k_LOAD_DISTANCE = 135.29;
     public static double newJoystickLeft;
@@ -212,7 +210,6 @@ public class Think {
      */
     public static double[] processJoystick(double rawRight, double rawLeft) {
         double[] retVal = new double[2];
-        ScreenOutput out = new ScreenOutput();
         //out.screenWrite("RAW LEFT: " + rawLeft + " RAW RIGHT: " + rawRight);
 
         if (rawLeft > 0) {
@@ -226,7 +223,7 @@ public class Think {
             retVal[1] = (-1) * (rawRight * rawRight);
         }
         
-        if (!Input.bStopGyro){
+        if (!Input.bStopGyro  && FRCFile.bGyroEnable == true){
             /* Check to see if going straight.
              * If the right and left y values are less than -.25 and the input has a
              * difference less than .1 and bgostraight is true, the if statement
@@ -247,7 +244,7 @@ public class Think {
                 if (dprevGyro != Input.getGyro()){
                     //Checks if gyro angle is less than 0. Decrese right motor
                     //if angle <0 and decrese left motor if angle <0.
-                    if (Input.getGyro() <0){
+                    if (Input.getGyro() < dprevGyro){
                         if(Math.abs(dprevGyro-Input.getGyro() )> dAngleVary){
                             dLeftAdjust += .01;
                             dRightAdjust -= .01;
@@ -283,7 +280,7 @@ public class Think {
      * @return is the input value sent to the motors
      */
     public static double getShooterPower() {
-        double retVal = 0;
+        double retVal;
 
         if (bKickerDone = true) {
             retVal = 0;
@@ -332,13 +329,24 @@ public class Think {
         bEotRetracted = Input.getRetractedValue();
         bHookVertical = Input.getHookVerticalValue();        
     }
-            
+    
+    public static void moveHook(){
+        if (Input.dHook <= -0.5) {
+            iHookState = 1;
+        }
+        else if (Input.dHook >= 0.5) {
+            iHookState = -1;
+        }
+        else {
+            iHookState = 0;
+        }
+    }        
 
     /**
      * Sets values for the robot's functions - Responds to the inputs
      */
     public static void robotThink() {
-        double[] temp = new double[2];
+        double[] temp;
         double leftMotorVal = Output.leftDriveMotor.get();
         double rightMotorVal = Output.rightDriveMotor.get();
         temp = processJoystick(Input.rightY, Input.leftY);
@@ -381,15 +389,8 @@ public class Think {
         /**
          * Returns the boolean value for the robot to start climbing
          */
-        if (Input.dHook <= -0.5) {
-            iHookState = 1;
-           
-        }
-        else if (Input.dHook >= 0.5){
-                iHookState = -1;
-        } else {
-            iHookState = 0;
-        }
+   
+        moveHook();
 
         /**
          * Returns the boolean value for the robot's second climb cycle
@@ -398,23 +399,7 @@ public class Think {
             bClimb = true;
         }
         
-        switch (iClimbState){
-            case k_CLIMB_DROPHOOK:
-                if(iHookState == 1) {
-                    iClimbState ++;
-                }
-                break;
-            case k_CLIMB_LATCHED:
-                dHookMotorPower = dFwdHookMotorPower;
-                dClimbMotorPower = 0;
-                if(iHookState == 0){
-                    dHookMotorPower = 0;
-                    if(bClimb == true){
-                        iClimbState ++;
-                    }    
-                }
-            
-                break;
+        switch (iClimbState){                
             case k_CLIMB_PULLUP:
                 dHookMotorPower = 0;
                 dClimbMotorPower = dMaxClimbMotorPower;
