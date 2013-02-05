@@ -56,6 +56,7 @@ public class Input {
     public static double rightX;
     public static double leftY;
     public static double rightY;
+    public static double dTimeUntilLoad = 2.0;
     public static int iDriverPortRight = 1;
     public static int iDriverPortLeft = 2;
     public static int iDriverPortCo = 3;
@@ -100,7 +101,11 @@ public class Input {
     public static void initVision(boolean doCamera) {
         if (doCamera) {
             try {
-                camera = AxisCamera.getInstance();  // Get an instance of the camera
+                if (FRCTimer.DelayDone(dTimeUntilLoad)){
+                    camera = AxisCamera.getInstance();  // Get an instance of the camera
+                    camera.writeResolution(AxisCamera.ResolutionT.k320x240);
+                    camera.writeBrightness(0);
+                }
             } catch(Exception e)
             {
                 Output.display.screenWrite("An error occured while initializing the camera. Disabling.");
