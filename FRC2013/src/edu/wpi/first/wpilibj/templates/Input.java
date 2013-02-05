@@ -56,6 +56,7 @@ public class Input {
     public static double rightX;
     public static double leftY;
     public static double rightY;
+    public static double coY;
     public static int iDriverPortRight = 1;
     public static int iDriverPortLeft = 2;
     public static int iDriverPortCo = 3;
@@ -375,6 +376,10 @@ public class Input {
         //out.screenWrite("RIGHTY: " + rightDriverStick.getY());
         return rightDriverStick.getY();
     }
+    
+    public static double getCoY(){
+        return coDriverStick.getY();
+    }
     /**
      * getStopGyro.
      * Stops the gyro
@@ -498,6 +503,7 @@ public class Input {
     public static void gatherInput() {
         leftX = getLeftX();
         leftY = getLeftY();
+        coY = getCoY();
         rightX = getRightX();
         rightY = getRightY();
         bTriggerDown = getAim();

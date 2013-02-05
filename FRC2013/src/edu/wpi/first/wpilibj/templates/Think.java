@@ -399,6 +399,19 @@ public class Think {
             bClimb = true;
         }
         
+
+        if(Input.coY < -0.25){
+            dHookMotorPower = dFwdHookMotorPower;
+        }
+        else if (Input.coY > 0.25){
+            if (bHookVertical == true){
+                dHookMotorPower = -1*(dFwdHookMotorPower);
+            }
+            else{
+                dHookMotorPower = 0.0;
+            }   
+        }
+        
         switch (iClimbState){                
             case k_CLIMB_PULLUP:
                 dHookMotorPower = 0;
