@@ -58,7 +58,7 @@ public class FRC2013 extends IterativeRobot {
         Output.initMotors();
         Output.initModule();
         Output.initScreen();
-        Input.initVision(FRCFile.bEnableCamera);
+        //Input.initVision(FRCFile.bEnableCamera);
         FRCTimer.initTimer();
         FRCFile.initConfig();
         
@@ -106,6 +106,7 @@ public class FRC2013 extends IterativeRobot {
     public void disableInit(){
         bLastState = false;
         dTimeWait = 0.0;
+        Input.initVision(FRCFile.bEnableCamera);
     }
     //initiates autonomous
     public void autonInit(){
