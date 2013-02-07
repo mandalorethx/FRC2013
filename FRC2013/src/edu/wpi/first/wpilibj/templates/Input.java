@@ -71,6 +71,7 @@ public class Input {
     public static boolean bPrevTargetButton;
     public static boolean bLeftLoadButton;
     public static boolean bRightLoadButton;
+    public static boolean bClimbButton;
     public static double coY;
 
     /**
@@ -524,6 +525,7 @@ public class Input {
         bStopGyro = getStopGyro();
         bLeftLoadButton = getLoadButtonLeft();
         bRightLoadButton = getLoadButtonRight();
+        bClimbButton = coDriverStick.isPressed(3);
         
         if(bNextTargetButton) {
             if(Think.currentTarget == 0){

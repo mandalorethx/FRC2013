@@ -399,39 +399,41 @@ public class Think {
             bClimb = true;
         }
         
-
-        if(Input.coY < -0.25){
-            dHookMotorPower = dFwdHookMotorPower;
-        }
-        else if (Input.coY > 0.25){
-            if (bHookVertical == true){
-                dHookMotorPower = -1*(dFwdHookMotorPower);
+        if(Input.bClimbButton == true){
+            if(Input.coY < -0.25){
+                dHookMotorPower = dFwdHookMotorPower;
             }
-            else{
-                dHookMotorPower = 0.0;
-            }   
+            else if (Input.coY > 0.25){
+                if (bHookVertical == true){
+                    dHookMotorPower = -1*(dFwdHookMotorPower);
+                }
+                else{
+                    dHookMotorPower = 0.0;
+                }   
+            }
+        
+        
+            switch (iClimbState){                
+                case k_CLIMB_PULLUP:
+                    dHookMotorPower = 0;
+                    dClimbMotorPower = dMaxClimbMotorPower;
+                    if(bClimb == false){
+                        iClimbState ++;                    
+                    }                    
+                    break;
+                case k_CLIMB_EXTEND:
+                    dHookMotorPower = dReverseHookMotorPower;
+                    dClimbMotorPower = -1 * dMaxClimbMotorPower;
+                    if(bClimb = false){
+                        iClimbState ++;
+                    }                    
+                    break;
+
+                default:
+                    break;
+            }
         }
         
-        switch (iClimbState){                
-            case k_CLIMB_PULLUP:
-                dHookMotorPower = 0;
-                dClimbMotorPower = dMaxClimbMotorPower;
-                if(bClimb == false){
-                    iClimbState ++;                    
-                }                    
-                break;
-            case k_CLIMB_EXTEND:
-                dHookMotorPower = dReverseHookMotorPower;
-                dClimbMotorPower = -1 * dMaxClimbMotorPower;
-                if(bClimb = false){
-                    iClimbState ++;
-                }                    
-                break;
-                
-            default:
-                break;
-        }
-
         if (bDoLoad == true){
             temp = loadAdjust(rightMotorVal, leftMotorVal);
             newJoystickLeft = temp[0];
