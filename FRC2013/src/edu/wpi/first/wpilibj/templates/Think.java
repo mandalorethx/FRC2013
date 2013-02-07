@@ -300,6 +300,7 @@ public class Think {
                 case k_KICKER_STOP:
                     bKickerDone = true;
                     iKickerState = k_KICKER_INIT;
+                    retVal = 0;
                     break;
             }
 
