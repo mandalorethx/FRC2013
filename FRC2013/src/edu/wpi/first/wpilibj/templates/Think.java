@@ -21,6 +21,9 @@ public class Think {
     private static final int k_LOAD_MOVE = 3;
     private static final int k_CLIMB_PULLUP = 0;
     private static final int k_CLIMB_EXTEND = 1;
+    private static final int k_SHOOTER_INIT = 0;
+    private static final int k_SHOOTER_RELEASE = 1;
+    private static final int k_SHOOTER_MOVE = 2;
     public static final double k_LOAD_ANGLE = 30;
     public static final double k_LOAD_DISTANCE = 135.29;
     public static double newJoystickLeft;
@@ -50,6 +53,7 @@ public class Think {
     public static double dKickerMotorPower;
     public static double dKickerOnPower;
     public static int iKickerState;
+    public static double dReleaseTimer = .5;
     public static boolean bKickerDone;
     public static boolean bKickerLastState;
     public static int currentTarget = 0;
@@ -87,6 +91,8 @@ public class Think {
     public static double dRightAdjust = 0;
     public static double dAjustPower = .01;
     public static double dAngleVary = 5.0;
+    public static boolean bEjector;
+    public static boolean bPall;
     
     /**
      * initKicker
@@ -286,7 +292,29 @@ public class Think {
             retVal = 0;
         } else {
             retVal = dKickerOnPower;
-            switch (iKickerState) {
+            
+            switch (iKickerState){
+                case k_SHOOTER_INIT:
+                    break;
+                case k_SHOOTER_RELEASE:
+                   if(FRCTimer.DelayDone(dReleaseTimer)){
+                       bEjector = false;
+                       bPall = false;
+                   }
+                   else{
+                       bEjector = true;
+                       bPall = true;
+                   }
+                      
+                    break;
+                case k_SHOOTER_MOVE:
+                    break;
+                default:
+                    break;
+                    
+            }
+            
+           /* switch (iKickerState) {
                 case k_KICKER_INIT:
                     if (Input.getKickerSwitchValue() == true) {
                         iKickerState++;
@@ -302,7 +330,7 @@ public class Think {
                     iKickerState = k_KICKER_INIT;
                     retVal = 0;
                     break;
-            }
+            }*/
 
         }
 
