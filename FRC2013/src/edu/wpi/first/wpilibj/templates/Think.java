@@ -92,6 +92,7 @@ public class Think {
     public static double dAjustPower = .01;
     public static double dAngleVary = 5.0;
     public static boolean bEjector;
+    public static boolean bKicker;
     public static boolean bPall;
     
     /**
@@ -295,19 +296,24 @@ public class Think {
             
             switch (iKickerState){
                 case k_SHOOTER_INIT:
+                    iKickerState++;
                     break;
                 case k_SHOOTER_RELEASE:
                    if(FRCTimer.DelayDone(dReleaseTimer)){
                        bEjector = false;
                        bPall = false;
+                       iKickerState++;
                    }
                    else{
                        bEjector = true;
                        bPall = true;
                    }
+                   bKicker = false;
                       
                     break;
                 case k_SHOOTER_MOVE:
+                    
+                    iKickerState++;
                     break;
                 default:
                     break;
