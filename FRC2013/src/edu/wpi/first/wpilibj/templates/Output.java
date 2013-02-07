@@ -31,6 +31,9 @@ public class Output {
     public static int iDropSlot1 = 1;
     public static int iDropSlot2 = 2;
     public static int iDropSlot3 = 3;
+    public static int iEjector = 1;
+    public static int iPall = 2;
+    public static int iKicker = 3;
     
     public static DigitalModule digimod;
     
@@ -101,7 +104,6 @@ public class Output {
         shooterMotor= new Victor(iShooterMotorSlot);
         climbMotor1 = new Victor (iClimbMotor1Slot);
         climbMotor2 = new Victor (iClimbMotor2Slot);
-        kickerMotor = new Victor (iKickerMotorSlot);
         hookMotor = new Victor (iHookMotorSlot);
     }
     
@@ -156,5 +158,27 @@ public class Output {
             display.screenWrite("", 1);
         }
     }
+    public static void solenoidEjectorOn(){
+        digimod.setRelayForward(iEjector, true);
+    }
+    
+    public static void solenoidEjectorOff(){
+        digimod.setRelayForward(iEjector, false);
+    }
+    
+    public static void solenoidPallOn(){
+        digimod.setRelayForward(iPall, true);
+    }
+    
+    public static void solenoidPallOff(){
+        digimod.setRelayForward(iPall, false);
+    }
+        
+    public static void solenoidKickerOn(){
+        digimod.setRelayForward(iKicker, true);
+    }
+    
+    public static void solenoidKickerOff(){
+        digimod.setRelayForward(iKicker, false);
+    }
 }
-

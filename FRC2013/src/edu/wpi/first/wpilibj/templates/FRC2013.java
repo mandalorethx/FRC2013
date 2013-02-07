@@ -61,6 +61,9 @@ public class FRC2013 extends IterativeRobot {
         //Input.initVision(FRCFile.bEnableCamera);
         FRCTimer.initTimer();
         FRCFile.initConfig();
+        Output.solenoidEjectorOff();
+        Output.solenoidKickerOff();
+        Output.solenoidPallOff();
         
         // Initialize all variables based on config file
         FRC2013.dAutonPowerLimitLower = FRCFile.dAutonPowerLimitLower;
