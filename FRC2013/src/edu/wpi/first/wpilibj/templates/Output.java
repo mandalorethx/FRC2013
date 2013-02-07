@@ -133,6 +133,20 @@ public class Output {
             ascend ();
         }
  
+        if(Think.bEjector == false){
+            solenoidEjectorOff();
+        }
+        else{
+            solenoidEjectorOn();
+        }
+        
+        if(Think.bPall == false){
+            solenoidPallOff();
+        }
+        else{
+            solenoidPallOn();
+        }
+        
        if(Think.image != null) {
         if (Think.currentTarget== 0) {
             display.screenWrite("Current Target: High", 0);
