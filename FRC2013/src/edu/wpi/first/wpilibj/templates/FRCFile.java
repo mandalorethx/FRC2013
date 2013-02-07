@@ -62,7 +62,7 @@ public class FRCFile {
     public static double dAdjustPower = .01;
     public static double dAngleVary = 5.0;
     public static boolean bGyroEnable = true;
-    public static boolean bgoStraight = false;
+    public static boolean bGoStraight = false;
     /**
      * Opens file
      *
@@ -273,7 +273,7 @@ public class FRCFile {
                         break;
                 
                     case 41:
-                        bgoStraight = inFile.readBoolean();
+                        bGoStraight = inFile.readBoolean();
                         ++lineNumber;
                         break;
                     // Add new cases for new variables

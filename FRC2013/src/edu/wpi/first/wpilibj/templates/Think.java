@@ -87,7 +87,7 @@ public class Think {
     public static double dRightAdjust = 0;
     public static double dAjustPower = .01;
     public static double dAngleVary = 5.0;
-
+    
     /**
      * initKicker
      * initializes the kicker 
@@ -223,7 +223,7 @@ public class Think {
             retVal[1] = (-1) * (rawRight * rawRight);
         }
         
-        if (Input.bStopGyro  && FRCFile.bGyroEnable == true){
+        if (Input.bGyroNavigate  && FRCFile.bGyroEnable == true ){
             /* Check to see if going straight.
              * If the right and left y values are less than -.25 and the input has a
              * difference less than .1 and bgostraight is true, the if statement

@@ -48,7 +48,7 @@ public class Input {
     public static boolean bAim;
     public static boolean bSlowSpeedRight;
     public static boolean bSlowSpeedLeft;
-    public static boolean bStopGyro;
+    public static boolean bGyroNavigate;
     public static double dHook;
     public static boolean bClimbExtend;
     public static boolean bClimbRetract;
@@ -392,11 +392,11 @@ public class Input {
         return coDriverStick.getY();
     }
     /**
-     * getStopGyro.
+     * getGyroNavigate.
      * Stops the gyro
      * @return State of the button
      */
-    public static boolean getStopGyro(){
+    public static boolean getGyroNavigate(){
         return rightDriverStick.isPressed(3) || leftDriverStick.isPressed(3);
     }
     
@@ -526,7 +526,7 @@ public class Input {
         bClimbRetract = getClimbRetract();
         bNextTargetButton = getNextTargetButton();
         bPrevTargetButton = getPrevTargetButton();
-        bStopGyro = getStopGyro();
+        bGyroNavigate = getGyroNavigate();
         bLeftLoadButton = getLoadButtonLeft();
         bRightLoadButton = getLoadButtonRight();
         bClimbButton = coDriverStick.isPressed(3);
