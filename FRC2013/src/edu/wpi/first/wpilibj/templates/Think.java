@@ -81,7 +81,7 @@ public class Think {
     public static double dClimbMotorPower = 0;
     public static double dMaxClimbMotorPower = 1;
     public static int iHookState;
-    public static boolean bgoStraight = false;
+    public static boolean bGoStraight = false;
     public static double dprevGyro;
     public static double dLeftAdjust = 0;
     public static double dRightAdjust = 0;
@@ -223,7 +223,7 @@ public class Think {
             retVal[1] = (-1) * (rawRight * rawRight);
         }
         
-        if (!Input.bStopGyro  && FRCFile.bGyroEnable == true){
+        if (Input.bStopGyro  && FRCFile.bGyroEnable == true){
             /* Check to see if going straight.
              * If the right and left y values are less than -.25 and the input has a
              * difference less than .1 and bgostraight is true, the if statement
@@ -231,16 +231,16 @@ public class Think {
              * J.F.
              */
             if ((Input.rightY < -.25 && Input.leftY < -.25) && 
-                    Math.abs(Input.rightY-Input.leftY) < 0.1 && bgoStraight == false){
-                bgoStraight = true;
+                    Math.abs(Input.rightY-Input.leftY) < 0.1 && bGoStraight == false){
+                bGoStraight = true;
                 dprevGyro = Input.getGyro();
             }
 
             else {
-                bgoStraight = false;
+                bGoStraight = false;
             }
 
-            if (bgoStraight == true){
+            if (bGoStraight == true){
                 if (dprevGyro != Input.getGyro()){
                     //Checks if gyro angle is less than 0. Decrese right motor
                     //if angle <0 and decrese left motor if angle <0.
@@ -399,39 +399,41 @@ public class Think {
             bClimb = true;
         }
         
-
-        if(Input.coY < -0.25){
-            dHookMotorPower = dFwdHookMotorPower;
-        }
-        else if (Input.coY > 0.25){
-            if (bHookVertical == true){
-                dHookMotorPower = -1*(dFwdHookMotorPower);
+        if(Input.bClimbButton == true){
+            if(Input.coY < -0.25){
+                dHookMotorPower = dFwdHookMotorPower;
             }
-            else{
-                dHookMotorPower = 0.0;
-            }   
+            else if (Input.coY > 0.25){
+                if (bHookVertical == true){
+                    dHookMotorPower = -1*(dFwdHookMotorPower);
+                }
+                else{
+                    dHookMotorPower = 0.0;
+                }   
+            }
+        
+        
+            switch (iClimbState){                
+                case k_CLIMB_PULLUP:
+                    dHookMotorPower = 0;
+                    dClimbMotorPower = dMaxClimbMotorPower;
+                    if(bClimb == false){
+                        iClimbState ++;                    
+                    }                    
+                    break;
+                case k_CLIMB_EXTEND:
+                    dHookMotorPower = dReverseHookMotorPower;
+                    dClimbMotorPower = -1 * dMaxClimbMotorPower;
+                    if(bClimb = false){
+                        iClimbState ++;
+                    }                    
+                    break;
+
+                default:
+                    break;
+            }
         }
         
-        switch (iClimbState){                
-            case k_CLIMB_PULLUP:
-                dHookMotorPower = 0;
-                dClimbMotorPower = dMaxClimbMotorPower;
-                if(bClimb == false){
-                    iClimbState ++;                    
-                }                    
-                break;
-            case k_CLIMB_EXTEND:
-                dHookMotorPower = dReverseHookMotorPower;
-                dClimbMotorPower = -1 * dMaxClimbMotorPower;
-                if(bClimb = false){
-                    iClimbState ++;
-                }                    
-                break;
-                
-            default:
-                break;
-        }
-
         if (bDoLoad == true){
             temp = loadAdjust(rightMotorVal, leftMotorVal);
             newJoystickLeft = temp[0];
