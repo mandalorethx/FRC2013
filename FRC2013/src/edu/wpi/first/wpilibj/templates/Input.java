@@ -375,15 +375,19 @@ public class Input {
 
     /**
      * getRightY.
-     * Prints and returns the value of the right sticks y axis.
+     * Returns the value of the right sticks y axis.
      * @return Returns the y value of the right stick
      */
     public static double getRightY() {
         //out.screenWrite("RIGHTY: " + rightDriverStick.getY());
         return rightDriverStick.getY();
     }
-    
-    public static double getCoY(){
+    /**
+     * getCoDriverY.
+     * Returns the value of the codriver sticks y axis.
+     * @return Returns the y value of the co driver stick
+     */
+    public static double getCoDriverY(){
         return coDriverStick.getY();
     }
     /**
@@ -509,7 +513,7 @@ public class Input {
     public static void gatherInput() {
         leftX = getLeftX();
         leftY = getLeftY();
-        coY = getCoY();
+        coY = getCoDriverY();
         rightX = getRightX();
         rightY = getRightY();
         bTriggerDown = getAim();

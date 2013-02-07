@@ -101,6 +101,8 @@ public class FRC2013 extends IterativeRobot {
         Think.dReverseHookMotorPower = FRCFile.dReverseHookMotorPower;
         Think.dClimbMotorPower = FRCFile.dClimbMotorPower;
         Think.dMaxClimbMotorPower = FRCFile.dMaxClimbMotorPower;
+        Think.bgoStraight = FRCFile.bgoStraight;
+
     }
 //disables the robot
     public void disableInit(){
