@@ -525,7 +525,7 @@ public class Input {
         bStopGyro = getStopGyro();
         bLeftLoadButton = getLoadButtonLeft();
         bRightLoadButton = getLoadButtonRight();
-        bClimbButton = coDriverStick.isPressed(2);
+        bClimbButton = coDriverStick.isPressed(3);
         
         if(bNextTargetButton) {
             if(Think.currentTarget == 0){
