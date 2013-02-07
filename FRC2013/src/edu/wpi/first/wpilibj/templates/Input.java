@@ -386,7 +386,7 @@ public class Input {
      * @return State of the button
      */
     public static boolean getStopGyro(){
-        return rightDriverStick.isPressed(7) || leftDriverStick.isPressed(7);
+        return rightDriverStick.isPressed(3) || leftDriverStick.isPressed(3);
     }
     
     
