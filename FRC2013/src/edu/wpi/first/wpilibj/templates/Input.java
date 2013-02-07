@@ -71,6 +71,9 @@ public class Input {
     public static boolean bPrevTargetButton;
     public static boolean bLeftLoadButton;
     public static boolean bRightLoadButton;
+    public static boolean bClimbButton;
+    public static double coY;
+
     /**
      * Scores. Subclass for scoring fields
      */
@@ -380,6 +383,10 @@ public class Input {
         //out.screenWrite("RIGHTY: " + rightDriverStick.getY());
         return rightDriverStick.getY();
     }
+    
+    public static double getCoY(){
+        return coDriverStick.getY();
+    }
     /**
      * getStopGyro.
      * Stops the gyro
@@ -503,6 +510,7 @@ public class Input {
     public static void gatherInput() {
         leftX = getLeftX();
         leftY = getLeftY();
+        coY = getCoY();
         rightX = getRightX();
         rightY = getRightY();
         bTriggerDown = getAim();
@@ -517,6 +525,7 @@ public class Input {
         bStopGyro = getStopGyro();
         bLeftLoadButton = getLoadButtonLeft();
         bRightLoadButton = getLoadButtonRight();
+        bClimbButton = coDriverStick.isPressed(3);
         
         if(bNextTargetButton) {
             if(Think.currentTarget == 0){
