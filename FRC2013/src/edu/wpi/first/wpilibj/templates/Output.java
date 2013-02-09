@@ -117,7 +117,7 @@ public class Output {
         rightDriveMotor.set(rightPower);
         leftDriveMotor.set((-1) * leftPower);
         shooterMotor.set(shooterPower);
-       
+        
     }
     
     /**

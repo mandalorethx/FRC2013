@@ -30,7 +30,7 @@ public class Think {
     private static final int k_SHOOTER_RETRACTKICK = 6;
     private static final int k_SHOOTER_DELAY4 = 7;
     private static final int k_SHOOTER_RESET = 8;
-    public static final double k_LOAD_ANGLE = 210;
+    public static final double k_LOAD_ANGLE = 30;
     public static final double k_LOAD_DISTANCE = 135.29;
     public static double newJoystickLeft;
     public static double newJoystickRight;
@@ -303,70 +303,65 @@ public class Think {
             /*
              * Releases pall and ejector to drop the disc
              */
-            if(Output.shooterMotor.get() > 0.0){
-                switch (iKickerState){
-                    case k_SHOOTER_RELEASE:
-                        bEjector = true;
-                        bPall = true;
-                        bKicker = false;
+            switch (iKickerState){
+                case k_SHOOTER_RELEASE:
+                    bEjector = true;
+                    bPall = true;
+                    bKicker = false;
+                    iKickerState++;
+            /**
+             * Delays to ensure frisbee drops
+             */
+                case k_SHOOTER_DELAY1:
+                    if(FRCTimer.DelayDone(dReleaseTimer)){
+                        iKickerState++;    
+                    }                      
+                    break;
+            /**
+             * Retracts pall and ejector
+             */
+                case k_SHOOTER_RETRACT:
+                    bEjector = false;
+                    bPall = false;
+                    iKickerState++;
+                    break;
+                case k_SHOOTER_DELAY2:
+                    if(FRCTimer.DelayDone(dReleaseTimer)){
                         iKickerState++;
-                /**
-                 * Delays to ensure frisbee drops
-                 */
-                    case k_SHOOTER_DELAY1:
-                        if(FRCTimer.DelayDone(dReleaseTimer)){
-                            iKickerState++;    
-                        }                      
-                        break;
-                /**
-                 * Retracts pall and ejector
-                 */
-                    case k_SHOOTER_RETRACT:
-                        bEjector = false;
-                        bPall = false;
+                    }
+                    break;
+            /**
+             * Fwaps the disc
+             */
+                case k_SHOOTER_KICK:
+                    bKicker = true;
+                    iKickerState++;
+                case k_SHOOTER_DELAY3:
+                    if(FRCTimer.DelayDone(dReleaseTimer)){
                         iKickerState++;
-                        break;
-                    case k_SHOOTER_DELAY2:
-                        if(FRCTimer.DelayDone(dReleaseTimer)){
-                            iKickerState++;
-                        }
-                        break;
-                /**
-                 * Fwaps the disc
-                 */
-                    case k_SHOOTER_KICK:
-                        bKicker = true;
+                    }
+                    break;
+            /**
+             * Retracts the kicker (fwapper)
+             */
+                case k_SHOOTER_RETRACTKICK:
+                    bKicker = false;
+                    iKickerState++;
+                    break;
+                case k_SHOOTER_DELAY4:
+                    if(FRCTimer.DelayDone(dReleaseTimer)){
                         iKickerState++;
-                    case k_SHOOTER_DELAY3:
-                        if(FRCTimer.DelayDone(dReleaseTimer)){
-                            iKickerState++;
-                        }
-                        break;
-                /**
-                 * Retracts the kicker (fwapper)
-                 */
-                    case k_SHOOTER_RETRACTKICK:
-                        bKicker = false;
-                        iKickerState++;
-                        break;
-                    case k_SHOOTER_DELAY4:
-                        if(FRCTimer.DelayDone(dReleaseTimer)){
-                            iKickerState++;
-                        }
-                        break;
-                 /**
-                  * Reset the solonoids to default settings.
-                  */
-                    case k_SHOOTER_RESET:
-                        bEjector = false;
-                        bPall = false;
-                        bKicker = false;
-                    default:
-                        break;            
-                }
-            }
-            else{
-                Output.shooterMotor.set(dShooterPower);
+                    }
+                    break;
+             /**
+              * Reset the solonoids to default settings.
+              */
+                case k_SHOOTER_RESET:
+                    bEjector = false;
+                    bPall = false;
+                    bKicker = false;
+                default:
+                    break;            
             }
             
            /* switch (iKickerState) {
