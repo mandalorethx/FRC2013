@@ -30,7 +30,7 @@ public class Think {
     private static final int k_SHOOTER_RETRACTKICK = 6;
     private static final int k_SHOOTER_DELAY4 = 7;
     private static final int k_SHOOTER_RESET = 8;
-    public static final double k_LOAD_ANGLE = 30;
+    public static final double k_LOAD_ANGLE = 210;
     public static final double k_LOAD_DISTANCE = 135.29;
     public static double newJoystickLeft;
     public static double newJoystickRight;
