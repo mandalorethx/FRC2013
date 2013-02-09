@@ -21,9 +21,14 @@ public class Think {
     private static final int k_LOAD_MOVE = 3;
     private static final int k_CLIMB_PULLUP = 0;
     private static final int k_CLIMB_EXTEND = 1;
-    private static final int k_SHOOTER_INIT = 0;
-    private static final int k_SHOOTER_RELEASE = 1;
-    private static final int k_SHOOTER_MOVE = 2;
+    private static final int k_SHOOTER_RELEASE = 0;
+    private static final int k_SHOOTER_DELAY1 = 1;
+    private static final int k_SHOOTER_RETRACT = 2;
+    private static final int k_SHOOTER_DELAY2 = 3;
+    private static final int k_SHOOTER_KICK = 4;
+    private static final int k_SHOOTER_DELAY3 = 5;
+    private static final int k_SHOOTER_RETRACTKICK = 6;
+    private static final int k_SHOOTER_DELAY4 = 7;
     public static final double k_LOAD_ANGLE = 30;
     public static final double k_LOAD_DISTANCE = 135.29;
     public static double newJoystickLeft;
@@ -295,28 +300,45 @@ public class Think {
             retVal = dKickerOnPower;
             
             switch (iKickerState){
-                case k_SHOOTER_INIT:
-                    iKickerState++;
-                    break;
                 case k_SHOOTER_RELEASE:
-                   if(FRCTimer.DelayDone(dReleaseTimer)){
-                       bEjector = false;
-                       bPall = false;
-                       iKickerState++;
-                   }
-                   else{
-                       bEjector = true;
-                       bPall = true;
-                   }
-                   bKicker = false;
-                      
-                    break;
-                case k_SHOOTER_MOVE:
-                    
+                    bEjector = true;
+                    bPall = true;
+                    bKicker = false;
                     iKickerState++;
+                case k_SHOOTER_DELAY1:
+                    if(FRCTimer.DelayDone(dReleaseTimer)){
+                        iKickerState++;    
+                    }                      
+                    break;
+                case k_SHOOTER_RETRACT:
+                    bEjector = false;
+                    bPall = false;
+                    iKickerState++;
+                    break;
+                case k_SHOOTER_DELAY2:
+                    if(FRCTimer.DelayDone(dReleaseTimer)){
+                        iKickerState++;
+                    }
+                    break;
+                case k_SHOOTER_KICK:
+                    bKicker = true;
+                    iKickerState++;
+                case k_SHOOTER_DELAY3:
+                    if(FRCTimer.DelayDone(dReleaseTimer)){
+                        iKickerState++;
+                    }
+                    break;
+                case k_SHOOTER_RETRACTKICK:
+                    bKicker = false;
+                    iKickerState++;
+                    break;
+                case k_SHOOTER_DELAY4:
+                    if(FRCTimer.DelayDone(dReleaseTimer)){
+                        iKickerState++;
+                    }
                     break;
                 default:
-                    break;
+                    break;    
                     
             }
             
