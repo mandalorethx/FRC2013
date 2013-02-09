@@ -34,7 +34,7 @@ public class FRC2013 extends IterativeRobot {
     public static final int k_AIM_TOP = 2;
     public static int iAutonState;
     public static int iAimState;
-    public static int iNumDiscs;
+    public static int iNumDiscs = 2;
     public static double dRightX;
     public static double dLeftX;
     public static double dRightY;
@@ -113,7 +113,7 @@ public class FRC2013 extends IterativeRobot {
     public void disableInit(){
         bLastState = false;
         dTimeWait = 0.0;
-        Input.initVision(FRCFile.bEnableCamera);
+        //Input.initVision(FRCFile.bEnableCamera);
     }
     //initiates autonomous
     public void autonInit(){
@@ -257,12 +257,14 @@ public class FRC2013 extends IterativeRobot {
      */
     public void disablePeriodic(){
         double[] temp = new double[2];
-        
+        Input.initVision(FRCFile.bEnableCamera);
         /**
          * Makes sure only 1 second is added to dTimeWait with each button push
+         * //add code to output current delay
          */
         if(Input.coDriverStick.isPressed(6) && !bLastState){
             dTimeWait ++;
+            Output.display.screenWrite("Delay: " + dTimeWait + " sec.", 0);
             bLastState = true;   
         }
         else if(!Input.coDriverStick.isPressed(6)){
@@ -275,6 +277,7 @@ public class FRC2013 extends IterativeRobot {
          */
         if(Input.coDriverStick.isPressed(7) && !bLastState){
             dTimeWait --;
+            Output.display.screenWrite("Delay: " + dTimeWait + " sec.", 0);
             bLastState = true;
         }
         else if(!Input.coDriverStick.isPressed(7)){
