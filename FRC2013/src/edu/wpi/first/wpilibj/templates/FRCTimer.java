@@ -72,7 +72,7 @@ public class FRCTimer {
      * @return time in seconds
      */
     public static double getSeconds(){
-        return clock.get() / 1000000;
+        return clock.get();
     }
     
 }
