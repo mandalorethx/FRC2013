@@ -298,18 +298,26 @@ public class Think {
             retVal = 0;
         } else {
             retVal = dKickerOnPower;
-            
+            /*
+             * Releases pall and ejector to drop the disc
+             */
             switch (iKickerState){
                 case k_SHOOTER_RELEASE:
                     bEjector = true;
                     bPall = true;
                     bKicker = false;
                     iKickerState++;
+            /**
+             * Delays to ensure frisbee drops
+             */
                 case k_SHOOTER_DELAY1:
                     if(FRCTimer.DelayDone(dReleaseTimer)){
                         iKickerState++;    
                     }                      
                     break;
+            /**
+             * Retracts pall and ejector
+             */
                 case k_SHOOTER_RETRACT:
                     bEjector = false;
                     bPall = false;
@@ -320,6 +328,9 @@ public class Think {
                         iKickerState++;
                     }
                     break;
+            /**
+             * Fwaps the disc
+             */
                 case k_SHOOTER_KICK:
                     bKicker = true;
                     iKickerState++;
@@ -328,6 +339,9 @@ public class Think {
                         iKickerState++;
                     }
                     break;
+            /**
+             * Retracts the kicker (fwapper)
+             */
                 case k_SHOOTER_RETRACTKICK:
                     bKicker = false;
                     iKickerState++;
