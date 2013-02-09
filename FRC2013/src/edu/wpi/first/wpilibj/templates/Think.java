@@ -29,6 +29,7 @@ public class Think {
     private static final int k_SHOOTER_DELAY3 = 5;
     private static final int k_SHOOTER_RETRACTKICK = 6;
     private static final int k_SHOOTER_DELAY4 = 7;
+    private static final int k_SHOOTER_RESET = 8;
     public static final double k_LOAD_ANGLE = 30;
     public static final double k_LOAD_DISTANCE = 135.29;
     public static double newJoystickLeft;
@@ -296,7 +297,8 @@ public class Think {
 
         if (bKickerDone = true) {
             retVal = 0;
-        } else {
+        } 
+        else{
             retVal = dKickerOnPower;
             /*
              * Releases pall and ejector to drop the disc
@@ -351,9 +353,15 @@ public class Think {
                         iKickerState++;
                     }
                     break;
+             /**
+              * Reset the solonoids to default settings.
+              */
+                case k_SHOOTER_RESET:
+                    bEjector = false;
+                    bPall = false;
+                    bKicker = false;
                 default:
-                    break;    
-                    
+                    break;            
             }
             
            /* switch (iKickerState) {
