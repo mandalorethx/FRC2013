@@ -73,7 +73,7 @@ public class Input {
     public static boolean bRightLoadButton;
     public static boolean bClimbButton;
     public static double coY;
-
+    public static boolean bReleaseDisc;
     /**
      * Scores. Subclass for scoring fields
      */
@@ -399,7 +399,15 @@ public class Input {
     public static boolean getGyroNavigate(){
         return rightDriverStick.isPressed(3) || leftDriverStick.isPressed(3);
     }
-    
+    /**
+     * getReleaseDisc.
+     * Drops the disc down
+     * @return The value of the button
+     */
+    public static boolean getReleaseDisc (){
+        return coDriverStick.isPressed(2);
+    }
+            
     
     /**
      * getNextTargetButton.
