@@ -395,12 +395,15 @@ public class Think {
 
     /**
      * Returns the value sent from climbIn
-     *
+     * Placeholder in case changes need to be made to power
      * @param climbIn
      * @return is the climbIn value being sent to the output
      */
     public static double climbInOut(double climbIn) {
         double retVal;
+        
+        //clever math goes here
+        
         retVal = climbIn;
         return retVal;
     }
@@ -414,6 +417,10 @@ public class Think {
         bHookVertical = Input.getHookVerticalValue();        
     }
     
+    /**
+     * Three states for the hooks, forward, reverse, stop
+     * Set hook motor power based on current state
+     */
     public static void moveHook(){
         if (Input.dHook <= -0.5) {
             iHookState = 1;
@@ -438,21 +445,21 @@ public class Think {
         newJoystickRight = temp[1];
         bShooterOn = Input.bTriggerDown;
         
-        if (currentTarget == highCMX){
-            Output.display.screenWrite("current target = high ", 1);
+        /*if (currentTarget == highCMX){
+            //Output.display.screenWrite("target = high", 1);
             
         }
         else if (currentTarget == lowRightCMX) {
-            Output.display.screenWrite("current target = low right", 1);
+            //Output.display.screenWrite("target = low right", 1);
             
         }
         else if (currentTarget == lowLeftCMX){
-            Output.display.screenWrite("current target = low left", 1);
+            //Output.display.screenWrite("target = low left", 1);
         }
         else {
-            Output.display.screenWrite("current target = unknown " + 
-                    Integer.toString(currentTarget), 1);
-        }
+            //Output.display.screenWrite("target = unknown" + 
+                    //Integer.toString(currentTarget), 1);
+        }*/
         getClimbSensors();
 
         if(Input.bLeftLoadButton||Input.bRightLoadButton){
@@ -471,17 +478,18 @@ public class Think {
         }
 
         /**
-         * Returns the boolean value for the robot to start climbing
+         * Sets the value for iHookState
+         * 1 = forward, 0 = stopped, -1 = reverse
          */
    
         moveHook();
 
         /**
          * Returns the boolean value for the robot's second climb cycle
+         * coY = co-driver y
          */
-        if (Input.bClimbExtend) {
-            bClimb = true;
-        }
+        
+        bClimb = Input.bClimbExtend;
         
         if(Input.bClimbButton == true){
             if(Input.coY < -0.25){
@@ -508,12 +516,13 @@ public class Think {
                 case k_CLIMB_EXTEND:
                     dHookMotorPower = dReverseHookMotorPower;
                     dClimbMotorPower = -1 * dMaxClimbMotorPower;
-                    if(bClimb = false){
+                    if(bClimb == false){
                         iClimbState ++;
                     }                    
                     break;
 
                 default:
+                    iClimbState = k_CLIMB_PULLUP;
                     break;
             }
         }
@@ -530,8 +539,9 @@ public class Think {
         if (Input.bAim && FRCFile.bEnableCamera) {
             try {
                 image = Input.getTarget(false, true, false);
+                
                 if(image == null){
-                    Output.display.screenWrite("No Valid Target",0);
+                    //Output.display.screenWrite("No Valid Target",0);
                 }
                 else{
                     if(image.high != null) {
@@ -539,6 +549,8 @@ public class Think {
                         highCMY = image.high.center_mass_y_normalized;
                         //Output.display.screenWrite("High Target Found",2);
                     } else {
+                        //highCMX = 0;
+                        //highCMY = 0;
                         //Output.display.screenWrite("High Target not seen.", 2);
                     }
                     
@@ -547,6 +559,8 @@ public class Think {
                         lowLeftCMY = image.lowLeft.center_mass_y_normalized;
                         //Output.display.screenWrite("Left Target Found",3);
                     } else {
+                        //lowLeftCMX = 0;
+                        //lowLeftCMY = 0;
                         //Output.display.screenWrite("Low Left Target not seen.", 3);
                     }
                     
@@ -555,6 +569,8 @@ public class Think {
                         lowRightCMY = image.lowRight.center_mass_y_normalized;
                         //Output.display.screenWrite("Right Target Found",4);
                     } else {
+                        //lowRightCMX = 0;
+                        //lowRightCMY = 0;
                         //Output.display.screenWrite("Low Right Target not seen.", 4);
                     }
 
@@ -576,6 +592,7 @@ public class Think {
 
         /**
          * Sets trigger value to true or false to tell kicker to start or not
+         * NOTE: Do we want to keep kicker motor on at all times?
          */
         if (bShooterOn == false) {
             dKickerMotorPower = 0;
