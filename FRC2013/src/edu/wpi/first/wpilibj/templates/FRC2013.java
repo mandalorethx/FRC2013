@@ -48,6 +48,8 @@ public class FRC2013 extends IterativeRobot {
     public static boolean dCamLightOn;
     public static boolean dCamLightOff;
     public static boolean bLastState;
+    public static boolean disableAutonomous = false;
+    public static boolean disableLastState;
     public static double dTimeWait;
     public static double dAutonPowerLimitLower;
     public static double dAutonPowerLimitUpper;
@@ -134,95 +136,100 @@ public class FRC2013 extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        double[] temp;
-        switch(iAutonState){
-            
-            /**
-             * Delays the start of robot's autonomous sequence if necessary
-             */
-            case k_AUTON_DELAY:
-                if(FRCTimer.DelayDone(dTimeWait)){
-                    iAutonState++;
-                }
-                break;
-                
-            /**
-             * Finds all targets to shoot for
-             */    
-            case k_AUTON_AIMING:
-                Input.bAim = true;
-                switch(iAimState){                    
-                    case k_AIM_LEFT:
-                        Think.currentTarget = 1;
-                        //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
-                        break;
-                    case k_AIM_RIGHT:
-                        Think.currentTarget = 2;
-                        //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
-                        break;
-                    case k_AIM_TOP:
-                        Think.currentTarget = 0;
-                        //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
-                        break;
-                    default:
-                        Think.currentTarget = 0;
-                        //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
-                        break;
-                }
-                //Think.newJoystickLeft = temp[0];
-                //Think.newJoystickRight = temp[1];
-                if(Output.rightDriveMotor.get() >= dAutonPowerLimitLower && Output.rightDriveMotor.get() <= dAutonPowerLimitUpper ){
-                    //Think.newJoystickLeft = 0;
-                    //Think.newJoystickRight = 0;
-                    iAutonState++;
-                }
-                break;
-                
-            /**
-             * Shooter waits 1 second and then fires
-             */
-            case k_AUTON_FIRE:
-                if(iNumDiscs > 0 && FRCTimer.DelayDone(1)){
-                    Input.bTriggerDown = true;
-                    iAutonState++;
-                }
-                else{
-                    iAutonState = k_AUTON_DONE;
-                }
-                break;
-                
-            /**
-             * Waits to make sure disc is fired, checks for number of discs
-             * left and acts accordingly
-             */
-            case k_AUTON_WAIT:
-                if(FRCTimer.DelayDone(1)){
-                    Input.bTriggerDown = false;
-                    if(iNumDiscs > 0){
-                        iAutonState -= 2;
-                        iNumDiscs--;
-                    }
-                    else{
+        if(disableAutonomous == false){
+            double[] temp;
+            switch(iAutonState){
+
+                /**
+                 * Delays the start of robot's autonomous sequence if necessary
+                 */
+                case k_AUTON_DELAY:
+                    if(FRCTimer.DelayDone(dTimeWait)){
                         iAutonState++;
                     }
-                }
-                break;
-                
-            /**
-             * Moves after shooting (if game strategy calls for it)
-             */
-            case k_AUTON_MOVING:
-                iAutonState++;
-                break;
-                
-            /**
-             * Stops aiming and finishes autonomous sequence
-             */
-            case k_AUTON_DONE:
-                Input.bAim = false;
-                break;
-            default:
-                break;
+                    break;
+
+                /**
+                 * Finds all targets to shoot for
+                 */    
+                case k_AUTON_AIMING:
+                    Input.bAim = true;
+                    switch(iAimState){                    
+                        case k_AIM_LEFT:
+                            Think.currentTarget = 1;
+                            //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                            break;
+                        case k_AIM_RIGHT:
+                            Think.currentTarget = 2;
+                            //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                            break;
+                        case k_AIM_TOP:
+                            Think.currentTarget = 0;
+                            //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                            break;
+                        default:
+                            Think.currentTarget = 0;
+                            //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
+                            break;
+                    }
+                    //Think.newJoystickLeft = temp[0];
+                    //Think.newJoystickRight = temp[1];
+                    if(Output.rightDriveMotor.get() >= dAutonPowerLimitLower && Output.rightDriveMotor.get() <= dAutonPowerLimitUpper ){
+                        //Think.newJoystickLeft = 0;
+                        //Think.newJoystickRight = 0;
+                        iAutonState++;
+                    }
+                    break;
+
+                /**
+                 * Shooter waits 1 second and then fires
+                 */
+                case k_AUTON_FIRE:
+                    if(iNumDiscs > 0 && FRCTimer.DelayDone(1)){
+                        Input.bTriggerDown = true;
+                        iAutonState++;
+                    }
+                    else{
+                        iAutonState = k_AUTON_DONE;
+                    }
+                    break;
+
+                /**
+                 * Waits to make sure disc is fired, checks for number of discs
+                 * left and acts accordingly
+                 */
+                case k_AUTON_WAIT:
+                    if(FRCTimer.DelayDone(1)){
+                        Input.bTriggerDown = false;
+                        if(iNumDiscs > 0){
+                            iAutonState -= 2;
+                            iNumDiscs--;
+                        }
+                        else{
+                            iAutonState++;
+                        }
+                    }
+                    break;
+
+                /**
+                 * Moves after shooting (if game strategy calls for it)
+                 */
+                case k_AUTON_MOVING:
+                    iAutonState++;
+                    break;
+
+                /**
+                 * Stops aiming and finishes autonomous sequence
+                 */
+                case k_AUTON_DONE:
+                    Input.bAim = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+        else{            
+            Input.bAim=false;
         }
         Think.robotThink();
         Output.sendOutput();
@@ -323,6 +330,10 @@ public class FRC2013 extends IterativeRobot {
          */
         if(Input.coDriverStick.isPressed(9)){
             iNumDiscs = 3;
+        }
+        
+        if(Input.coDriverStick.isPressed(2)){
+            disableAutonomous = true;
         }
         
     }
