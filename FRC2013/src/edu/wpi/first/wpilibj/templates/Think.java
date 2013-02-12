@@ -548,9 +548,9 @@ public class Think {
                     //Output.display.screenWrite("No Valid Target",0);
                 }
                 else{
-                    if(image.high != null) {
-                        highCMX = image.high.center_mass_x_normalized;
-                        highCMY = image.high.center_mass_y_normalized;
+                    if(image.dHighDistance != 0) {
+                        highCMX = image.dHighCMX;
+                        highCMY = image.dHighCMY;
                         //Output.display.screenWrite("High Target Found",2);
                     } else {
                         //highCMX = 0;
@@ -558,9 +558,9 @@ public class Think {
                         //Output.display.screenWrite("High Target not seen.", 2);
                     }
                     
-                    if(image.lowLeft != null) {
-                        lowLeftCMX = image.lowLeft.center_mass_x_normalized;
-                        lowLeftCMY = image.lowLeft.center_mass_y_normalized;
+                    if(image.dLowLeftDistance != 0) {
+                        lowLeftCMX = image.dLowLeftCMX;
+                        lowLeftCMY = image.dLowLeftCMY;
                         //Output.display.screenWrite("Left Target Found",3);
                     } else {
                         //lowLeftCMX = 0;
@@ -568,9 +568,9 @@ public class Think {
                         //Output.display.screenWrite("Low Left Target not seen.", 3);
                     }
                     
-                    if(image.lowRight != null) {
-                        lowRightCMX = image.lowRight.center_mass_x_normalized;
-                        lowRightCMY = image.lowRight.center_mass_y_normalized;
+                    if(image.dLowRightDistance != 0) {
+                        lowRightCMX = image.dLowRightCMX;
+                        lowRightCMY = image.dLowRightCMY;
                         //Output.display.screenWrite("Right Target Found",4);
                     } else {
                         //lowRightCMX = 0;

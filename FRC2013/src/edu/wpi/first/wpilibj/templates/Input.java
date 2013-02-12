@@ -75,7 +75,7 @@ public class Input {
     public static boolean bClimbButton;
     public static double coY;
     public static boolean bReleaseDisc;
-	public static boolean didImageWork = true;
+    public static boolean didImageWork = true;
     public static CameraData image = null;
     public static double highCMX, highCMY, highDistance = 0.0d;
     public static double lowLeftCMX, lowLeftCMY, lowDistanceLeft = 0.0d;
@@ -622,25 +622,25 @@ public class Input {
         }
 
         if(bNextTargetButton) {
-            if(Think.currentTarget == 0){
-                Think.currentTarget = 1;
+            if(Think.iCurrentTarget == 0){
+                Think.iCurrentTarget = 1;
             }
-            if(Think.currentTarget == 1){
-                Think.currentTarget = 2;
+            if(Think.iCurrentTarget == 1){
+                Think.iCurrentTarget = 2;
             }    
-            if(Think.currentTarget == 2){
-                Think.currentTarget = 0;
+            if(Think.iCurrentTarget == 2){
+                Think.iCurrentTarget = 0;
             }    
         }
         if(bPrevTargetButton) {
-            if(Think.currentTarget == 0){
-                Think.currentTarget = 2;
+            if(Think.iCurrentTarget == 0){
+                Think.iCurrentTarget = 2;
             }    
-            if(Think.currentTarget == 1){
-                Think.currentTarget = 0;
+            if(Think.iCurrentTarget == 1){
+                Think.iCurrentTarget = 0;
             }    
-            if(Think.currentTarget == 2){
-                Think.currentTarget = 1;
+            if(Think.iCurrentTarget == 2){
+                Think.iCurrentTarget = 1;
             }    
         }
         

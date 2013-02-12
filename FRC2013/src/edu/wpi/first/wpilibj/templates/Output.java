@@ -171,23 +171,23 @@ public class Output {
         }
         
        if(Think.image != null) {
-        if (Think.currentTarget== 0) {
+        if (Think.currentPosition== 0) {
             display.screenWrite("Target: High", 0);
             display.screenWrite("Distance: Not Found", 1);
-            if (Think.image.high != null){
-                display.screenWrite("Distance: " + Think.image.highDistance, 1);
+            if (Think.image.dHighDistance != 0){
+                display.screenWrite("Distance: " + Think.image.dHighDistance, 1);
             }
-        } else if (Think.currentTarget== 1) {
+        } else if (Think.currentPosition== 1) {
             display.screenWrite("Target: Low Left", 0);
             display.screenWrite("Distance: Not Found", 1);
-            if (Think.image.lowLeft != null){
-                display.screenWrite("Distance " + Think.image.lowLeftDistance, 1);
+            if (Think.image.dLowLeftDistance != 0){
+                display.screenWrite("Distance " + Think.image.dLowLeftDistance, 1);
             }
-        } else if (Think.currentTarget== 2) {
+        } else if (Think.currentPosition== 2) {
             display.screenWrite("Target: Low Right", 0);
             display.screenWrite("Distance: Not Found", 1);
-            if (Think.image.lowRight != null){
-                display.screenWrite("Distance: " + Think.image.lowRightDistance, 1);
+            if (Think.image.dLowRightDistance != 0){
+                display.screenWrite("Distance: " + Think.image.dLowRightDistance, 1);
             }
         }
         } else {

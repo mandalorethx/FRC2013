@@ -61,7 +61,7 @@ public class FRC2013 extends IterativeRobot {
         Output.initModule();
         Output.initScreen();
         Input.initSwitch();
-        Input.initVision();
+        Input.initVision(FRCFile.bEnableCamera);
         FRCTimer.initTimer();
         FRCFile.initConfig();
         Output.solenoidEjectorOff();
@@ -114,7 +114,7 @@ public class FRC2013 extends IterativeRobot {
     public void disableInit(){
         bLastState = false;
         dTimeWait = 0.0;
-        Input.initVision();
+        Input.initVision(FRCFile.bEnableCamera);
     }
     //initiates autonomous
     public void autonInit(){
@@ -157,19 +157,19 @@ public class FRC2013 extends IterativeRobot {
                     Input.bAim = true;
                     switch(iAimState){                    
                         case k_AIM_LEFT:
-                            Think.currentTarget = 1;
+                            Think.iCurrentTarget = 1;
                             //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                             break;
                         case k_AIM_RIGHT:
-                            Think.currentTarget = 2;
+                            Think.iCurrentTarget = 2;
                             //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                             break;
                         case k_AIM_TOP:
-                            Think.currentTarget = 0;
+                            Think.iCurrentTarget = 0;
                             //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                             break;
                         default:
-                            Think.currentTarget = 0;
+                            Think.iCurrentTarget = 0;
                             //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                             break;
                     }
