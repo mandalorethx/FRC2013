@@ -1,6 +1,5 @@
 package edu.wpi.first.wpilibj.templates;
 
-import com.sun.squawk.GC;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
@@ -12,7 +11,6 @@ import edu.wpi.first.wpilibj.image.LinearAverages;
 import edu.wpi.first.wpilibj.image.NIVision;
 import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
-import edu.wpi.first.wpilibj.image.RGBImage;
 
 /**
  * Input Class. Contains methods to return info about specific inputs.
