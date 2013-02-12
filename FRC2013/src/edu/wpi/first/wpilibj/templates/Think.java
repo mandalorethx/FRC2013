@@ -146,7 +146,7 @@ public class Think {
                 }
                 else if (distance < dLowerDistanceLimit*k_LOAD_DISTANCE) {
                     retVal[0] = dLoadReversePower;
-                    retVal [1] = dLoadReversePower;
+                    retVal[1] = dLoadReversePower;
                     
                 }
                     
@@ -169,8 +169,7 @@ public class Think {
                 break;
             case k_LOAD_MOVE:
                 retVal[0] = dLoadReversePower;
-                retVal[1] = dLoadReversePower;
-                        
+                retVal[1] = dLoadReversePower;                        
                 break;
             default:
                 break;
