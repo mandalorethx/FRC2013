@@ -1,6 +1,5 @@
 package edu.wpi.first.wpilibj.templates;
 
-import com.sun.squawk.GC;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
@@ -12,7 +11,6 @@ import edu.wpi.first.wpilibj.image.LinearAverages;
 import edu.wpi.first.wpilibj.image.NIVision;
 import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
-import edu.wpi.first.wpilibj.image.RGBImage;
 
 /**
  * Input Class. Contains methods to return info about specific inputs.
@@ -622,25 +620,25 @@ public class Input {
         }
 
         if(bNextTargetButton) {
-            if(Think.currentTarget == 0){
-                Think.currentTarget = 1;
+            if(Think.iCurrentTarget == 0){
+                Think.iCurrentTarget = 1;
             }
-            if(Think.currentTarget == 1){
-                Think.currentTarget = 2;
+            if(Think.iCurrentTarget == 1){
+                Think.iCurrentTarget = 2;
             }    
-            if(Think.currentTarget == 2){
-                Think.currentTarget = 0;
+            if(Think.iCurrentTarget == 2){
+                Think.iCurrentTarget = 0;
             }    
         }
         if(bPrevTargetButton) {
-            if(Think.currentTarget == 0){
-                Think.currentTarget = 2;
+            if(Think.iCurrentTarget == 0){
+                Think.iCurrentTarget = 2;
             }    
-            if(Think.currentTarget == 1){
-                Think.currentTarget = 0;
+            if(Think.iCurrentTarget == 1){
+                Think.iCurrentTarget = 0;
             }    
-            if(Think.currentTarget == 2){
-                Think.currentTarget = 1;
+            if(Think.iCurrentTarget == 2){
+                Think.iCurrentTarget = 1;
             }    
         }
         
