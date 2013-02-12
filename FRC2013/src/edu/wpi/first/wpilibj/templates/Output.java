@@ -129,6 +129,29 @@ public class Output {
         if (Think.iHookState == 1 || Think.iHookState == -1) {
             climb (dClimbPower);            
         }
+        
+        if (Input.didImageWork) {
+            if (Think.iCurrentTarget == 0) {
+                display.screenWrite("Current Target: High", 0);
+                display.screenWrite("Distance: Not Found...", 1);
+                if (Input.highDistance != 0.0d) {
+                    display.screenWrite("Distance: " + Input.highDistance, 1);
+                }
+            } else if (Think.iCurrentTarget == 1) {
+                display.screenWrite("Current Target: Low Left", 0);
+                display.screenWrite("Distance: Not Found...", 1);
+                if (Input.lowDistanceLeft != 0.0d) {
+                    display.screenWrite("Distance " + Input.lowDistanceLeft, 1);
+                }
+            } else if (Think.iCurrentTarget == 2) {
+                display.screenWrite("Current Target: Low Right", 0);
+                display.screenWrite("Distance: Not Found...", 1);
+                if (Input.lowDistanceRight != 0.0d) {
+                    display.screenWrite("Distance: " + Input.lowDistanceRight, 1);
+                }
+            }
+		}
+
         if (Think.bClimb) {
             ascend ();
         }

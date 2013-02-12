@@ -1,5 +1,6 @@
 package edu.wpi.first.wpilibj.templates;
 
+import com.sun.squawk.GC;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
@@ -74,6 +75,14 @@ public class Input {
     public static boolean bClimbButton;
     public static double coY;
     public static boolean bReleaseDisc;
+	public static boolean didImageWork = true;
+    public static CameraData image = null;
+    public static double highCMX, highCMY, highDistance = 0.0d;
+    public static double lowLeftCMX, lowLeftCMY, lowDistanceLeft = 0.0d;
+    public static double lowRightCMX, lowRightCMY, lowDistanceRight = 0.0d;
+    private static BinaryImage thresholdImage, convexHullImage, filteredImage = null;
+    private static ColorImage ciImage = null;
+
     /**
      * Scores. Subclass for scoring fields
      */
@@ -147,59 +156,39 @@ public class Input {
     /**
      * getTarget.
      *
-     * @param useStored Pass true if you just want to use a stored image
      * @param storeImages Pass true if you want to store all the images to the
      * cRIO
      * @param outputDebug Pass true if you want to output debug messages for
      * each blob found
      * @return Returns target data in the form of CameraData
      */
-    public static CameraData getTarget(boolean useStored, boolean storeImages, boolean outputDebug) throws AxisCameraException {
+    public static CameraData getTarget(boolean storeImages, boolean outputDebug) throws AxisCameraException {
         CameraData CD = null;
-        
-        BinaryImage thresholdImage = null;
-        BinaryImage convexHullImage = null;
-        BinaryImage filteredImage = null;
-        ColorImage image = null;
+        ParticleAnalysisReport parHigh = null;
+        ParticleAnalysisReport parLowLeft = null;
+        ParticleAnalysisReport parLowRight = null;
+        double parHighDistance = 0.0d;
+        double parLowDistanceLeft = 0.0d;
+        double parLowDistanceRight = 0.0d;
+
+        if (!didImageWork) {
+            return null;
+        } else {
+            didImageWork = false;
+        }
 
         try {
-            ParticleAnalysisReport high = null;
-            ParticleAnalysisReport lowLeft = null;
-            ParticleAnalysisReport lowRight = null;
-            double highDistance = 0;
-            double lowDistanceLeft = 0;
-            double lowDistanceRight = 0;
-
-            /**
-             * Do the image capture with the camera and apply the algorithm
-             * described above. This sample will either get images from the
-             * camera or from an image file stored in the top level directory in
-             * the flash memory on the cRIO. The file name in this case is
-             * "testImage.jpg"
-             */
-            if (!useStored) {
-                image = camera.getImage();
-                if (storeImages)
-                    image.write("/original.bmp");
+            if (camera.getImage() != null) {
+                ciImage = camera.getImage();
             } else {
-                image = new RGBImage("/testImage.jpg"); // Get the sample image from the cRIO flash
+                System.out.println("No Camera");
+                ciImage = null;
             }
 
             //BinaryImage thresholdImage = image.thresholdHSV(60, 100, 90, 255, 20, 255); // Keep only red objects
-            thresholdImage = image.thresholdHSV(40, 190, 90, 255, 0, 255); // Keep only red objects
-            if (storeImages) {
-                thresholdImage.write("/threshold.bmp");
-            }                // Save the threshold image
-
+            thresholdImage = ciImage.thresholdHSV(40, 190, 90, 255, 0, 255); // Keep only red objects
             convexHullImage = thresholdImage.convexHull(false);             // Fill in occluded rectangles
-            if (storeImages) {
-                convexHullImage.write("/convexHull.bmp");
-            }              // Write the convexhull image
-
             filteredImage = convexHullImage.particleFilter(cc);             // Filter out small particles
-            if (storeImages) {
-                filteredImage.write("/filteredImage.bmp");
-            }             // Write the filtered image
 
             // Iterate through each particle and score to see if it is a target
             Scores scores[] = new Scores[filteredImage.getNumberParticles()];
@@ -213,95 +202,127 @@ public class Input {
                 scores[i].yEdge = scoreYEdge(thresholdImage, report);
 
                 if (scoreCompare(scores[i], false)) {
-                    high = report;
-                    highDistance = computeDistance(thresholdImage, report, i, false);
+                    parHigh = report;
+                    parHighDistance = computeDistance(thresholdImage, report, i, false);
                 } else if (scoreCompare(scores[i], true)) {
-                    if (lowLeft == null && lowRight == null) {
-                        lowLeft = report;
-                        lowDistanceLeft = computeDistance(thresholdImage, report, i, true);
-                    } else if (lowRight == null) {
-                        if (lowLeft.center_mass_x_normalized > report.center_mass_x_normalized) {
-                            lowRight = lowLeft;
-                            lowDistanceRight = lowDistanceLeft;
-                            lowLeft = report;
-                            lowDistanceLeft = computeDistance(thresholdImage, report, i, true);
+                    if (parLowLeft == null && parLowRight == null) {
+                        parLowLeft = report;
+                        parLowDistanceLeft = computeDistance(thresholdImage, report, i, true);
+                    } else if (parLowRight == null) {
+                        if (parLowLeft.center_mass_x_normalized > report.center_mass_x_normalized) {
+                            parLowRight = parLowLeft;
+                            parLowDistanceRight = parLowDistanceLeft;
+                            parLowLeft = report;
+                            parLowDistanceLeft = computeDistance(thresholdImage, report, i, true);
                         } else {
-                            lowRight = report;
-                            lowDistanceRight = computeDistance(thresholdImage, report, i, true);
+                            parLowRight = report;
+                            parLowDistanceRight = computeDistance(thresholdImage, report, i, true);
                         }
                     }
                 }
 
-                if (outputDebug) {
-                    if (scoreCompare(scores[i], false)) {
-                        System.out.println("particle: " + i + "is a High Goal  centerX: " + report.center_mass_x_normalized + "centerY: " + report.center_mass_y_normalized);
-                        System.out.println("Distance: " + computeDistance(thresholdImage, report, i, false));
-                    } else if (scoreCompare(scores[i], true)) {
-                        System.out.println("particle: " + i + "is a Middle Goal  centerX: " + report.center_mass_x_normalized + "centerY: " + report.center_mass_y_normalized);
-                        System.out.println("Distance: " + computeDistance(thresholdImage, report, i, true));
-                    } else {
-                        System.out.println("particle: " + i + "is not a goal  centerX: " + report.center_mass_x_normalized + "centerY: " + report.center_mass_y_normalized);
-                    }
-                    System.out.println("rect: " + scores[i].rectangularity + "ARinner: " + scores[i].aspectRatioInner);
-                    System.out.println("ARouter: " + scores[i].aspectRatioOuter + "xEdge: " + scores[i].xEdge + "yEdge: " + scores[i].yEdge);
-                }
+                /*if (outputDebug) {
+                 if (scoreCompare(scores[i], false)) {
+                 System.out.println("===============================");
+                 System.out.println("-particle " + i + " is a High Goal - centerX: " + report.center_mass_x_normalized + " - centerY: " + report.center_mass_y_normalized);
+                 System.out.println("--Distance: " + computeDistance(thresholdImage, report, i, false));
+                 } else if (scoreCompare(scores[i], true)) {
+                 System.out.println("===============================");
+                 System.out.println("-particle " + i + " is a Middle Goal - centerX: " + report.center_mass_x_normalized + " - centerY: " + report.center_mass_y_normalized);
+                 System.out.println("--Distance: " + computeDistance(thresholdImage, report, i, true));
+                 } else {
+                 //System.out.println("-particle " + i + " is not a goal - CenterX: " + report.center_mass_x_normalized + " - centerY: " + report.center_mass_y_normalized);
+                 }
+                 System.out.println("Rect: " + scores[i].rectangularity + " - Aspect-Inner: " + scores[i].aspectRatioInner);
+                 System.out.println("Aspect-Outer: " + scores[i].aspectRatioOuter + " - xEdge: " + scores[i].xEdge + " - yEdge: " + scores[i].yEdge);
+                 }*/
             }
 
-            CD = new CameraData(high, highDistance, lowLeft, lowDistanceLeft, lowRight, lowDistanceRight);
+            CD = new CameraData(parHigh, parHighDistance, parLowLeft, parLowDistanceLeft, parLowRight, parLowDistanceRight);
+            //image.setData(parHigh, parHighDistance, parLowLeft, parLowDistanceLeft, parLowRight, parLowDistanceRight);
 
             // Free the memory for each image.
             System.out.println("Freeing images!");
             filteredImage.free();
             convexHullImage.free();
             thresholdImage.free();
-            image.free();
+            ciImage.free();
+            /*
+            filteredImage = null;
+            convexHullImage = null;
+            thresholdImage = null;
+            ciImage = null;
+            parHigh = null;
+            parLowLeft = null;
+            parLowRight = null;
+            parHighDistance = 0.0d;
+            parLowDistanceLeft = 0.0d;
+            parLowDistanceRight = 0.0d;
+            * */
             System.out.println("Done Freeing images!");
-
-        //} catch (AxisCameraException ex) {
-        //    ex.printStackTrace();
-        //} catch (NIVisionException ex) {
-        //    ex.printStackTrace();
-        }
-        catch(Exception ext) {
-            ScreenOutput scrOut = new ScreenOutput();
-            //scrOut.screenWrite("Unhandled Error: " + ext.getMessage(),2);
+        } catch (Exception ext) {
             ext.printStackTrace();
         } finally {
-            if(filteredImage != null) {
+            if (filteredImage != null) {
                 try {
                     filteredImage.free();
                 } catch (NIVisionException ex) {
                     System.out.println("Cannot Free filtered image in catch!");
                 }
             }
-            if(convexHullImage != null) {
+            if (convexHullImage != null) {
                 try {
                     convexHullImage.free();
                 } catch (NIVisionException ex) {
                     System.out.println("Cannot Free convex hull image in catch!");
                 }
             }
-            if(thresholdImage != null) {
+            if (thresholdImage != null) {
                 try {
                     thresholdImage.free();
                 } catch (NIVisionException ex) {
                     System.out.println("Cannot Free threshold image in catch!");
                 }
             }
-            if(image != null) {
+            if (ciImage != null) {
                 try {
-                    image.free();
+                    ciImage.free();
+
                 } catch (NIVisionException ex) {
                     System.out.println("Cannot Free image in catch!");
                 }
             }
+            image = null;
+            thresholdImage = null;
+            convexHullImage = null;
+            filteredImage = null;
+            /*
+            parHigh = null;
+            parLowLeft = null;
+            parLowRight = null;
+            parHighDistance = 0.0d;
+            parLowDistanceLeft = 0.0d;
+            parLowDistanceRight = 0.0d;
+            */
         }
+
+        if (outputDebug) {
+            System.out.println("===============================");
+            System.out.println("-High Goal - CenterX: " + highCMX + " - CenterY: " + highCMY);
+            System.out.println("--Distance: " + highDistance);
+            System.out.println("===============================");
+            System.out.println("-Low Left Goal - CenterX: " + lowLeftCMX + " - CenterY: " + lowLeftCMY);
+            System.out.println("--Distance: " + lowDistanceLeft);
+            System.out.println("===============================");
+            System.out.println("-Low Right Goal - CenterX: " + lowRightCMX + " - CenterY: " + lowRightCMY);
+            System.out.println("--Distance: " + lowDistanceLeft);
+        }
+        didImageWork = true;
         return CD;
     }
 
     /**
-     * initSwitch.
-     * Initializes the switch...
+     * initSwitch. Initializes the switch..
      */
     public static void initSwitch(){
         kickerSwitch = new DigitalInput(1);
@@ -538,7 +559,68 @@ public class Input {
         bLeftLoadButton = getLoadButtonLeft();
         bRightLoadButton = getLoadButtonRight();
         bClimbButton = coDriverStick.isPressed(3);
+		Output.setCameraLight(bAim);
+
+        if(!FRCTimer.bHasStarted) {
+            FRCTimer.start();
+        }
         
+		if (bAim && FRCTimer.getSeconds() > 1) { // && FRCFile.bEnableCamera                
+            
+            try {
+                image = getTarget(false, true);
+            } catch (Exception e) {
+                System.out.println("Error getting target: " + e);
+                e.printStackTrace();
+            }
+            if (image != null) {
+                if (image.dHighDistance != 0) {
+                    //if (image.high != null) {
+                    highCMX = image.dHighCMX;
+                    highCMY = image.dHighCMY;
+                    highDistance = image.dHighDistance;
+                    System.out.println("Found high target, setting CM");
+                } else {
+                    System.out.println("High Target not found.");
+                }
+
+                if (image.dLowLeftDistance != 0) {
+                    //if (image.lowLeft != null) {
+                    lowLeftCMX = image.dLowLeftCMX;
+                    lowLeftCMY = image.dLowLeftCMY;
+                    lowDistanceLeft = image.dLowLeftDistance;
+                    System.out.println("Found low left target, setting CM");
+                } else {
+                    System.out.println("Low Left Target not found.");
+                }
+
+                if (image.dLowRightDistance != 0) {
+                    //if (image.lowRight != null) {
+                    lowRightCMX = image.dLowRightCMX;
+                    lowRightCMY = image.dLowRightCMY;
+                    lowDistanceRight = image.dLowRightDistance;
+                    System.out.println("Found low right target, setting CM");
+                } else {
+                    System.out.println("Low Right Target not seen.");
+                }
+                //} catch (Exception ex) {
+                //    System.out.println("Error getting image " + ex);
+                //}
+                if (image != null) {
+                    double[] temp = Think.aimAdjust(Think.newJoystickLeft, Think.newJoystickRight);
+                    Think.newJoystickLeft = temp[0];
+                    Think.newJoystickRight = temp[1];
+                    image = null;
+                }
+            }
+            
+            FRCTimer.reset();
+        } else {
+            Think.lastError = 0;
+            Think.sumError = 0;
+            Think.currError = 0;
+        }
+
         if(bNextTargetButton) {
             if(Think.currentTarget == 0){
                 Think.currentTarget = 1;

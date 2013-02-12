@@ -19,16 +19,21 @@ public class Output {
     public static Victor climbMotor1;
     public static Victor climbMotor2;
     public static Victor kickerMotor;
+    public static Victor hookMotor;
     public static double dClimbPower = 1.0;
-    public static int iRightDriveMotorSlot = 6;
-    public static int iLeftDriveMotorSlot = 5;
-    public static int iShooterMotorSlot = 3;
+    public static int iRightDriveMotorSlot = 3;
+    public static int iLeftDriveMotorSlot = 4;
+    public static int iShooterMotorSlot = 5;
     public static int iClimbMotor1Slot = 2;
     public static int iClimbMotor2Slot = 1;
-    public static int iKickerMotorSlot = 4;
+    public static int iKickerMotorSlot = 6;
+    public static int iHookMotorSlot = 7;
     public static int iDropSlot1 = 1;
     public static int iDropSlot2 = 2;
     public static int iDropSlot3 = 3;
+    public static int iEjector = 1;
+    public static int iPall = 2;
+    public static int iKicker = 3;
     
     public static DigitalModule digimod;
     
@@ -46,7 +51,7 @@ public class Output {
     */
    public static void setCameraLight(boolean state){
        digimod.setRelayForward(1, state);
-       display.screenWrite("Light: " + state, 1);
+       //display.screenWrite("Light: " + state, 1);
        
    }
    
@@ -99,7 +104,7 @@ public class Output {
         shooterMotor= new Victor(iShooterMotorSlot);
         climbMotor1 = new Victor (iClimbMotor1Slot);
         climbMotor2 = new Victor (iClimbMotor2Slot);
-        kickerMotor = new Victor (iKickerMotorSlot);
+        hookMotor = new Victor (iHookMotorSlot);
     }
     
     /**
@@ -112,7 +117,7 @@ public class Output {
         rightDriveMotor.set(rightPower);
         leftDriveMotor.set((-1) * leftPower);
         shooterMotor.set(shooterPower);
-        
+       
     }
     
     /**
@@ -121,21 +126,73 @@ public class Output {
      */
     public static void sendOutput(){
         setPower(Think.newJoystickLeft, Think.newJoystickRight, Think.dShooterPower);
-        if (Think.bClimb1) {
+        if (Think.iHookState == 1 || Think.iHookState == -1) {
             climb (dClimbPower);            
         }
-        if (Think.bClimb2) {
+        if (Think.bClimb) {
             ascend ();
         }
-        if (Think.currentTarget== 0)
-            display.screenWrite("Current Target: High");
-        
-        else if (Think.currentTarget== 1)
-            display.screenWrite("Current Target: Low Left");
-        
-        else if (Think.currentTarget== 2)
-            display.screenWrite("Current Target: Low Right");
  
+        if(Think.bEjector == false){
+            solenoidEjectorOff();
+        }
+        else{
+            solenoidEjectorOn();
+        }
+        
+        if(Think.bPall == false){
+            solenoidPallOff();
+        }
+        else{
+            solenoidPallOn();
+        }
+        
+       if(Think.image != null) {
+        if (Think.currentTarget== 0) {
+            display.screenWrite("Target: High", 0);
+            display.screenWrite("Distance: Not Found", 1);
+            if (Think.image.high != null){
+                display.screenWrite("Distance: " + Think.image.highDistance, 1);
+            }
+        } else if (Think.currentTarget== 1) {
+            display.screenWrite("Target: Low Left", 0);
+            display.screenWrite("Distance: Not Found", 1);
+            if (Think.image.lowLeft != null){
+                display.screenWrite("Distance " + Think.image.lowLeftDistance, 1);
+            }
+        } else if (Think.currentTarget== 2) {
+            display.screenWrite("Target: Low Right", 0);
+            display.screenWrite("Distance: Not Found", 1);
+            if (Think.image.lowRight != null){
+                display.screenWrite("Distance: " + Think.image.lowRightDistance, 1);
+            }
+        }
+        } else {
+            display.screenWrite("No Targets/Image!", 0);
+            display.screenWrite("", 1);
+        }
+    }
+    public static void solenoidEjectorOn(){
+        digimod.setRelayForward(iEjector, true);
+    }
+    
+    public static void solenoidEjectorOff(){
+        digimod.setRelayForward(iEjector, false);
+    }
+    
+    public static void solenoidPallOn(){
+        digimod.setRelayForward(iPall, true);
+    }
+    
+    public static void solenoidPallOff(){
+        digimod.setRelayForward(iPall, false);
+    }
+        
+    public static void solenoidKickerOn(){
+        digimod.setRelayForward(iKicker, true);
+    }
+    
+    public static void solenoidKickerOff(){
+        digimod.setRelayForward(iKicker, false);
     }
 }
-

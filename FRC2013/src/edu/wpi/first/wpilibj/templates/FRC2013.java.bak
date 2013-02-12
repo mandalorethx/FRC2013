@@ -60,8 +60,7 @@ public class FRC2013 extends IterativeRobot {
         Output.initMotors();
         Output.initModule();
         Output.initScreen();
-        Input.initSwitch();
-        Input.initVision();
+        //Input.initVision(FRCFile.bEnableCamera);
         FRCTimer.initTimer();
         FRCFile.initConfig();
         Output.solenoidEjectorOff();
@@ -114,7 +113,7 @@ public class FRC2013 extends IterativeRobot {
     public void disableInit(){
         bLastState = false;
         dTimeWait = 0.0;
-        Input.initVision();
+        //Input.initVision(FRCFile.bEnableCamera);
     }
     //initiates autonomous
     public void autonInit(){
@@ -240,7 +239,6 @@ public class FRC2013 extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-       System.gc(); 
        Input.gatherInput();
        Think.robotThink();
        Output.sendOutput();

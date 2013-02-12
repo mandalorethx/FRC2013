@@ -48,21 +48,32 @@ public class Input {
     public static boolean bAim;
     public static boolean bSlowSpeedRight;
     public static boolean bSlowSpeedLeft;
-    public static boolean bClimb1Left;
-    public static boolean bClimb1Right;
-    public static boolean bClimb2Left;
-    public static boolean bClimb2Right;
+    public static boolean bGyroNavigate;
+    public static double dHook;
+    public static boolean bClimbExtend;
+    public static boolean bClimbRetract;
     public static double leftX;
     public static double rightX;
     public static double leftY;
     public static double rightY;
-    public static int iDriverPortRight = FRCFile.iDriverPortRight;
+    public static double dTimeUntilLoad = 2.0;
+    public static int iDriverPortRight = 1;
     public static int iDriverPortLeft = 2;
     public static int iDriverPortCo = 3;
     public static Gyro gyro; // The Gyro
     //public static CameraData image;
     public static DigitalInput kickerSwitch;
+    public static DigitalInput eotExtended;
+    public static DigitalInput eotRetracted;
+    public static DigitalInput hookVertical;
     public static ScreenOutput out = new ScreenOutput();
+    public static boolean bNextTargetButton;
+    public static boolean bPrevTargetButton;
+    public static boolean bLeftLoadButton;
+    public static boolean bRightLoadButton;
+    public static boolean bClimbButton;
+    public static double coY;
+    public static boolean bReleaseDisc;
     /**
      * Scores. Subclass for scoring fields
      */
@@ -92,7 +103,17 @@ public class Input {
      */
     public static void initVision(boolean doCamera) {
         if (doCamera) {
-            camera = AxisCamera.getInstance();  // Get an instance of the camera
+            try {
+                if (FRCTimer.DelayDone(dTimeUntilLoad)){
+                    camera = AxisCamera.getInstance();  // Get an instance of the camera
+                    camera.writeResolution(AxisCamera.ResolutionT.k320x240);
+                    camera.writeBrightness(0);
+                }
+            } catch(Exception e)
+            {
+                Output.display.screenWrite("An error occured while initializing the camera. Disabling.");
+                FRCFile.bEnableCamera = false;
+            }
         }
         cc = new CriteriaCollection();      // Create the criteria for the particle filter
         cc.addCriteria(NIVision.MeasurementType.IMAQ_MT_AREA, 500, 65535, false); // Add criteria to particle filter
@@ -243,7 +264,7 @@ public class Input {
         }
         catch(Exception ext) {
             ScreenOutput scrOut = new ScreenOutput();
-            scrOut.screenWrite("Unhandled Error: " + ext.getMessage(),2);
+            //scrOut.screenWrite("Unhandled Error: " + ext.getMessage(),2);
             ext.printStackTrace();
         } finally {
             if(filteredImage != null) {
@@ -284,6 +305,9 @@ public class Input {
      */
     public static void initSwitch(){
         kickerSwitch = new DigitalInput(1);
+        eotExtended = new DigitalInput(2);
+        eotRetracted = new DigitalInput(3);
+        hookVertical = new DigitalInput(4);
     }
     
     /**
@@ -294,6 +318,30 @@ public class Input {
      */
     public static boolean getKickerSwitchValue(){
         return kickerSwitch.get();
+    }
+    /**
+     * getExtendedValue.
+     * gets value of extended climbing arm
+     * @return Returns the value of the extended arm
+     */
+    public static boolean getExtendedValue(){
+        return eotExtended.get();
+    }
+     /**
+      * getRetractedValue.
+      * gets the value of the retracted climbing arm
+      * @return Returns the value of retracted arm
+      */
+    public static boolean getRetractedValue(){
+        return eotRetracted.get();
+    }
+     /**
+      * getHookVerticalValue.
+      * gets the value of the vertical hook
+      * @return Returns the value of vertical hook
+      */
+    public static boolean getHookVerticalValue(){
+        return hookVertical.get();
     }
     
     /**
@@ -328,22 +376,38 @@ public class Input {
 
     /**
      * getRightY.
-     * Prints and returns the value of the right sticks y axis.
+     * Returns the value of the right sticks y axis.
      * @return Returns the y value of the right stick
      */
     public static double getRightY() {
         //out.screenWrite("RIGHTY: " + rightDriverStick.getY());
         return rightDriverStick.getY();
     }
-
     /**
-     * getTriggerDown.
-     * Return the state of the trigger button on the right stick.
-     * @return State of the trigger
+     * getCoDriverY.
+     * Returns the value of the codriver sticks y axis.
+     * @return Returns the y value of the co driver stick
      */
-    public static boolean getAimRight() {
-        return rightDriverStick.getTrigger();
+    public static double getCoDriverY(){
+        return coDriverStick.getY();
     }
+    /**
+     * getGyroNavigate.
+     * Stops the gyro
+     * @return State of the button
+     */
+    public static boolean getGyroNavigate(){
+        return rightDriverStick.isPressed(3) || leftDriverStick.isPressed(3);
+    }
+    /**
+     * getReleaseDisc.
+     * Drops the disc down
+     * @return The value of the button
+     */
+    public static boolean getReleaseDisc (){
+        return coDriverStick.isPressed(2);
+    }
+            
     
     /**
      * getNextTargetButton.
@@ -391,39 +455,30 @@ public class Input {
     }
 
     /**
-     * getClimb1Left.
-     * Returns the state of the left climb 1 button.
+     * getHook.
+     * Returns the joystick position on the Y axis.
      * @return State of the button.
      */
-    public static boolean getClimb1Left() {
-        return leftDriverStick.isPressed(4);
+    public static double getHook() {
+        return coDriverStick.getY();
     }
 
     /**
-     * getClimb1Right.
-     * Returns the state of the right climb 1 button.
-     * @return State of the button.
-     */
-    public static boolean getClimb1Right() {
-        return rightDriverStick.isPressed(4);
-    }
-
-    /**
-     * getClimb2Left.
+     * getClimbExtend.
      * Returns the state of the left climb 2 button.
      * @return State of the button.
      */
-    public static boolean getClimb2Left() {
-        return leftDriverStick.isPressed(5);
+    public static boolean getClimbExtend() {
+        return coDriverStick.isPressed(6) || coDriverStick.isPressed(11);
     }
 
     /**
-     * getClimb2Right.
+     * getClimbRight.
      * Returns the state of the right climb 2 button.
      * @return State of the button.
      */
-    public static boolean getClimb2Right() {
-        return rightDriverStick.isPressed(5);
+    public static boolean getClimbRetract() {
+        return coDriverStick.isPressed(7) || coDriverStick.isPressed(10);
     }
     /**
      * getLoadButtonLeft.
@@ -433,6 +488,7 @@ public class Input {
     public static boolean getLoadButtonLeft(){
         return leftDriverStick.isPressed(6);
     }
+     
     /**
      * getLoadButtonRight.
      * Returns the state of the right load button
@@ -466,38 +522,44 @@ public class Input {
     public static void gatherInput() {
         leftX = getLeftX();
         leftY = getLeftY();
+        coY = getCoDriverY();
         rightX = getRightX();
         rightY = getRightY();
         bTriggerDown = getAim();
         bAim = getAim();
         bSlowSpeedRight = getSlowSpeedRight();
         bSlowSpeedLeft = getSlowSpeedLeft();
-        bClimb1Left = getClimb1Left();
-        bClimb1Right = getClimb1Right();
-        bClimb2Left = getClimb2Left();
-        bClimb2Right = getClimb2Right();
+        dHook = getHook();
+        bClimbExtend = getClimbExtend();
+        bClimbRetract = getClimbRetract();
+        bNextTargetButton = getNextTargetButton();
+        bPrevTargetButton = getPrevTargetButton();
+        bGyroNavigate = getGyroNavigate();
+        bLeftLoadButton = getLoadButtonLeft();
+        bRightLoadButton = getLoadButtonRight();
+        bClimbButton = coDriverStick.isPressed(3);
         
-        if(getNextTargetButton()) {
-            if(Think.currentTarget == 0)
+        if(bNextTargetButton) {
+            if(Think.currentTarget == 0){
                 Think.currentTarget = 1;
-                //Output.display.screenWrite("Current Target: Low Left", 1);
-            if(Think.currentTarget == 1)
+            }
+            if(Think.currentTarget == 1){
                 Think.currentTarget = 2;
-                //Output.display.screenWrite("Current Target: Low Right", 1);
-            if(Think.currentTarget == 2)
+            }    
+            if(Think.currentTarget == 2){
                 Think.currentTarget = 0;
-                //Output.display.screenWrite("Current Target: High", 1);
+            }    
         }
-        if(getPrevTargetButton()) {
-            if(Think.currentTarget == 0)
+        if(bPrevTargetButton) {
+            if(Think.currentTarget == 0){
                 Think.currentTarget = 2;
-                //Output.display.screenWrite("Current Target: Low Right", 1);
-            if(Think.currentTarget == 1)
+            }    
+            if(Think.currentTarget == 1){
                 Think.currentTarget = 0;
-                //Output.display.screenWrite("Current Target: High", 1);
-            if(Think.currentTarget == 2)
+            }    
+            if(Think.currentTarget == 2){
                 Think.currentTarget = 1;
-                //Output.display.screenWrite("Current Target: Low Left", 1);
+            }    
         }
         
         Output.setCameraLight(bAim);
@@ -540,7 +602,7 @@ public class Input {
      * and particle perimeter= 2x+2y
      *
      * @param image The image containing the particle to score, needed to
-     * performa additional measurements
+     * perform an additional measurements
      * @param report The Particle Analysis Report for the particle, used for the
      * width, height, and particle number
      * @param particleNumber Which particle to focus on

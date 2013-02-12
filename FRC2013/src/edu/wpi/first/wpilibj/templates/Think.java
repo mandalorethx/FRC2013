@@ -62,7 +62,7 @@ public class Think {
     public static double dReleaseTimer = .5;
     public static boolean bKickerDone;
     public static boolean bKickerLastState;
-    public static int currentTarget = 0;
+    public static int iCurrentTarget = 0;
     public static double tolUpper = 8;
     public static double tolLower = -8;
     public static CameraData image;
@@ -100,7 +100,10 @@ public class Think {
     public static boolean bEjector;
     public static boolean bKicker;
     public static boolean bPall;
-    
+	public static boolean bNextTargetCycle = false;
+    public static boolean prevTargetCycle = false;
+    public static boolean didItWorkThisTime = false;
+
     /**
      * initKicker
      * initializes the kicker 
@@ -119,12 +122,12 @@ public class Think {
      * 
      */
     public static double[] loadAdjust(double right, double left){
-        double distance = image.lowLeftDistance;
+        double distance = Input.lowDistanceLeft;
         double retVal[] = new double[2];
         currentPositionNew = currentPosition;
         switch(iLoadState){
             case k_LOAD_LINE:
-                currentPosition = lowLeftCMX;
+                currentPosition = Input.lowLeftCMX;
                 retVal = aimAdjust(right, left);
                 if(retVal [0] >= dLowerPowerStopLimit && retVal [0] <= dUpperPowerStopLimit ){
                     iLoadState++;  
@@ -185,19 +188,20 @@ public class Think {
      * @return
      */
     public static double[] aimAdjust(double right, double left) {
-        switch (currentTarget) {
+        switch (iCurrentTarget) {
             case 0: // High
-                currentPosition = highCMX;
+                currentPosition = Input.highCMX;
                 break;
             case 1: // Low Left
-                currentPosition = lowLeftCMX;
+                currentPosition = Input.lowLeftCMX;
                 break;
             case 2: // Low Right
-                currentPosition = lowRightCMX;
+                currentPosition = Input.lowRightCMX;
                 break;
             default:
-                Output.display.screenWrite("Current Target: ERROR!", 1);
-                currentPosition = highCMX;
+                //Output.display.screenWrite("Current Target: ERROR!", 1);
+                System.out.println("Current Target: Error @ Think.java:190  ...  Defaulting to high target.");
+                currentPosition = Input.highCMX;
                 break;
         }
         inP = right;
@@ -538,7 +542,7 @@ public class Think {
         
         if (Input.bAim && FRCFile.bEnableCamera) {
             try {
-                image = Input.getTarget(false, true, false);
+                image = Input.getTarget(true, false);
                 
                 if(image == null){
                     //Output.display.screenWrite("No Valid Target",0);
