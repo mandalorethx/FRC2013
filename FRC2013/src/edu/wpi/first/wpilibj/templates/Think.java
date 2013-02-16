@@ -39,12 +39,12 @@ public class Think {
     public static boolean bClimb;
     public static boolean done;
     public static CameraData cData;
-    public static double highCMX;
-    public static double highCMY;
-    public static double lowLeftCMX;
-    public static double lowLeftCMY;
-    public static double lowRightCMX;
-    public static double lowRightCMY;
+//    public static double highCMX;
+//    public static double highCMY;
+//    public static double lowLeftCMX;
+//    public static double lowLeftCMY;
+//    public static double lowRightCMX;
+//    public static double lowRightCMY;
     public static double P;
     public static double I;
     public static double D;
@@ -103,6 +103,11 @@ public class Think {
 	public static boolean bNextTargetCycle = false;
     public static boolean prevTargetCycle = false;
     public static boolean didItWorkThisTime = false;
+    public static double highCMX, highCMY, highDistance = 0.0d;
+    public static double lowLeftCMX, lowLeftCMY, lowDistanceLeft = 0.0d;
+    public static double lowRightCMX, lowRightCMY, lowDistanceRight = 0.0d;
+    
+    public static boolean blah = false;
 
     /**
      * initKicker
@@ -113,21 +118,21 @@ public class Think {
         iKickerState = k_KICKER_INIT;
         bKickerDone = false;
     }
+
     /**
      * loadAdjust.
      * adjust position to get to loading zone
      * @param right
      * @param left
      * @return adjusted motor values
-     * 
      */
     public static double[] loadAdjust(double right, double left){
-        double distance = Input.lowDistanceLeft;
+        double distance = lowDistanceLeft;
         double retVal[] = new double[2];
         currentPositionNew = currentPosition;
         switch(iLoadState){
             case k_LOAD_LINE:
-                currentPosition = Input.lowLeftCMX;
+                currentPosition = lowLeftCMX;
                 retVal = aimAdjust(right, left);
                 if(retVal [0] >= dLowerPowerStopLimit && retVal [0] <= dUpperPowerStopLimit ){
                     iLoadState++;  
@@ -189,29 +194,40 @@ public class Think {
     public static double[] aimAdjust(double right, double left) {
         switch (iCurrentTarget) {
             case 0: // High
-                currentPosition = Input.highCMX;
+                currentPosition = highCMX;
                 break;
             case 1: // Low Left
-                currentPosition = Input.lowLeftCMX;
+                currentPosition = lowLeftCMX;
                 break;
             case 2: // Low Right
-                currentPosition = Input.lowRightCMX;
+                currentPosition = lowRightCMX;
                 break;
             default:
                 //Output.display.screenWrite("Current Target: ERROR!", 1);
-                System.out.println("Current Target: Error @ Think.java:190  ...  Defaulting to high target.");
-                currentPosition = Input.highCMX;
+                System.out.println("Current Target: Error @ Think.java - 'aimAdjust'  ...  Defaulting to high target.");
+                currentPosition = highCMX;
                 break;
         }
+        
+        System.out.println("iCurrentTarget: " + iCurrentTarget);
+        System.out.println("Current Position: " + currentPosition);
+        
         inP = right;
         outP = inP;
+        
+        System.out.println("inP: " + inP + "     outP: " + outP);
+        
         currError = wantPosition - currentPosition;
+        System.out.println("currError: " + currError + "    wantPosition: " + wantPosition + "    currentPosition: " + currentPosition);
+        
         if (currError >= tolLower && currError <= tolUpper) {
+            System.out.println("currError is greater or equal than tolLower ; currError is also less than or equal to tolUpper.");
             outP = 0;
         } else {
             sumError += currError;
             outP += P * currError + I * sumError + D * (lastError - currError);
             lastError = currError;
+            System.out.println("sumError: " + sumError + "    outP: " + outP + "lastError: " + lastError);
         }
 
         return new double[]{outP, (outP * -1)};
@@ -443,35 +459,28 @@ public class Think {
         double[] temp;
         double leftMotorVal = Output.leftDriveMotor.get();
         double rightMotorVal = Output.rightDriveMotor.get();
-        temp = processJoystick(Input.rightY, Input.leftY);
+        
+        if (blah) {
+            temp = aimAdjust(newJoystickLeft, newJoystickRight);
+            System.out.println("Aimbot Enabled; ADJUSTING AIM...");
+            System.out.println("Left: " + temp[0]);
+            System.out.println("Right: " + temp[1]);
+        } else {
+            temp = processJoystick(Input.rightY, Input.leftY);
+        }
+        
         newJoystickLeft = temp[0];
         newJoystickRight = temp[1];
         bShooterOn = Input.bTriggerDown;
-        
-        /*if (currentTarget == highCMX){
-            //Output.display.screenWrite("target = high", 1);
-            
-        }
-        else if (currentTarget == lowRightCMX) {
-            //Output.display.screenWrite("target = low right", 1);
-            
-        }
-        else if (currentTarget == lowLeftCMX){
-            //Output.display.screenWrite("target = low left", 1);
-        }
-        else {
-            //Output.display.screenWrite("target = unknown" + 
-                    //Integer.toString(currentTarget), 1);
-        }*/
+
         getClimbSensors();
 
-        if(Input.bLeftLoadButton||Input.bRightLoadButton){
+        if (Input.bLeftLoadButton || Input.bRightLoadButton) {
             bDoLoad = true;
-        }
-        else {
+        } else {
             bDoLoad = false;
         }
-        
+
         /**
          * Sets the value for the robot's slow speed
          */
@@ -491,7 +500,6 @@ public class Think {
          * Returns the boolean value for the robot's second climb cycle
          * coY = co-driver y
          */
-        
         bClimb = Input.bClimbExtend;
         
         if(Input.bClimbButton == true){
@@ -538,59 +546,73 @@ public class Think {
         else{
             iLoadState = k_LOAD_LINE;
         }
-        
-        if (Input.bAim && FRCFile.bEnableCamera) {
-            try {
-                image = Input.getTarget(true, false);
-                
-                if(image == null){
-                    //Output.display.screenWrite("No Valid Target",0);
-                }
-                else{
-                    if(image.dHighDistance != 0) {
-                        highCMX = image.dHighCMX;
-                        highCMY = image.dHighCMY;
-                        //Output.display.screenWrite("High Target Found",2);
-                    } else {
-                        //highCMX = 0;
-                        //highCMY = 0;
-                        //Output.display.screenWrite("High Target not seen.", 2);
-                    }
-                    
-                    if(image.dLowLeftDistance != 0) {
-                        lowLeftCMX = image.dLowLeftCMX;
-                        lowLeftCMY = image.dLowLeftCMY;
-                        //Output.display.screenWrite("Left Target Found",3);
-                    } else {
-                        //lowLeftCMX = 0;
-                        //lowLeftCMY = 0;
-                        //Output.display.screenWrite("Low Left Target not seen.", 3);
-                    }
-                    
-                    if(image.dLowRightDistance != 0) {
-                        lowRightCMX = image.dLowRightCMX;
-                        lowRightCMY = image.dLowRightCMY;
-                        //Output.display.screenWrite("Right Target Found",4);
-                    } else {
-                        //lowRightCMX = 0;
-                        //lowRightCMY = 0;
-                        //Output.display.screenWrite("Low Right Target not seen.", 4);
-                    }
 
-                    temp = aimAdjust(newJoystickLeft, newJoystickRight);
-                    newJoystickLeft = temp[0];
-                    newJoystickRight = temp[1];
-                    image = null;
-                }
-            } catch (AxisCameraException ex) {
-                ex.printStackTrace();
-                image = null;
+        if (Input.bAim) {
+            Output.setCameraLight(true);
+            try {
+                image = Input.getTarget(false, true);
+            } catch (Exception e) {
+                System.out.println("Error getting target: " + e);
+                e.printStackTrace();
             }
+            
+            if (image != null) {
+                //System.out.println("Image is not null, setting coords");
+                if (image.dHighDistance != 0) {
+                    highCMX = image.dHighCMX;
+                    highCMY = image.dHighCMY;
+                    highDistance = image.dHighDistance;
+                    //System.out.println("Found high, setting CM");
+                } else {
+                    //System.out.println("High Target not found.");
+                }
+                
+                if (image.dLowLeftDistance != 0) {
+                    lowLeftCMX = image.dLowLeftCMX;
+                    lowLeftCMY = image.dLowLeftCMY;
+                    lowDistanceLeft = image.dLowLeftDistance;
+                    //System.out.println("Found low left target, setting CM");
+                } else {
+                    //System.out.println("Low Left Target not found.");
+                }
+
+                if (image.dLowRightDistance != 0) {
+                    lowRightCMX = image.dLowRightCMX;
+                    lowRightCMY = image.dLowRightCMY;
+                    lowDistanceRight = image.dLowRightDistance;
+                    //System.out.println("Found low right target, setting CM");
+                } else {
+                    //System.out.println("Low Right Target not seen.");
+                }
+
+                /*System.out.println("===============================");
+                System.out.println("-High Goal - CenterX: " + highCMX + " - CenterY: " + highCMY);
+                System.out.println("--Distance: " + highDistance);
+                System.out.println("===============================");
+                System.out.println("-Low Left Goal - CenterX: " + lowLeftCMX + " - CenterY: " + lowLeftCMY);
+                System.out.println("--Distance: " + lowDistanceLeft);
+                System.out.println("===============================");
+                System.out.println("-Low Right Goal - CenterX: " + lowRightCMX + " - CenterY: " + lowRightCMY);
+                System.out.println("--Distance: " + lowDistanceLeft);*/
+
+                /////////////double[] temper = aimAdjust(newJoystickLeft, newJoystickRight);
+                /////////////newJoystickLeft = temper[0];
+                /////////////newJoystickRight = temper[1];
+                
+                blah = true;
+                
+                //image = null;
+            } else {
+                System.out.println("Image is null");
+            }
+
+            //FRCTimer.reset();
         } else {
-            lastError = 0;
-            sumError = 0;
-            currError = 0;
-            image = null;
+            Output.setCameraLight(false);
+            Think.lastError = 0;
+            Think.sumError = 0;
+            Think.currError = 0;
+            blah = false;
         }
 
         /**
@@ -605,6 +627,4 @@ public class Think {
             dKickerMotorPower = getShooterPower();
         }
     }
-    
-   
 }

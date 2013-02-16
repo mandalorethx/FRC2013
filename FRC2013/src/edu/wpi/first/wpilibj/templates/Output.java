@@ -41,27 +41,29 @@ public class Output {
     public static DigitalModule digimod;
     
     public static ScreenOutput display;
-    
+    public static boolean isLightOn = false;
+
     /**
      * Initializes the screen display
      */
-    public static void initScreen(){
-        display= new ScreenOutput();
+    public static void initScreen() {
+        display = new ScreenOutput();
     }
-    
-   /**
-    * Turns Camera Light On
-    */
-   public static void setCameraLight(boolean state){
-       digimod.setRelayForward(iLight, state);
-       //display.screenWrite("Light: " + state, 1);
-       
-   }
-   
-   /**
-    * Initializes the digital module
-    */
-   public static void initModule (){
+
+    /**
+     * Turns Camera Light On
+     */
+    public static void setCameraLight(boolean state) {
+        digimod.setRelayForward(iLight, state);
+        isLightOn = digimod.getRelayForward(1);
+        //display.screenWrite("Light: " + state, 1);
+
+    }
+
+    /**
+     * Initializes the digital module
+     */
+    public static void initModule() {
         digimod = DigitalModule.getInstance(1);
        
     }
@@ -132,25 +134,25 @@ public class Output {
         if (Think.iHookState == 1 || Think.iHookState == -1) {
             climb (dClimbPower);            
         }
-        
-        if (Input.didImageWork) {
+
+        /*if (Input.didImageWork) {
             if (Think.iCurrentTarget == 0) {
                 display.screenWrite("Current Target: High", 0);
                 display.screenWrite("Distance: Not Found...", 1);
-                if (Input.highDistance != 0.0d) {
-                    display.screenWrite("Distance: " + Input.highDistance, 1);
+                if (Think.highDistance != 0.0d) {
+                    display.screenWrite("Distance: " + Think.highDistance, 1);
                 }
             } else if (Think.iCurrentTarget == 1) {
                 display.screenWrite("Current Target: Low Left", 0);
                 display.screenWrite("Distance: Not Found...", 1);
-                if (Input.lowDistanceLeft != 0.0d) {
-                    display.screenWrite("Distance " + Input.lowDistanceLeft, 1);
+                if (Think.lowDistanceLeft != 0.0d) {
+                    display.screenWrite("Distance " + Think.lowDistanceLeft, 1);
                 }
             } else if (Think.iCurrentTarget == 2) {
                 display.screenWrite("Current Target: Low Right", 0);
                 display.screenWrite("Distance: Not Found...", 1);
-                if (Input.lowDistanceRight != 0.0d) {
-                    display.screenWrite("Distance: " + Input.lowDistanceRight, 1);
+                if (Think.lowDistanceRight != 0.0d) {
+                    display.screenWrite("Distance: " + Think.lowDistanceRight, 1);
                 }
             }
 		}
@@ -173,27 +175,27 @@ public class Output {
         else{
             solenoidPallOn();
         }
-        
-       if(Think.image != null) {
-        if (Think.currentPosition== 0) {
-            display.screenWrite("Target: High", 0);
-            display.screenWrite("Distance: Not Found", 1);
-            if (Think.image.dHighDistance != 0){
-                display.screenWrite("Distance: " + Think.image.dHighDistance, 1);
+
+        if (Think.image != null) {
+            if (Think.iCurrentTarget == 0) {
+                display.screenWrite("Target: High", 0);
+                display.screenWrite("Distance: Not Found", 1);
+                if (Think.image.dHighDistance != 0) {
+                    display.screenWrite("Distance: " + Think.image.dHighDistance, 1);
+                }
+            } else if (Think.iCurrentTarget == 1) {
+                display.screenWrite("Target: Low Left", 0);
+                display.screenWrite("Distance: Not Found", 1);
+                if (Think.image.dLowLeftDistance != 0) {
+                    display.screenWrite("Distance " + Think.image.dLowLeftDistance, 1);
+                }
+            } else if (Think.iCurrentTarget == 2) {
+                display.screenWrite("Target: Low Right", 0);
+                display.screenWrite("Distance: Not Found", 1);
+                if (Think.image.dLowRightDistance != 0) {
+                    display.screenWrite("Distance: " + Think.image.dLowRightDistance, 1);
+                }
             }
-        } else if (Think.currentPosition== 1) {
-            display.screenWrite("Target: Low Left", 0);
-            display.screenWrite("Distance: Not Found", 1);
-            if (Think.image.dLowLeftDistance != 0){
-                display.screenWrite("Distance " + Think.image.dLowLeftDistance, 1);
-            }
-        } else if (Think.currentPosition== 2) {
-            display.screenWrite("Target: Low Right", 0);
-            display.screenWrite("Distance: Not Found", 1);
-            if (Think.image.dLowRightDistance != 0){
-                display.screenWrite("Distance: " + Think.image.dLowRightDistance, 1);
-            }
-        }
         } else {
             display.screenWrite("No Targets/Image!", 0);
             display.screenWrite("", 1);

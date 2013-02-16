@@ -61,7 +61,7 @@ public class FRC2013 extends IterativeRobot {
         Output.initModule();
         Output.initScreen();
         Input.initSwitch();
-        Input.initVision(FRCFile.bEnableCamera);
+        Input.initVision();
         FRCTimer.initTimer();
         FRCFile.initConfig();
         Output.solenoidEjectorOff();
@@ -114,7 +114,7 @@ public class FRC2013 extends IterativeRobot {
     public void disableInit(){
         bLastState = false;
         dTimeWait = 0.0;
-        Input.initVision(FRCFile.bEnableCamera);
+        //Input.initVision();
     }
     //initiates autonomous
     public void autonInit(){
@@ -259,7 +259,7 @@ public class FRC2013 extends IterativeRobot {
      */
     public void disablePeriodic(){
         double[] temp = new double[2];
-        Input.initVision(FRCFile.bEnableCamera);
+        //Input.initVision();
         /**
          * Makes sure only 1 second is added to dTimeWait with each button push
          * //add code to output current delay

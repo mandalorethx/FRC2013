@@ -60,7 +60,8 @@ public class FRC2013 extends IterativeRobot {
         Output.initMotors();
         Output.initModule();
         Output.initScreen();
-        //Input.initVision(FRCFile.bEnableCamera);
+        Input.initSwitch();
+        Input.initVision(FRCFile.bEnableCamera);
         FRCTimer.initTimer();
         FRCFile.initConfig();
         Output.solenoidEjectorOff();
@@ -89,11 +90,11 @@ public class FRC2013 extends IterativeRobot {
         Output.iShooterMotorSlot = FRCFile.iShooterMotorSlot;
         Output.iClimbMotor1Slot = FRCFile.iClimbMotor1Slot;
         Output.iClimbMotor2Slot = FRCFile.iClimbMotor2Slot;
-        Output.iKickerMotorSlot = FRCFile.iKickerMotorSlot;
         Output.iHookMotorSlot = FRCFile.iHookerMotorSlot;
-        Output.iDropSlot1 = FRCFile.iDropSlot1;
+        /**Output.iDropSlot1 = FRCFile.iDropSlot1;
         Output.iDropSlot2 = FRCFile.iDropSlot2;
         Output.iDropSlot3 = FRCFile.iDropSlot3;
+        */
         Input.iDriverPortRight = FRCFile.iDriverPortRight;
         Input.iDriverPortLeft = FRCFile.iDriverPortLeft;
         Input.iDriverPortCo = FRCFile.iDriverPortCo;
@@ -113,7 +114,7 @@ public class FRC2013 extends IterativeRobot {
     public void disableInit(){
         bLastState = false;
         dTimeWait = 0.0;
-        //Input.initVision(FRCFile.bEnableCamera);
+        Input.initVision(FRCFile.bEnableCamera);
     }
     //initiates autonomous
     public void autonInit(){
@@ -156,19 +157,19 @@ public class FRC2013 extends IterativeRobot {
                     Input.bAim = true;
                     switch(iAimState){                    
                         case k_AIM_LEFT:
-                            Think.currentTarget = 1;
+                            Think.iCurrentTarget = 1;
                             //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                             break;
                         case k_AIM_RIGHT:
-                            Think.currentTarget = 2;
+                            Think.iCurrentTarget = 2;
                             //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                             break;
                         case k_AIM_TOP:
-                            Think.currentTarget = 0;
+                            Think.iCurrentTarget = 0;
                             //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                             break;
                         default:
-                            Think.currentTarget = 0;
+                            Think.iCurrentTarget = 0;
                             //temp = Think.aimAdjust(Output.rightDriveMotor.get(), Output.leftDriveMotor.get());
                             break;
                     }
@@ -239,6 +240,7 @@ public class FRC2013 extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+       System.gc(); 
        Input.gatherInput();
        Think.robotThink();
        Output.sendOutput();
