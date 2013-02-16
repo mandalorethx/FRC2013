@@ -18,22 +18,25 @@ public class Output {
     public static Victor shooterMotor;
     public static Victor climbMotor1;
     public static Victor climbMotor2;
-    public static Victor kickerMotor;
     public static Victor hookMotor;
     public static double dClimbPower = 1.0;
-    public static int iRightDriveMotorSlot = 3;
-    public static int iLeftDriveMotorSlot = 4;
-    public static int iShooterMotorSlot = 5;
-    public static int iClimbMotor1Slot = 2;
-    public static int iClimbMotor2Slot = 1;
-    public static int iKickerMotorSlot = 6;
-    public static int iHookMotorSlot = 7;
-    public static int iDropSlot1 = 1;
-    public static int iDropSlot2 = 2;
-    public static int iDropSlot3 = 3;
-    public static int iEjector = 1;
-    public static int iPall = 2;
-    public static int iKicker = 3;
+    public static int iRightDriveMotorSlot = 1;
+    public static int iLeftDriveMotorSlot = 2;
+    public static int iShooterMotorSlot = 3;
+    public static int iClimbMotor1Slot = 4;
+    public static int iClimbMotor2Slot = 5;
+    public static int iHookMotorSlot = 6;
+    public static int iLight = 1;
+    //We weren't sure what to do with these relays, 
+    //as they weren't used and most likely renamed, 
+    //so we commented them out. If there are any other errors, 
+    //feel free to change
+    //public static int iDropSlot1 = 6 ;
+    //public static int iDropSlot2 = 5 ;
+    //public static int iDropSlot3 = 4 ;
+    public static int iEjector = 2 ;
+    public static int iPall = 3 ;
+    public static int iKicker = 4 ;
     
     public static DigitalModule digimod;
     
@@ -50,7 +53,7 @@ public class Output {
     * Turns Camera Light On
     */
    public static void setCameraLight(boolean state){
-       digimod.setRelayForward(1, state);
+       digimod.setRelayForward(iLight, state);
        //display.screenWrite("Light: " + state, 1);
        
    }
@@ -66,19 +69,19 @@ public class Output {
    /**
     * Opening up to drop discs in goal
     */
-    public static void drop () {
-        digimod.setRelayForward(iDropSlot1, true);
-        digimod.setRelayForward(iDropSlot2, true);
-    }
+   // public static void drop () {
+        //digimod.setRelayForward(iDropSlot1, true);
+        //digimod.setRelayForward(iDropSlot2, true);
+    
     
     /**
      * Closes claw
      */
-    public static void close () {
+    /**public static void close () {
         digimod.setRelayForward(iDropSlot1, false);
         digimod.setRelayForward(iDropSlot2, false);
         
-    }
+    }*/
     /**
      * Reaches pyramid rung
      * @param power sets power value for motors
@@ -91,10 +94,10 @@ public class Output {
     /**
      * Lifts robot above rung
      */
-    public static void ascend () {
+    /*public static void ascend () {
         digimod.setRelayForward(iDropSlot3, true);
     }
-    
+    */
     /**
      * Creates new motor objects
      */
@@ -152,9 +155,10 @@ public class Output {
             }
 		}
 
-        if (Think.bClimb) {
+        /**
+         * if (Think.bClimb) {
             ascend ();
-        }
+        }*/
  
         if(Think.bEjector == false){
             solenoidEjectorOff();
@@ -195,6 +199,7 @@ public class Output {
             display.screenWrite("", 1);
         }
     }
+    
     public static void solenoidEjectorOn(){
         digimod.setRelayForward(iEjector, true);
     }

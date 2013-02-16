@@ -61,7 +61,6 @@ public class Input {
     public static int iDriverPortCo = 3;
     public static Gyro gyro; // The Gyro
     //public static CameraData image;
-    public static DigitalInput kickerSwitch;
     public static DigitalInput eotExtended;
     public static DigitalInput eotRetracted;
     public static DigitalInput hookVertical;
@@ -253,20 +252,11 @@ public class Input {
      * initSwitch. Initializes the switch..
      */
     public static void initSwitch() {
-        kickerSwitch = new DigitalInput(1);
         eotExtended = new DigitalInput(2);
         eotRetracted = new DigitalInput(3);
         hookVertical = new DigitalInput(4);
     }
 
-    /**
-     * getKickerSwitchValue. Gets the value of the kicker switch.
-     *
-     * @return Returns the value of the kicker switch.
-     */
-    public static boolean getKickerSwitchValue() {
-        return kickerSwitch.get();
-    }
 
     /**
      * getExtendedValue. gets value of extended climbing arm
@@ -499,7 +489,6 @@ public class Input {
         if (!FRCTimer.bHasStarted) {
             FRCTimer.start();
         }
-
         if (bAim && FRCTimer.getSeconds() > 1) { // && FRCFile.bEnableCamera                
 
             try {

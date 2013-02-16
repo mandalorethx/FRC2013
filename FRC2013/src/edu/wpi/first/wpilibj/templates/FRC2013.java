@@ -90,11 +90,11 @@ public class FRC2013 extends IterativeRobot {
         Output.iShooterMotorSlot = FRCFile.iShooterMotorSlot;
         Output.iClimbMotor1Slot = FRCFile.iClimbMotor1Slot;
         Output.iClimbMotor2Slot = FRCFile.iClimbMotor2Slot;
-        Output.iKickerMotorSlot = FRCFile.iKickerMotorSlot;
         Output.iHookMotorSlot = FRCFile.iHookerMotorSlot;
-        Output.iDropSlot1 = FRCFile.iDropSlot1;
+        /**Output.iDropSlot1 = FRCFile.iDropSlot1;
         Output.iDropSlot2 = FRCFile.iDropSlot2;
         Output.iDropSlot3 = FRCFile.iDropSlot3;
+        */
         Input.iDriverPortRight = FRCFile.iDriverPortRight;
         Input.iDriverPortLeft = FRCFile.iDriverPortLeft;
         Input.iDriverPortCo = FRCFile.iDriverPortCo;
